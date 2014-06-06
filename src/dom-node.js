@@ -1,6 +1,6 @@
 var $ = window.vwo_$ || window.$;
 var _ = window.vwo__ || window._;
-var VWO = window.VWOInjected || window.VWO;
+var VWO = window.VWOInjected || window.VWO || {};
 
 VWO.DOMNodePool = {
   content: [],
@@ -26,7 +26,7 @@ VWO.DOMNodePool = {
   pushObject: function (obj) {
     return this.content.push(obj);
   },
-  
+
   clear: function () {
     this.content = [];
   }
@@ -220,14 +220,14 @@ VWO.DOMNode.prototype = {
     var $adjacent = this.$().adjacent();
 
     if (!$adjacent) return null;
-    
+
     var adjacentNode = VWO.DOMNodePool.create({
       el: $adjacent.get(0)
     });
 
     adjacentNode.relationship = $adjacent.relationship;
     adjacentNode.proximity = $adjacent.proximity;
-    
+
     return adjacentNode;
   },
 

@@ -1,6 +1,6 @@
 var $ = window.vwo_$ || window.$;
 var _ = window.vwo__ || window._;
-var VWO = window.VWOInjected || window.VWO;
+var VWO = window.VWOInjected || window.VWO || {};
 
 /**
  * Compare two DOM trees and computes the final result
@@ -246,7 +246,7 @@ VWO.DOMComparator.prototype = {
         }));
       }
     });
-    
+
     VWO.DOMNodePool.uncacheAll();
     VWO.DOMNodePool.cacheAll();
 

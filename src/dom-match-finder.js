@@ -1,6 +1,6 @@
 var $ = window.vwo_$ || window.$;
 var _ = window.vwo__ || window._;
-var VWO = window.VWOInjected || window.VWO;
+var VWO = window.VWOInjected || window.VWO || {};
 
 /**
  * A class to find matches in two DOM trees. After comparison,
@@ -159,7 +159,7 @@ VWO.DOMMatchFinder.prototype = {
         var unchangedRanges = [];
         var indexInStringInA, indexInStringInB;
         var matchInA, matchInB;
-        
+
         for (j = 0; j < innerResult.diffUnion.length; j++) {
           var innerDiff = innerResult.diffUnion[j];
           if (innerDiff.indexInA >= 0) {
@@ -185,7 +185,7 @@ VWO.DOMMatchFinder.prototype = {
               rangeInA: [indexInStringInA, indexInStringInA + innerDiff.string.length],
               rangeInB: [indexInStringInB, indexInStringInB + innerDiff.string.length]
             });
-            
+
             if (innerDiff.string.length > 1) {
               matchRatio += innerDiff.string.length / stringInStringInB.length;
             }

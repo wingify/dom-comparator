@@ -1,0 +1,17 @@
+{
+  "name": "dom-comparator",
+  "version": "0.1.0",
+  "author": "Wingify",
+  "private": true,
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.3",
+    "testem": "~0.5.9",
+    "glob": "~3.2.8",
+    "bower": "~1.3.1",
+    "exec-sync": "~0.1.6"
+  }
+}

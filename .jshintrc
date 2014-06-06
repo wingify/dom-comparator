@@ -1,0 +1,62 @@
+{
+    "options": {
+        "curly": true,
+        "eqeqeq": true,
+        "immed": true,
+        "latedef": true,
+        "newcap": true,
+        "noarg": true,
+        "sub": true,
+        "undef": true,
+        "boss": true,
+        "eqnull": true,
+        "es5": false,
+        "strict": true,
+        "multistr": true,
+        "globals": {
+            "define": true,
+            "describe": true,
+            "it": true,
+            "beforeEach": true,
+            "angular": true,
+            "alert": true,
+            "__dirname": true,
+            "require": true
+        }
+    },
+    "backend": {
+        "files": {
+            "src": "<%= lint.backend %>"
+        },
+        "options": {
+            "strict": false,
+            "node": true
+        }
+    },
+    "frontend": {
+        "files": {
+            "src": "<%= lint.frontend %>"
+        },
+        "options": {
+            "browser": true
+        }
+    },
+    "globals": {
+        "require": false,
+        "define": false,
+        "expect": false,
+        "jasmine": false,
+        "it": false,
+        "xit": false,
+        "describe": false,
+        "xdescribe": false,
+        "protractor": false,
+        "by": false,
+        "browser": false,
+        "element": false,
+        "beforeEach": false,
+        "afterEach": false,
+        "inject": false,
+        "module": false
+    }
+}

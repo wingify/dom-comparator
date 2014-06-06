@@ -1,6 +1,6 @@
 var $ = window.vwo_$ || window.$;
 var _ = window.vwo__ || window._;
-var VWO = window.VWOInjected || window.VWO;
+var VWO = window.VWOInjected || window.VWO || {};
 
 /**
  * Using a string haystack containing DOM/XML nodes,
@@ -49,7 +49,7 @@ VWO.DOMNodeStringPointer.prototype = {
 
   /**
    * Returns a list of all node pointers in the current haystack.
-   * 
+   *
    * @return {VWO.DOMNodeStringPointer[]} An array containing all the
    *                                      node pointers.
    */

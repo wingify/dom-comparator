@@ -1,6 +1,6 @@
 var $ = window.vwo_$ || window.$;
 var _ = window.vwo__ || window._;
-var VWO = window.VWOInjected || window.VWO;
+var VWO = window.VWOInjected || window.VWO || {};
 
 /**
  * Compares two DOMNodes and determines how closely they
