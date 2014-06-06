@@ -80,7 +80,7 @@ VWO.DOMNode.prototype = {
     ];
 
     for (var i in fn) if (fn.hasOwnProperty(i)) {
-      this[fn[i]] = this[fn[i]].cache();
+      this[fn[i]] = VWO.FunctionUtils.cache(this[fn[i]]);
     }
   },
 
@@ -98,7 +98,7 @@ VWO.DOMNode.prototype = {
       'masterIndex', 'selectorPath'
     ];
 
-    for (var i in fn) if (fn.hasOwnProperty(i)){
+    for (var i in fn) if (fn.hasOwnProperty(i) && typeof this[fn[i]].uncache === 'function') {
       this[fn[i]] = this[fn[i]].uncache();
     }
   },
