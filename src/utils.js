@@ -1,22 +1,25 @@
 var VWO = window.VWOInjected || window.VWO || {};
 var jQuery_fn = jQuery.fn;
 
-VWO.FunctionUtils = {
-	cache: function cache(fn) {
-		var _cache = {};
-		function cached() {
-			cached.isCached = true;
-			var args = [].slice.apply(arguments);
-			/* jshint -W040 */ // no strict mode violation here, its needed
-			return _cache[args] || (_cache[args] = fn.apply(this, args));
-		}
-		cached.fn = fn;
-		cached.uncache = function () {
-			_cache = {};
-		};
-		return cached;
-	}
-}
+/**
+ * Returns a function that caches the return value of a function
+ * on the first call and sends the same value for the subsequent
+ * calls.
+ *
+ * @return {Function} The cached version of the function.
+ */
+Function.prototype.cache = function () {
+  var cachedValue, callee = this, fn = function () {
+    if (cachedValue !== undefined) return cachedValue;
+    return cachedValue = callee.apply(this, Array.prototype.slice.call(arguments));
+  };
+
+  fn.uncache = function () {
+    return callee;
+  };
+
+  return fn;
+};
 
 /**
  * @class
@@ -176,7 +179,7 @@ jQuery_fn.selectorPath = function () {
   }
 
   // for text nodes return a blank selector path
-  if (this.get(0).nodeType !== VWO.Utils.NodeTypes.ELEMENT_NODE) {
+  if (this.get(0).nodeType !== Node.ELEMENT_NODE) {
     return '';
   }
 

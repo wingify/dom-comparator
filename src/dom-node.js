@@ -80,7 +80,7 @@ VWO.DOMNode.prototype = {
     ];
 
     for (var i in fn) if (fn.hasOwnProperty(i)) {
-      this[fn[i]] = VWO.FunctionUtils.cache(this[fn[i]]);
+      this[fn[i]] = this[fn[i]].cache();
     }
   },
 
