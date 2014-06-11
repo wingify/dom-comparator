@@ -168,12 +168,12 @@ VWO.DOMComparator.prototype = {
       var matchDifference = node.matchedWith.matchDifference;
 
       // figure out changes for changeTextBefore, changeCommentBefore
-      if (node.nodeType() !== VWO.Utils.NodeTypes.ELEMENT_NODE && matchDifference.newInnerText) { // insert new text and comment nodes
+      if (node.nodeType() !== Node.ELEMENT_NODE && matchDifference.newInnerText) { // insert new text and comment nodes
         var parentSelectorPath = node.parent().selectorPath();
         var indexInParent = node.index();
 
         finalOperationsList.push(VWO.OperationInfo.create({
-          name: 'change' + (node.nodeType() === VWO.Utils.NodeTypes.TEXT_NODE ? 'Text' : 'Comment'),
+          name: 'change' + (node.nodeType() === Node.TEXT_NODE ? 'Text' : 'Comment'),
           // a text / comment node does not have a selector path
           selectorPath: null,
           content: {

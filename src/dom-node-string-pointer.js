@@ -73,15 +73,15 @@ VWO.DOMNodeStringPointer.prototype = {
   nodeType: function () {
     var i = this.index, haystack = this.haystack;
     if (haystack.lastIndexOf('<!--', i) > haystack.lastIndexOf('-->', i) || haystack.substr(i, 3) === '-->') {
-      return VWO.Utils.NodeTypes.COMMENT_NODE;
+      return Node.COMMENT_NODE;
     }
     if (haystack.lastIndexOf('<![CDATA[', i) > haystack.lastIndexOf(']]>', i) || haystack.substr(i, 3) === ']]>') {
-      return VWO.Utils.NodeTypes.CDATA_SECTION_NODE;
+      return Node.CDATA_SECTION_NODE;
     }
     if (haystack.lastIndexOf('<', i) > haystack.lastIndexOf('>', i) || haystack.charAt(i) === '>') {
-      return VWO.Utils.NodeTypes.ELEMENT_NODE;
+      return Node.ELEMENT_NODE;
     }
-    return VWO.Utils.NodeTypes.TEXT_NODE;
+    return Node.TEXT_NODE;
   },
 
   /**
@@ -94,7 +94,7 @@ VWO.DOMNodeStringPointer.prototype = {
     var i = this.index, haystack = this.haystack;
     var nodeType = this.nodeType();
 
-    if (nodeType === VWO.Utils.NodeTypes.ELEMENT_NODE) {
+    if (nodeType === Node.ELEMENT_NODE) {
       var j = haystack.lastIndexOf('<', i) + 1;
       var k = haystack.indexOf(' ', j);
       var l = haystack.indexOf('>', j);
@@ -125,7 +125,7 @@ VWO.DOMNodeStringPointer.prototype = {
    * @return {Boolean} True, if it is a closing tag.
    */
   pointsToClosingTag: function () {
-    if (this.nodeType() !== VWO.Utils.NodeTypes.ELEMENT_NODE) return false;
+    if (this.nodeType() !== Node.ELEMENT_NODE) return false;
 
     var j = this.haystack.lastIndexOf('<', this.index);
     return this.haystack.charAt(j + 1) === '/';
@@ -157,15 +157,15 @@ VWO.DOMNodeStringPointer.prototype = {
     var nodeType = this.nodeType();
     var j;
     var pointer;
-    if (nodeType === VWO.Utils.NodeTypes.TEXT_NODE) {
+    if (nodeType === Node.TEXT_NODE) {
       j = haystack.lastIndexOf('>', i);
       pointer = this._pointerWithIndex(j);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.COMMENT_NODE) {
+    else if (nodeType === Node.COMMENT_NODE) {
       j = haystack.lastIndexOf('<!--', i);
       pointer = this._pointerWithIndex(j - 1);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.CDATA_SECTION_NODE) {
+    else if (nodeType === Node.CDATA_SECTION_NODE) {
       j = haystack.lastIndexOf('<![CDATA[', i);
       pointer = this._pointerWithIndex(j - 1);
     }
@@ -193,15 +193,15 @@ VWO.DOMNodeStringPointer.prototype = {
     var j;
     var pointer;
 
-    if (nodeType === VWO.Utils.NodeTypes.TEXT_NODE) {
+    if (nodeType === Node.TEXT_NODE) {
       j = haystack.lastIndexOf('>', i);
       pointer = this._pointerWithIndex(j);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.COMMENT_NODE) {
+    else if (nodeType === Node.COMMENT_NODE) {
       j = haystack.lastIndexOf('<!--', i);
       pointer = this._pointerWithIndex(j - 1);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.CDATA_SECTION_NODE) {
+    else if (nodeType === Node.CDATA_SECTION_NODE) {
       j = haystack.lastIndexOf('<![CDATA[', i);
       pointer = this._pointerWithIndex(j - 1);
     }
@@ -227,7 +227,7 @@ VWO.DOMNodeStringPointer.prototype = {
     if (pointer.index < 0) return null;
 
     // if previous node isn't an empty tag, and isn't a closing tag
-    if (pointer.nodeType() === VWO.Utils.NodeTypes.ELEMENT_NODE && !pointer.pointsToEmptyTag()) {
+    if (pointer.nodeType() === Node.ELEMENT_NODE && !pointer.pointsToEmptyTag()) {
       if (haystack.charAt(haystack.lastIndexOf('<', pointer.index) + 1) !== '/') {
         return null;
       }
@@ -249,16 +249,16 @@ VWO.DOMNodeStringPointer.prototype = {
     var nodeType = this.nodeType();
     var j;
     var pointer;
-    if (nodeType === VWO.Utils.NodeTypes.TEXT_NODE) {
+    if (nodeType === Node.TEXT_NODE) {
       j = haystack.indexOf('<', i);
       pointer = this._pointerWithIndex(j);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.COMMENT_NODE) {
+    else if (nodeType === Node.COMMENT_NODE) {
       j = haystack.indexOf('-->', i);
       if (j === -1) return null;
       pointer = this._pointerWithIndex(j + 3);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.CDATA_SECTION_NODE) {
+    else if (nodeType === Node.CDATA_SECTION_NODE) {
       j = haystack.indexOf(']]>', i);
       if (j === -1) return null;
       pointer = this._pointerWithIndex(j + 3);
@@ -288,16 +288,16 @@ VWO.DOMNodeStringPointer.prototype = {
     var j;
     var pointer;
 
-    if (nodeType === VWO.Utils.NodeTypes.TEXT_NODE) {
+    if (nodeType === Node.TEXT_NODE) {
       j = haystack.indexOf('<', i);
       pointer = this._pointerWithIndex(j);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.COMMENT_NODE) {
+    else if (nodeType === Node.COMMENT_NODE) {
       j = haystack.indexOf('-->', i);
       if (j === -1) return null;
       pointer = this._pointerWithIndex(j + 3);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.CDATA_SECTION_NODE) {
+    else if (nodeType === Node.CDATA_SECTION_NODE) {
       j = haystack.indexOf(']]>', i);
       if (j === -1) return null;
       pointer = this._pointerWithIndex(j + 3);
@@ -326,7 +326,7 @@ VWO.DOMNodeStringPointer.prototype = {
     if (pointer.index < 0 || pointer.index >= haystack.length) return null;
 
     // if next node IS an empty tag, or IS a closing tag
-    if (pointer.nodeType() === VWO.Utils.NodeTypes.ELEMENT_NODE && (pointer.pointsToEmptyTag() ||
+    if (pointer.nodeType() === Node.ELEMENT_NODE && (pointer.pointsToEmptyTag() ||
        haystack.charAt(haystack.indexOf('<', pointer.index) + 1) === '/')) {
       return null;
     }
@@ -352,15 +352,15 @@ VWO.DOMNodeStringPointer.prototype = {
     }
     var pointer;
 
-    if (nodeType === VWO.Utils.NodeTypes.TEXT_NODE) {
+    if (nodeType === Node.TEXT_NODE) {
       j = haystack.lastIndexOf('>', i);
       pointer = this._pointerWithIndex(j);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.COMMENT_NODE) {
+    else if (nodeType === Node.COMMENT_NODE) {
       j = haystack.lastIndexOf('<!--', i);
       pointer = this._pointerWithIndex(j - 1);
     }
-    else if (nodeType === VWO.Utils.NodeTypes.CDATA_SECTION_NODE) {
+    else if (nodeType === Node.CDATA_SECTION_NODE) {
       j = haystack.lastIndexOf('<![CDATA[', i);
       pointer = this._pointerWithIndex(j - 1);
     }

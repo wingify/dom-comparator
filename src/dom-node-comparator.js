@@ -67,7 +67,7 @@ VWO.DOMNodeComparator.prototype = {
    */
   nodeNameScore: function () {
     if (!this.nodeTypeScore()) return 0;
-    if (this.nodeA.nodeType() !== VWO.Utils.NodeTypes.ELEMENT_NODE) return 0;
+    if (this.nodeA.nodeType() !== Node.ELEMENT_NODE) return 0;
 
     return Number(this.nodeA.nodeName() === this.nodeB.nodeName());
   },
@@ -345,7 +345,7 @@ VWO.DOMNodeComparator.prototype = {
    */
   newInnerText: function () {
     if (!this.nodeTypeScore() ||
-      this.nodeA.nodeType() === VWO.Utils.NodeTypes.ELEMENT_NODE ||
+      this.nodeA.nodeType() === Node.ELEMENT_NODE ||
       this.innerTextScore()) return null;
 
     return this.nodeB.innerText();
@@ -372,7 +372,7 @@ VWO.DOMNodeComparator.prototype = {
       innerTextScore = this.innerTextScore();
 
 
-    if (nodeTypeScore && nodeA.nodeType() === VWO.Utils.NodeTypes.TEXT_NODE) {
+    if (nodeTypeScore && nodeA.nodeType() === Node.TEXT_NODE) {
       if (innerTextScore) return 1;
       if (indexScore) return 0.9;
       return 0;

@@ -319,7 +319,7 @@ VWO.DOMNode.prototype = {
    * @readonly
    */
   attributes: function () {
-    if (this.nodeType() !== VWO.Utils.NodeTypes.ELEMENT_NODE) return {};
+    if (this.nodeType() !== Node.ELEMENT_NODE) return {};
 
     var el = this.el, attributes = {};
 
@@ -339,7 +339,7 @@ VWO.DOMNode.prototype = {
    * @readonly
    */
   styles: function () {
-    if (this.nodeType() !== VWO.Utils.NodeTypes.ELEMENT_NODE) return {};
+    if (this.nodeType() !== Node.ELEMENT_NODE) return {};
 
     var el = this.el, stylesHash = {};
 
@@ -635,11 +635,11 @@ VWO.DOMNode.prototype = {
   },
 
   isComment: function () {
-    return this.nodeType() === VWO.Utils.NodeTypes.COMMENT_NODE;
+    return this.nodeType() === Node.COMMENT_NODE;
   },
 
   isText: function () {
-    return this.nodeType() === VWO.Utils.NodeTypes.TEXT_NODE;
+    return this.nodeType() === Node.TEXT_NODE;
   },
 
   /**
