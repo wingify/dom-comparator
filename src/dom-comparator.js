@@ -15,6 +15,13 @@ VWO.DOMComparator = function (params) {
 
   $.extend(true, this, params);
 
+  if (this.nodeA) {
+    this.elA = this.nodeA.el;
+  }
+  if (this.nodeB) {
+    this.elB = this.nodeB.el;
+  }
+
   // store nodes after wrapping them in a wrapper node.
   this.nodeA = VWO.DOMNodePool.create({
     el: $("<div id='DOMComparisonResult'>" + $(this.elA).outerHTML() + "</div>").get(0)
