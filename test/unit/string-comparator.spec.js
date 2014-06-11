@@ -8,9 +8,9 @@ describe('module: StringComparator', function () {
 				'line 5';
 			var str2 = 'line 1\n' +
 				'line 2\n' +
-				'line 3\n' +
+				'line 30\n' +
 				'line 4\n' +
-				'line 5\nline6';
+				'line 5\n';
 
 			var comparator = VWO.StringComparator.create({
 				stringA: str1,
@@ -23,11 +23,12 @@ describe('module: StringComparator', function () {
 			expect(comparator.stringsUnchanged).toEqual([
 				new VWO.StringComparisonResult('line 1', 0, 0),
 				new VWO.StringComparisonResult('line 2', 1, 1),
-				new VWO.StringComparisonResult('line 3', 2, 2),
+				//new VWO.StringComparisonResult('line 3', 2, 2),
 				new VWO.StringComparisonResult('line 4', 3, 3),
 				new VWO.StringComparisonResult('line 5', 4, 4)
 			]);
-			expect(comparator.stringsAddedInB).toEqual([new VWO.StringComparisonResult('line 6', -1, 5)]);
+			expect(comparator.stringsDeletedFromA).toEqual([new VWO.StringComparisonResult('line 3', 2, -1)]);
+			expect(comparator.stringsAddedInB).toEqual([new VWO.StringComparisonResult('line 30', 2, -1)]);
 		});
 	});
 });
