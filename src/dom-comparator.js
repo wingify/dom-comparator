@@ -137,7 +137,7 @@ VWO.DOMComparator.prototype = {
       insertedNode.isInserted = true;
 
       finalOperationsList.push(({
-        name: VWO.Locale.OperationNames.INSERT_NODE,
+        name: 'insertNode',
         // an inserted node does not have a selector path
         selectorPath: null,
         content: {
@@ -390,7 +390,7 @@ VWO.DOMComparator.prototype = {
       var indexInParent = node.index();
 
       finalOperationsList.push(({
-        name: VWO.Locale.OperationNames.REARRANGE,
+        name: 'rearrange',
         // since text nodes can also be rearranged, selector path
         // is always set to null
         selectorPath: null,
@@ -435,7 +435,7 @@ VWO.DOMComparator.prototype = {
       node.parent().removeChild(node);
 
       finalOperationsList.push(({
-        name: VWO.Locale.OperationNames.DELETE_NODE,
+        name: 'deleteNode',
         // a remove operation cannot have a selector path,
         // a text node could also be removed
         selectorPath: null,
