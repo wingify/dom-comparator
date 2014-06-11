@@ -80,7 +80,7 @@ VWO.DOMComparator.prototype = {
    * Detects newly inserted nodes in the second tree based on nodes
    * in the tree that do not have any matches in the initial tree.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   detectInserts: function () {
@@ -129,7 +129,7 @@ VWO.DOMComparator.prototype = {
       // set a flag on the node
       insertedNode.isInserted = true;
 
-      finalOperationsList.push(VWO.OperationInfo.create({
+      finalOperationsList.push(({
         name: VWO.Locale.OperationNames.INSERT_NODE,
         // an inserted node does not have a selector path
         selectorPath: null,
@@ -149,7 +149,7 @@ VWO.DOMComparator.prototype = {
    * Detects text nodes that matched in both trees and may have their
    * 'textContent' changed.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   detectTextNodeChanges: function () {
@@ -172,7 +172,7 @@ VWO.DOMComparator.prototype = {
         var parentSelectorPath = node.parent().selectorPath();
         var indexInParent = node.index();
 
-        finalOperationsList.push(VWO.OperationInfo.create({
+        finalOperationsList.push(({
           name: 'change' + (node.nodeType() === Node.TEXT_NODE ? 'Text' : 'Comment'),
           // a text / comment node does not have a selector path
           selectorPath: null,
@@ -194,7 +194,7 @@ VWO.DOMComparator.prototype = {
    * For all the nodes that matched, detects if the attributes changed.
    * If so, returns them.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   detectAttributeChanges: function () {
@@ -224,7 +224,7 @@ VWO.DOMComparator.prototype = {
         });
 
         node.$().attr(attr);
-        finalOperationsList.push(VWO.OperationInfo.create({
+        finalOperationsList.push(({
           name: 'attr',
           selectorPath: node.selectorPath(),
           content: attr
@@ -239,7 +239,7 @@ VWO.DOMComparator.prototype = {
           node.$().removeAttr(key);
         });
 
-        finalOperationsList.push(VWO.OperationInfo.create({
+        finalOperationsList.push(({
           name: 'removeAttr',
           selectorPath: node.selectorPath(),
           content: matchDifference.removedAttributes
@@ -257,7 +257,7 @@ VWO.DOMComparator.prototype = {
    * For all the nodes that matched, detects if the styles changed.
    * If so, returns them.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   detectStyleChanges: function () {
@@ -285,7 +285,7 @@ VWO.DOMComparator.prototype = {
         });
 
         node.$().css(css);
-        finalOperationsList.push(VWO.OperationInfo.create({
+        finalOperationsList.push(({
           name: 'css',
           selectorPath: node.selectorPath(),
           content: css
@@ -303,7 +303,7 @@ VWO.DOMComparator.prototype = {
         _(removedCss).each(function (css) {
           node.$().css(css, '');
         });
-        finalOperationsList.push(VWO.OperationInfo.create({
+        finalOperationsList.push(({
           name: 'removeCss',
           selectorPath: node.selectorPath(),
           content: removedCss
@@ -321,7 +321,7 @@ VWO.DOMComparator.prototype = {
    * If the position (indexes) of the two matched nodes differs, it is
    * detected as a rearrange.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   detectRearranges: function () {
@@ -382,7 +382,7 @@ VWO.DOMComparator.prototype = {
       var parentSelectorPath = node.parent().selectorPath();
       var indexInParent = node.index();
 
-      finalOperationsList.push(VWO.OperationInfo.create({
+      finalOperationsList.push(({
         name: VWO.Locale.OperationNames.REARRANGE,
         // since text nodes can also be rearranged, selector path
         // is always set to null
@@ -404,7 +404,7 @@ VWO.DOMComparator.prototype = {
    * For all nodes in the initial tree that do not have a match in the
    * final tree, a remove is detected.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   detectRemoves: function () {
@@ -427,7 +427,7 @@ VWO.DOMComparator.prototype = {
       // this node has no match, this should be removed
       node.parent().removeChild(node);
 
-      finalOperationsList.push(VWO.OperationInfo.create({
+      finalOperationsList.push(({
         name: VWO.Locale.OperationNames.DELETE_NODE,
         // a remove operation cannot have a selector path,
         // a text node could also be removed
@@ -454,7 +454,7 @@ VWO.DOMComparator.prototype = {
   /**
    * Assuming the two nodes are set, begin the comparison.
    *
-   * @return {VWO.OperationInfo[][]} A list of inital and final states
+   * @return {Object[][]} A list of inital and final states
    *                                 of the operations performed.
    */
   compare: function () {
