@@ -28,7 +28,7 @@ describe('module: StringComparator', function () {
 				new VWO.StringComparisonResult('line 5', 4, 4)
 			]);
 			expect(comparator.stringsDeletedFromA).toEqual([new VWO.StringComparisonResult('line 3', 2, -1)]);
-			expect(comparator.stringsAddedInB).toEqual([new VWO.StringComparisonResult('line 30', 2, -1)]);
+			expect(comparator.stringsAddedInB).toEqual([new VWO.StringComparisonResult('line 30', -1, 2)]);
 		});
 	});
 });
