@@ -160,9 +160,9 @@ VWO.DOMNodeComparator.prototype = {
 
     var score = 0;
     this.nodeA.children().forEach(function (childInNodeA) {
-      score += Number(Boolean(this.nodeB.children().find(function (childInNodeB) {
+      score += Number(Boolean(this.nodeB.children().filter(function (childInNodeB) {
         return childInNodeB.nodeName() === childInNodeA.nodeName()
-      })));
+      })[0]));
     }.bind(this));
     return score / this.nodeA.children().length;
   },

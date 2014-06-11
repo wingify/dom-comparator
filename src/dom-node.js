@@ -6,9 +6,9 @@ VWO.DOMNodePool = {
   content: [],
 
   create: function (params) {
-    return this.content.find(function (domNode) {
+    return this.content.filter(function (domNode) {
       return domNode.el === params.el;
-    }) || VWO.DOMNode.create(params);
+    })[0] || VWO.DOMNode.create(params);
   },
 
   uncacheAll: function () {
