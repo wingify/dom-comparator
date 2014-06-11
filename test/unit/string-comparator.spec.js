@@ -10,7 +10,7 @@ describe('module: StringComparator', function () {
 				'line 2\n' +
 				'line 3\n' +
 				'line 4\n' +
-				'line 5';
+				'line 5\nline6';
 
 			var comparator = VWO.StringComparator.create({
 				stringA: str1,
@@ -27,6 +27,7 @@ describe('module: StringComparator', function () {
 				new VWO.StringComparisonResult('line 4', 3, 3),
 				new VWO.StringComparisonResult('line 5', 4, 4)
 			]);
+			expect(comparator.stringsAddedInB).toEqual([new VWO.StringComparisonResult('line 6', -1, 5)]);
 		});
 	});
 });
