@@ -2,6 +2,12 @@
 <html>
 <head>
 <title>DOM Comparator Unit Tests</title>
+<style>
+textarea {
+  width: 100%;
+  height: 300px;
+}
+</style>
 <link rel="stylesheet" href="../bower_components/jasmine/lib/jasmine-core/jasmine.css">
 <!-- TODO: Including jQuery for click(). Remove later. Use protractor maybe. -->
 <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -31,5 +37,74 @@ jasmineEnv.specFilter = function (spec) {
 
 jasmineEnv.execute();
 </script>
+<script>
+$(document).ready(function() {
+  if (localStorage.getItem('txt1Val')) {
+    $('.txt1').val(localStorage.getItem('txt1Val'));
+  }
+  if (localStorage.getItem('txt2Val')) {
+    $('.txt2').val(localStorage.getItem('txt2Val'));
+  }
+  $(".compare").click(function() {
+    VWO.DOMNodePool.clear();
+
+    window.dom1 = VWO.DOMNodePool.create({
+      el: $('<div id="VWO_DOMNode">' + $('.txt1').val() + "</div>").get(0)
+    });
+    window.dom2 = VWO.DOMNodePool.create({
+      el: $('<div id="VWO_DOMNode">' + $('.txt2').val() + "</div>").get(0)
+    });
+
+    localStorage.setItem('txt1Val', $('.txt1').val());
+    localStorage.setItem('txt2Val', $('.txt2').val());
+
+    var comp = VWO.DOMComparator.create({
+      nodeA: dom1,
+      nodeB: dom2
+    });
+
+    comp.compare();
+  });
+});
+</script>
+<textarea class="txt1">
+  <article id="post-1" class="post-1 post type-post status-publish format-standard hentry category-uncategorized ">
+    <header class="entry-header" style=" display: block;  position: absolute; left: 0; top:0;">
+      <div class="entry-meta">
+        <div class="post-date"><a href="http://fleonlabs.com/2012/06/hello-world/" rel="bookmark" title="Permanent Link toHello world!"><span class="post-month">Jun</span> <span class="post-day">23</span> </a></div>		</div><!-- .entry-meta -->
+      <h1 class="entry-title"><a href="http://fleonlabs.com/2012/06/hello-world/" title="Permalink to Hello world!" rel="bookmark" class="vwo_1350047115575">Hello world!</a></h1>
+    </header><!-- .entry-header -->
+
+    <div class="entry-content">
+      <p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>
+    </div><!-- .entry-content -->
+
+    <footer class="entry-meta">
+
+
+      <span class="comments-link"><a href="http://fleonlabs.com/2012/06/hello-world/#comments" title="Comment on Hello world!">1 Comment</a></span>
+
+    </footer><!-- #entry-meta -->
+  </article>
+</textarea>
+<textarea class="txt2">
+<article id="post-1" class="post-1 post type-post status-publish format-standard hentry category-uncategorized ">
+
+  <footer class="entry-meta">
+
+
+    <span class="comments-link"><a href="http://fleonlabs.com/2012/06/hello-world/#comments" title="Comment on Hello world!">1 Comment</a></span>
+
+  </footer><!-- #entry-meta -->
+    <div class="entry-content">
+      <p>Welcome to WordPress. This is your first post. Edit or delete it, then start blogging!</p>
+    </div><!-- .entry-content -->
+
+  </article>
+</textarea>
+<br/>
+<button class="compare">Compare</button>
+
+
 </body>
 </html>
