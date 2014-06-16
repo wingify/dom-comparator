@@ -4,8 +4,8 @@ describe('module: StringComparator', function () {
 			var str1 = 'line 1\n' +
 				'line 2\n' +
 				'line 3\n' +
-				'line 4\n' +
-				'line 5';
+				'line 4\n' + 
+				'line 5' ;  
 			var str2 = 'line 1\n' +
 				'line 2\n' +
 				'line 30\n' +
@@ -29,6 +29,8 @@ describe('module: StringComparator', function () {
 			]);
 			expect(comparator.stringsDeletedFromA).toEqual([new VWO.StringComparisonResult('line 3', 2, -1)]);
 			expect(comparator.stringsAddedInB).toEqual([new VWO.StringComparisonResult('line 30', -1, 2)]);
+			expect(comparator.stringsInA).toEqual(['line 1','line 2','line 3','line 4','line 5']);
+		// See the output	// expect(comparator.diffUnion).toEqual(['line 3']);
 		});
 	});
 });

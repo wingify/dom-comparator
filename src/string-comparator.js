@@ -186,7 +186,7 @@ VWO.StringComparator.prototype = {
         this.diffUnion.push(this.stringsUnchanged[this.stringsUnchanged.length - 1]);
         lastMatchIndexInB = matchesInA[indexInA];
       } else if (typeof matchesInA[indexInA] === 'undefined') {
-        // Strings that were removed from A
+        // Strings that were deleted from A
         this.stringsDeletedFromA.push(new VWO.StringComparisonResult(stringsInA[indexInA], indexInA, -1));
         this.diffUnion.push(this.stringsDeletedFromA[this.stringsDeletedFromA.length - 1]);
       }

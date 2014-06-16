@@ -55,14 +55,14 @@ VWO.DOMNode.prototype = {
    *
    * @type Boolean
    */
-  ignoreWhitespace: false,
+  ignoreWhitespace: true,
 
   /**
    * Whether this node's children should ignore comment nodes.
    *
    * @type Boolean
    */
-  ignoreComments: false,
+  ignoreComments: true,
 
   /**
    * Replaces all the getter functions in this class with cached
