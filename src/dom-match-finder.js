@@ -80,6 +80,8 @@ VWO.DOMMatchFinder.prototype = {
 
     var diffUnion = result.diffUnion;
 
+// Define diffUnion.length 
+
     for (var i = 0; i < diffUnion.length; i++) {
       var diff = diffUnion[i];
       console.log(

@@ -37,4 +37,34 @@ el: $('<div class="a" style=color:blue> <div class="b" style=color:red><span>spa
 	
 		});
 	});
+
+	describe('method: Master Index', function () {
+		it('gets the name of the node', function () {
+			var domNode = VWO.DOMNode.create({
+			el: $('<div class="chapter"><h2>Tutorial</h2> <div> Himanshu </div> </div>    <div class="a">HI</div>').get(0)
+			});
+
+			expect(domNode.children().length).toBe(2);
+			expect(domNode.children()[0].outerHTML()).toBe('<h2>Tutorial</h2>');
+			expect(domNode.nextSibling().outerHTML()).toBe('<div class="a">HI</div>') ; 
+		  // 	expect(domNode.children()[0].ancestors()[0].outerHTML()).toBe('<div class="chapter"><h2>Tutorial</h2></div>'); 
+			expect(domNode.masterIndex()).toBe('0') ; 
+			expect(domNode.children()[0].masterIndex()).toBe('0:0') ; 
+			expect(domNode.children()[1].masterIndex()).toBe('0:1') ; 
+
+		});
+	});
+
+	describe('method: Master Index', function () {
+		it('gets the name of the node', function () {
+			var domNode = VWO.DOMNode.create({
+			el: $('<div class="chapter"> <h2>Tutorial</h2> <div class="a"></div>  </div>').get(0)
+			});
+
+			expect(domNode.children().length).toBe(2);
+			expect(domNode.children()[0].masterIndex()).toBe('0:0') ; 
+			expect(domNode.children()[1].masterIndex()).toBe('0:1') ; 
+
+		});
+	});
 })
