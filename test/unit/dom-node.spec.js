@@ -56,9 +56,22 @@ el: $('<div class="a" style=color:blue> <div class="b" style=color:red><span>spa
 	});
 
 	describe('method: Master Index', function () {
-		it('gets the name of the node', function () {
+		it('Master index details', function () {
 			var domNode = VWO.DOMNode.create({
 			el: $('<div class="chapter"> <h2>Tutorial</h2> <div class="a"></div>  </div>').get(0)
+			});
+
+			expect(domNode.children().length).toBe(2);
+			expect(domNode.children()[0].masterIndex()).toBe('0:0') ; 
+			expect(domNode.children()[1].masterIndex()).toBe('0:1') ; 
+
+		});
+	});
+
+	describe('method: Master Index', function () {
+		it('gets the details of the master index', function () {
+			var domNode = VWO.DOMNode.create({
+			el: $('<div class="chapter">\n<h2>Tutorial</h2>\n<div class="a">\n</div>\n</div>\n').get(0)
 			});
 
 			expect(domNode.children().length).toBe(2);

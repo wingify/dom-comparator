@@ -224,12 +224,15 @@ VWO.DOMComparator.prototype = {
         matchDifference.changedAttributes);
       var oldattr;
 
+
+      // Runs over all the attributes  for e.g ._(attr).keys() = class 
       if (_(attr).keys().length) {
         oldattr = {};
         _(attr).each(function (attr, key) {
           oldattr[key] = node.$().attr(key);
         });
 
+	// node.$().attr('class') = class_name 
         node.$().attr(attr);
         finalOperationsList.push(({
           name: 'attr',
@@ -238,6 +241,8 @@ VWO.DOMComparator.prototype = {
         }));
       }
 
+
+      // Gets the list of all attributes removed 
       var removedAttr = matchDifference.removedAttributes;
       if (_(removedAttr).keys().length) {
         oldattr = {};

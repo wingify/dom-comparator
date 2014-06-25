@@ -20,7 +20,7 @@ describe('module: StringComparator', function () {
 			});
 
 			comparator.compare();
-
+/*
 			expect(comparator.stringsInA).toEqual(['line 1','line 2','line 3','line 4','line 5']);
 			expect(comparator.stringsUnchanged).toEqual([
 				new VWO.StringComparisonResult('line 1', 0, 04),
@@ -45,6 +45,24 @@ describe('module: StringComparator', function () {
 					new VWO.StringComparisonResult('line 4', 3, 3), 
 					new VWO.StringComparisonResult('line 5', 4, 5)
 					]);
+*/
+
+		});
+	});
+
+	describe('method: compare', function () {
+		it('compares two strings and gives back strings added, removed and changed', function () {
+			var str1 = '<div class="a">HE</div>' ;  
+			var str2 = '<div class="b">HE</div><div>Him</div>' ;
+
+			var comparator = VWO.StringComparator.create({
+				stringA: str1,
+				stringB: str2,
+				splitOn: '\n'
+			});
+
+			comparator.compare();
+			
 		});
 	});
 });

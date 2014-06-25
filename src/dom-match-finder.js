@@ -91,6 +91,8 @@ VWO.DOMMatchFinder.prototype = {
       );
     }
 
+// for  strings unchanged ... string pointer has been apllied for each unchanged node 
+
     var nodeMatches = {};
     var stringsInA = result.stringsInA;
     var stringsInB = result.stringsInB;
@@ -112,19 +114,28 @@ VWO.DOMMatchFinder.prototype = {
       startIndexInA = startIndexInA.clamp(0);
       startIndexInB = startIndexInB.clamp(0);
 
+      // Defining num for one letter isssue ... one letter in the text node was not considered as a word ... 
+      var num; 
       for (var j = 0, jl = pointers.length; j < jl; j++) {
         var pointerInA, pointerInB;
+	if((j+1) < jl && (pointers[j+1].index - pointers[j].index) == 1)
+		num = 0 ; 
+	else
+		num = splitOn.length ; 
         pointerInA = VWO.DOMNodeStringPointer.create({
-          index: startIndexInA + pointers[j].index + splitOn.length,
+          index: startIndexInA + pointers[j].index + num,
           haystack: stringA
         });
         pointerInB = VWO.DOMNodeStringPointer.create({
-          index: startIndexInB + pointers[j].index + splitOn.length,
+          index: startIndexInB + pointers[j].index + num,
           haystack: stringB
         });
+//	prev = pointers[j].index ; 
         nodeMatches[pointerInA.masterIndex()] = pointerInB.masterIndex();
       }
     }
+
+ // for all the changed nodes , they are compared using the string comparator ..
 
     var innerNodeMatches = {};
     var stringsLastAddedInB = [];

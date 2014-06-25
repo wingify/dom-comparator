@@ -144,12 +144,10 @@ VWO.StringComparator.prototype = {
         if (stringsInA[indexInA] === stringsInB[indexInB]) {
           if (typeof matchesInB[indexInB] === 'number') continue;
 
+	// While loop used for the rearranged parts 
 
-          matchesInA[indexInA] = indexInB;
-          matchesInB[indexInB] = indexInA;
 
-	  /*
-          var prevMatch = match.prev;
+        var prevMatch = match.prev;
 
           while (prevMatch) {
             if (prevMatch.to > indexInB) {
@@ -161,14 +159,14 @@ VWO.StringComparator.prototype = {
             prevMatch = prevMatch.prev;
           }
 
-	  */
 
-        //  match.from = indexInA;
-       //   match.to = indexInB;
-       //   match.next = {};
-       //   match.next.prev = match;
-         // match = match.next;
-
+          match.from = indexInA;
+          match.to = indexInB;
+          match.next = {};
+          match.next.prev = match;
+          match = match.next;
+         matchesInA[indexInA] = indexInB;
+          matchesInB[indexInB] = indexInA;
           break;
         }
       }
