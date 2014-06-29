@@ -51,7 +51,7 @@ describe('module: StringComparator', function () {
 	});
 
 	describe('method: compare', function () {
-		it('compares two strings and gives back strings added, removed and changed', function () {
+		it('case 2: compares two strings and gives back strings added, removed and changed', function () {
 			var str1 = '<div class="a">HE</div>' ;  
 			var str2 = '<div class="b">HE</div><div>Him</div>' ;
 
@@ -65,4 +65,43 @@ describe('module: StringComparator', function () {
 			
 		});
 	});
+
+
+
+	describe('method: compare', function () {
+		it('case 3: compares two strings and gives back strings added, removed and changed', function () {
+
+
+		var str1 = '<div class="article"><a class="article-category" href="http://mashable.com/lifestyle/">Lifestyle</a><h1 class="article-title"><a data-turbo-target="post-slider" href="http://mashable.com/2014/06/25/space-tourism-hot-air-balloon/">Hot-Air Balloon to Take Tourists 20 Miles Above Earth</a></h1><div class="article-byline">The Associated Press</div><p class="article-excerpt">A space-tourism company wants to offer tourists trips to space for $75,000.</p></div>' ;
+
+		var str2 = '<div class="article-content "><a class="article-category" href="http://mashable.com/lifestyle/">Lifestyle</a><h1 class="article-title"><a data-turbo-target="post-slider" href="http://mashable.com/2014/06/25/space-tourism-hot-air-balloon/">Hot-Air Balloon to Take Tourists 20 Miles Above Earth</a></h1><div class="article-byline">The Associated Press</div><p class="article-excerpt">A space-tourism company wants to offer tourists trips to space for $75,000.</p></div>' ; 
+
+			var comparator = VWO.StringComparator.create({
+				stringA: str1,
+				stringB: str2,
+				splitOn: '/[^a-z0-9_ \r\n]+/gi'
+			});
+
+			comparator.compare();
+		});
+	});
+
+	describe('method: compare', function () {
+		it('case 4: compares two strings and gives back strings added, removed and changed', function () {
+
+
+		var str1 = '<div class="a"><span class="current">1</span></div>' ; 
+		
+		var str2 = '<div class="v"><span class="current">1</span></div>' ; 
+
+			var comparator = VWO.StringComparator.create({
+				stringA: str1,
+				stringB: str2,
+				splitOn: '/[^a-z0-9_ \r\n]+/gi'
+			});
+
+			comparator.compare();
+		});
+	});
+
 });

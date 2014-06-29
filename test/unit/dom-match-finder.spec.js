@@ -49,4 +49,50 @@ describe('module: DOMNode-Comparator', function () {
 	});
 
 
+	describe('method: nodeName', function () {
+		it('case3 : compares how closely doms are related', function () {
+			var domNode = VWO.DOMMatchFinder.create({
+
+
+		nodeA: VWO.DOMNode.create({el:$('<div class="article"><a class="article-category" href="http://mashable.com/lifestyle/">Lifestyle</a><h1 class="article-title"><a data-turbo-target="post-slider" href="http://mashable.com/2014/06/25/space-tourism-hot-air-balloon/">Hot-Air Balloon to Take Tourists 20 Miles Above Earth</a></h1><div class="article-byline">The Associated Press</div><p class="article-excerpt">A space-tourism company wants to offer tourists trips to space for $75,000.</p></div>').get(0)}), 				
+
+		nodeB: VWO.DOMNode.create({el:$('<div class="article-content "><a class="article-category" href="http://mashable.com/lifestyle/">Lifestyle</a><h1 class="article-title"><a data-turbo-target="post-slider" href="http://mashable.com/2014/06/25/space-tourism-hot-air-balloon/">Hot-Air Balloon to Take Tourists 20 Miles Above Earth</a></h1><div class="article-byline">The Associated Press</div><p class="article-excerpt">A space-tourism company wants to offer tourists trips to space for $75,000.</p></div>').get(0)})
+
+
+		});
+		//	expect(domNode.compare().matches).toEqual('') ; 
+
+		});
+	});
+	
+	describe('method: nodeName', function () {
+		it('case4 : compares how closely doms are related', function () {
+			var domNode = VWO.DOMMatchFinder.create({
+
+		nodeA: VWO.DOMNode.create({el:$('<div><span class="cur">1</span></div>').get(0)}), 
+		
+		nodeB: VWO.DOMNode.create({el:$('<div><span class="current">1</span></div>').get(0)})
+
+
+		});
+	//		expect(domNode.compare().matches).toEqual('') ; 
+
+		});
+	});
+
+
+	describe('method: nodeName', function () {
+		it('case4 : compares how closely doms are related', function () {
+			var domNode = VWO.DOMMatchFinder.create({
+
+		nodeA: VWO.DOMNode.create({el:$('<div class="a"><span class="current">1</span></div>').get(0)}), 
+		
+		nodeB: VWO.DOMNode.create({el:$('<div><span class="current">1</span></div>').get(0)})
+
+		});
+			//expect(domNode.compare().matches).toBe('') ; 
+
+		});
+	});
+
 })

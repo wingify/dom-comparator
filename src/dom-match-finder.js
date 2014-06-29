@@ -226,12 +226,19 @@ VWO.DOMMatchFinder.prototype = {
             }).allNodePointers();
 
             for (var k = 0, kl = pointersInString.length; k < kl; k++) {
+	
+		// code added for a 1 letter word to take into consideration 
+		
+	      var num = 1 ; 
+	      if((rangeInA[1] - rangeInA[0]) == 1)
+		      num = 0 ; 
+
               var pointerInStringInA = VWO.DOMNodeStringPointer.create({
-                index: startIndexInA + rangeInA[0] + pointersInString[k].index + 1,
+                index: startIndexInA + rangeInA[0] + pointersInString[k].index + num,
                 haystack: stringA
               });
               var pointerInStringInB = VWO.DOMNodeStringPointer.create({
-                index: startIndexInB + rangeInB[0] + pointersInString[k].index + 1,
+                index: startIndexInB + rangeInB[0] + pointersInString[k].index + num,
                 haystack: stringB
               });
               var mi1 = pointerInStringInA.masterIndex(), mi2 = pointerInStringInB.masterIndex();

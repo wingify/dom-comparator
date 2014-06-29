@@ -146,8 +146,15 @@ VWO.StringComparator.prototype = {
 
 	// While loop used for the rearranged parts 
 
+	  var prevMatch = match.prev;
 
-        var prevMatch = match.prev;
+	  // Fix for 'if new class name is added' ... 
+	  if(prevMatch)
+	  {
+	  if(prevMatch.to > indexInB && stringsInB[indexInB] == 'div')
+		  continue ; 
+	  }
+	 // Fix done 
 
           while (prevMatch) {
             if (prevMatch.to > indexInB) {
