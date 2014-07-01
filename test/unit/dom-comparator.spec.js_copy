@@ -575,74 +575,18 @@ nodeB: VWO.DOMNode.create({el:$('<ul class="content"><li><a href="http://www.red
 		});
 	});
 
-
-
 		describe('method: Compare', function () {
 			it('case 32: compares the dom trees and outputs the final result', function () {
 		var domNode = VWO.DOMComparator.create({
 
 
 nodeA: VWO.DOMNode.create({el:$('<ul class="content"></ul>').get(0)}),
-nodeB: VWO.DOMNode.create({el:$('<div>Third</div><ul class="content"></ul>').get(null)})
+nodeB: VWO.DOMNode.create({el:$('<div>First</div><ul class="content"></ul>').get(0)})
 
 
 		});
-			//expect(domNode.compare()).toBe('') ;
-
-		});
-	});
-
-
-
-		describe('method: Compare', function () {
-			it('case 33: compares the dom trees and outputs the final result', function () {
-		var domNode = VWO.DOMComparator.create({
-
-
-nodeA: VWO.DOMNode.create({el:$('<ul class="content"></ul>').get(0)}),
-nodeB: VWO.DOMNode.create({el:$('<ul class="content"></ul><div>Third</div>').get(null)})
-
-
-		});
-//		 	expect(domNode.compare()).toBe('') ;
-
-			// Bug Fixing done in string-comparator.js  
-
-		});
-	});
-
-
-		describe('method: Compare', function () {
-			it('case 34: compares the dom trees and outputs the final result', function () {
-		var domNode = VWO.DOMComparator.create({
-
-
-nodeA: VWO.DOMNode.create({el:$('<ul class="content"></ul><div>Third</div>').get(null)}), 
-nodeB: VWO.DOMNode.create({el:$('<ul class="content"></ul>').get(0)})
-
-
-		});
-//			expect(domNode.compare()).toBe('') ;
-			// Bug Fixing done in string-comparator.js  
-
-		});
-	});
-
-
-
-
-
-		describe('method: Compare', function () {
-			it('case 35: compares the dom trees and outputs the final result', function () {
-		var domNode = VWO.DOMComparator.create({
-
-nodeA: VWO.DOMNode.create({el:$('<ul class="content"><li><a href="http://www.reddit.com/user/krispykrackers" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb vwo_1404205657551" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair" title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li></ul>').get(0)}), 
-
-
-nodeB: VWO.DOMNode.create({el:$('<div>First</div><ul class="content"><li><a href="http://www.reddit.com/user/krispykrackers" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb vwo_1404205657551" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair" title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><div>Second</div><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li></ul><div>Third</div>').get(null)})		
-		});
-			
-		expect(domNode.compare()).toBe('') ;
+			// Not Working .... New node inserted at the start ...... 			
+			expect(domNode.compare()).toBe('') ;
 
 		});
 	});
@@ -666,6 +610,7 @@ nodeB: VWO.DOMNode.create({el:$('').get(0)})
 		});
 	});
 */
+
 
 
 })
