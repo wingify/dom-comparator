@@ -64,9 +64,65 @@ VWO.DOMMatchFinder.prototype = {
    * @return {self}
    */
   compare: function () {
-    var stringA = this.stringA();
-    var stringB = this.stringB();
+    var stringA1 = this.stringA();
+    var stringB1 = this.stringB();
+
+   // Storing the original string ... 
+    var stringA_original = this.stringA();
+    var stringB_original = this.stringB();
+
     var splitOn = '\n';
+
+// Adding Code 
+
+  var i  , A_len = stringA1.length , B_len = stringB1.length; 
+  var start_comment_flag = 0 ; 
+ 
+  var stringA = '', stringB = '';  
+
+   for(i=0;i<A_len;i++)
+   {
+	   
+	if((i+3) < A_len && stringA1[i] == '<' && stringA1[i+1] == '!' && stringA1[i+2] == '-' && stringA1[i+3] == '-')
+	{
+		start_comment_flag = 1 ; 
+		i = i + 3 ; 
+		continue ; 
+	}
+	if((i+2) < A_len && start_comment_flag == 1 && stringA1[i] == '-' && stringA1[i+1] == '-' && stringA1[i+2] == '>')
+	{
+		start_comment_flag = 0 ; 
+		i = i + 2 ; 
+		continue ; 
+	}
+
+	if(start_comment_flag == 0)
+		stringA += stringA1[i] ; 
+   }
+
+   start_comment_flag = 0 ; 
+   for(i=0;i<B_len;i++)
+   {
+	if((i+3) < B_len && stringB1[i] == '<' && stringB1[i+1] == '!' && stringB1[i+2] == '-' && stringB1[i+3] == '-')
+	{
+		start_comment_flag = 1 ; 
+		i = i + 3 ; 
+		continue ; 
+	}
+	if((i+2) < B_len && start_comment_flag == 1 && stringB1[i] == '-' && stringB1[i+1] == '-' && stringB1[i+2] == '>')
+	{
+		start_comment_flag = 0 ; 
+		i = i + 2 ; 
+		continue ; 
+	}
+
+	if(start_comment_flag == 0)
+		stringB += stringB1[i] ; 
+   }
+
+// code Adding done 
+
+
 
     var f = function (i) {
       return i < 10 ? " " + i : i.toString();
@@ -262,7 +318,8 @@ VWO.DOMMatchFinder.prototype = {
     console.log('totalCount:', _($.extend(nodeMatches, innerNodeMatches)).keys().length);
 
     this.matches = nodeMatches;
-
+    this.stringA = stringA_original ; 
+    this.stringB = stringB_original ; 
     return this;
   }
 };
