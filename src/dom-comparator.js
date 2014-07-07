@@ -540,11 +540,15 @@ VWO.DOMComparator.prototype = {
             }).join('') + ';';
             break;
         }
+        output.evalForContext = function (ctx) {
+          var $ = function (selector) {
+            return jQuery(selector, ctx);
+          };
+          eval(this.join(''));
+        }
+        return output;
       }
     };
-
-    console.log(result);
-
     return result;
   }
 };
