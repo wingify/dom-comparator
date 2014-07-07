@@ -225,14 +225,14 @@ VWO.DOMComparator.prototype = {
       var oldattr;
 
 
-      // Runs over all the attributes  for e.g ._(attr).keys() = class 
+      // Runs over all the attributes  for e.g ._(attr).keys() = class
       if (_(attr).keys().length) {
         oldattr = {};
         _(attr).each(function (attr, key) {
           oldattr[key] = node.$().attr(key);
         });
 
-	// node.$().attr('class') = class_name 
+  // node.$().attr('class') = class_name
         node.$().attr(attr);
         finalOperationsList.push(({
           name: 'attr',
@@ -242,7 +242,7 @@ VWO.DOMComparator.prototype = {
       }
 
 
-      // Gets the list of all attributes removed 
+      // Gets the list of all attributes removed
       var removedAttr = matchDifference.removedAttributes;
       if (_(removedAttr).keys().length) {
         oldattr = {};
@@ -470,6 +470,8 @@ VWO.DOMComparator.prototype = {
    *                                 of the operations performed.
    */
   compare: function () {
+    var self = this;
+
     this.analyzeMatches();
 
     var result = [
@@ -484,6 +486,62 @@ VWO.DOMComparator.prototype = {
     result = _(result).flatten();
 
     this.verifyComparison();
+
+    result.toJqueryCode = function toJqueryCode() {
+      function getActualIndex(parentSelectorPath, indexInParent) {
+        var parentNode = VWO.DOMNode.create({
+          el: $(parentSelectorPath, self.nodeA).get()
+        });
+        var childNode = parentNode.children()[indexInParent];
+        return parentNode.el.children.indexOf(childNode.el);
+      }
+
+      var output = [], index, path, html, text, val, attr, css;
+      for (var i = 0, l = this.length; i < l; i++) {
+        var op = this[i];
+        switch (op.name) {
+          case 'insertNode':
+            index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
+            path = op.content.parentSelectorPath;
+            html = op.content.html;
+            output[i] = '$($(' + JSON.stringify(path)  + ').get().children[' + i + ']).after(' + JSON.stringify(html) + ');';
+            break;
+          case 'deleteNode':
+            index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
+            path = op.content.parentSelectorPath;
+            html = op.content.html;
+            output[i] = '$($(' + JSON.stringify(path)  + ').get().children[' + i + ']).remove();';
+            break;
+          case 'changeText':
+          case 'changeComment':
+            index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
+            path = op.content.parentSelectorPath;
+            text = op.content.text;
+            output[i] = '$($(' + JSON.stringify(path)  + ').get().children[' + i + ']).text(' + JSON.stringify(text) + ');';
+            break;
+          case 'attr':
+          case 'css':
+            path = op.selectorPath;
+            val = op.content;
+            output[i] = '$(' + JSON.stringify(path) + ').' + op.name + '(' + JSON.stringify(val) + ');';
+            break;
+          case 'removeAttr':
+            path = op.selectorPath;
+            attr = op.content;
+            output[i] = '$(' + JSON.stringify(path) + ')' + attr.map(function (attr) {
+              return '.removeAttr(' + JSON.stringify(attr) + ')';
+            }).join('') + ';';
+            break;
+          case 'removeCss':
+            path = op.selectorPath;
+            css = op.content;
+            output[i] = '$(' + JSON.stringify(path) + ')' + css.map(function (css) {
+              return '.css(' + JSON.stringify(css) + ', "")';
+            }).join('') + ';';
+            break;
+        }
+      }
+    };
 
     console.log(result);
 
