@@ -498,10 +498,10 @@ VWO.DOMComparator.prototype = {
         });
         var childNode = parentNode.children()[indexInParent];
 	var childs = [] , i , l = parentNode.el.childNodes.length; 
-//	fior(i=0;i<l;i++)
-//		childs[i] = parentNode.el.childNodes[i] ; 
-//	return childs.indexOf(childNode.el) ; 
-        return Array.prototype.slice.apply(parentNode.el.childNodes).indexOf(childNode.el);
+	for(i=0;i<l;i++)
+		childs[i] = parentNode.el.childNodes[i] ; 
+	return childs.indexOf(childNode.el) ; 
+ //       return Array.prototype.indexOf.apply(parentNode.el.childNodes, childNode.el);
       }
 
       var output = [], index, path, html, text, val, attr, css;
@@ -512,26 +512,22 @@ VWO.DOMComparator.prototype = {
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
             path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
             html = op.content.html;
-            output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
+            output[i] = '$($(' + JSON.stringify(path)  + ').get().childNodes[' + i + ']).after(' + JSON.stringify(html) + ');';
             break;
           case 'deleteNode':
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
             path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
             html = op.content.html;
-            output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).remove();';
+            output[i] = '$($(' + JSON.stringify(path)  + ').get().childNodes[' + i + ']).remove();';
             break;
           case 'changeText':
           case 'changeComment':
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
             path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
             text = op.content.text;
-            output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).text(' + JSON.stringify(text) + ');';
+            output[i] = '$($(' + JSON.stringify(path)  + ').get().childNodes[' + i + ']).text(' + JSON.stringify(text) + ');';
             break;
           case 'attr':
-            path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            val = op.content;
-            output[i] = '$(' + JSON.stringify(path) + ').' + op.name + '(' + JSON.stringify(val) + ');';
-            break;
           case 'css':
             path = op.selectorPath.split('DOMComparisonResult > ')[1];
             val = op.content;
@@ -559,8 +555,8 @@ VWO.DOMComparator.prototype = {
           };
           eval(this.join(''));
         }
-      }
         return output;
+      }
     };
     return result;
   }

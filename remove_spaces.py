@@ -4,6 +4,15 @@ import re
 a = """ 
 
 
+<<<<<<< HEAD
+<ul>
+<li><a href="http://www.cricbuzz.com/" id="menuTag">Home</a></li>
+<li><a href=" javascript:void(0) "      >Series &#9660;</a>
+	<ul class="subnav">
+			<li><a href="http://www.cricbuzz.com/cricket-news/series/2233/india-tour-of-england-2014"    >England vs India, 2014</a></li>
+					<li><a href="http://www.cricbuzz.com/cricket-news/series/2269/new-zealand-tour-of-west-indies-2014"    >West Indies vs New Zealand, 2014</a></li>
+						</ul>
+=======
 
 
 
@@ -65,6 +74,7 @@ Learn more
   </div>
   </footer>
 
+>>>>>>> 6d4984b978d7e7cc6c3a8430f5a290518a3b7c7f
 
 
 
@@ -83,7 +93,11 @@ for i in range(len(p)):
 	ans += x 
 
 # to remove the spaces between any " >    < " ..... since spliting happens arount extra spaces .... 
+<<<<<<< HEAD
+#ans = re.sub(r'\s+([<"])', r'\1', ans)	
+=======
 ans = re.sub(r'\s+([<"])', r'\1', ans)	
+>>>>>>> 6d4984b978d7e7cc6c3a8430f5a290518a3b7c7f
 #print ans
 
 #print '\n\nremoving the spaces ....... ++++++++ inserting \ for escape characters \n'

@@ -49,10 +49,10 @@ $(document).ready(function() {
     VWO.DOMNodePool.clear();
 
     window.dom1 = VWO.DOMNodePool.create({
-      el: $('<div id="VWO_DOMNode">' + $('.txt1').val() + "</div>").get(0)
+      el: $($('.txt1').val()).get(null)
     });
     window.dom2 = VWO.DOMNodePool.create({
-      el: $('<div id="VWO_DOMNode">' + $('.txt2').val() + "</div>").get(0)
+      el: $($('.txt2').val()).get(null)
     });
 
     localStorage.setItem('txt1Val', $('.txt1').val());

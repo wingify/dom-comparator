@@ -8,7 +8,7 @@ nodeA: VWO.DOMNode.create({el:$('<div class="chapter"><h2>Tutorial</h2><div clas
 nodeB: VWO.DOMNode.create({el:$('<div class="chapter"><h2>Tutorial311</h2><div class="b" style="color:red"></div></div>').get(null)})
 		});
 
-				expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Tutorial311', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child > H2:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV:first-child > H2:first-child + DIV', content : { class : 'b' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child > H2:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
+				expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Tutorial311', parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child > H2:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child > H2:first-child + DIV', content : { class : 'b' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child > H2:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
 		
 		// Works fine .... 
 
@@ -23,7 +23,7 @@ nodeA: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" style="color:blue">Testing</div><div class="text">Himanshu</div><h2>Hello guys</h2></li>').get(null)})
 		});
 				
-		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Hello guys', parentSelectorPath : 'DIV#DOMComparisonResult > LI:first-child > DIV:first-child + DIV + H2', indexInParent : 1, existsInDOM : true } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > LI:first-child > DIV:first-child', content : { color : 'blue' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > LI:first-child > DIV:first-child + DIV + H2', indexInParent : 0, existsInDOM : false } } ]) ; 
+		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Hello guys', parentSelectorPath : 'HIM#DOMComparisonResult > LI:first-child > DIV:first-child + DIV + H2', indexInParent : 1, existsInDOM : true } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > LI:first-child > DIV:first-child', content : { color : 'blue' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > LI:first-child > DIV:first-child + DIV + H2', indexInParent : 0, existsInDOM : false } } ]) ; 
 		 
 		// Ok works fine .....  
 
@@ -41,7 +41,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<ul><li><a href="item1">IT1</a></li><li></li><li class="c"><a href="item3">IT3</a></li><li><a href="item4">IT4</a></li></ul>').get(null)})
 		});
 				
-			expect(domNode.compare()).toEqual([ { name : 'removeAttr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', content : { class : 'd' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI', indexInParent : 0, existsInDOM : false } } ]) ; 
+			expect(domNode.compare()).toEqual([ { name : 'removeAttr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', content : { class : 'd' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI', indexInParent : 0, existsInDOM : false } } ]) ; 
 
 			// checked for -->  1. removeattr 2. deleteNode 
 			// Works fine 
@@ -59,7 +59,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		
 		});
 				
-	 		expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > SECTION:first-child > DIV:first-child', content : { class : 'container12' } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > SECTION:first-child', content : { color : 'blue' } } ]) ; 
+	 		expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > SECTION:first-child > DIV:first-child', content : { class : 'container12' } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > SECTION:first-child', content : { color : 'blue' } } ]) ; 
 
 			// checked for 1 .css 2. removecss  
 			// Works fine 
@@ -79,7 +79,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 
 		});
 				
-			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > SECTION:first-child', content : { class : 'a1' } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > SECTION:first-child', content : { color : 'red' } } ]) ; 
+			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > SECTION:first-child', content : { class : 'a1' } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > SECTION:first-child', content : { color : 'red' } } ]) ; 
 			
 			//1. Attr 2. css 
 			// Works fine 
@@ -100,7 +100,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<ul><li><a href="/about">Our Team</a></li><li><a href="/labs">Labs</a></li><li><a href="/careers">Careers</a></li><li class="trigger-contact"><a href="/contact" class="">Contact Us</a></li></ul>').get(null)})										    		
 		});
 		        		
-			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Contact Us', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI > A:first-child', content : { href : '/labs' } }, { name : 'removeCss', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI > A:first-child', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ; 
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Contact Us', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI > A:first-child', content : { href : '/labs' } }, { name : 'removeCss', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI > A:first-child', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ; 
 
 			// Works fine .... 
 		});
@@ -117,7 +117,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<ul><li><a href="/about">Our Team</a></li><li><a href="/lab">Labs</a></li><li><a href="/careers">Careers</a></li><li><a href="/hello">Hello</a></li></ul>').get(null)}) 											    		
 		});
 		        		
-		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Our Team', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<li><a href="/hello">Hello</a></li>', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child', indexInParent : 4, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ; 	
+		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Our Team', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<li><a href="/hello">Hello</a></li>', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child', indexInParent : 4, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ; 	
 	
 
 		});
@@ -131,7 +131,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<div class="ta-c"><a href="vwo.com" style="color:red">Learn</a><h2>Himanshu</h2></div>').get(null)})												    		
 		});
 
-		 	expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<a href="vwo.com" style="color:red">Learn</a>', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child', indexInParent : 0, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<h2>Himanshu</h2>', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV:first-child', content : { class : 'ta-c' } }]) ; 
+		 	expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<a href="vwo.com" style="color:red">Learn</a>', parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child', indexInParent : 0, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<h2>Himanshu</h2>', parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child', content : { class : 'ta-c' } }]) ; 
 		// Works fine ... 	
 
 		});
@@ -147,7 +147,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<div id="sub_menu_campuslife" style="display: block;"><ul><li><a onfocus="if(this.blur)this.blur()" id="sub" href="http://iiit.ac.in/content/students_attendance">Student Attendance</a></li><li><a onfocus="if(this.blur)this.blur()" id="sub" href="http://iiit.ac.in/studentscorner/campus-life">Campus Life</a></li><!--li><a  onfocus="if(this.blur)this.blur()" id=sub href="http://iiit.ac.in/studentscorner/students" >Students</a></li--><li><a onfocus="if(this.blur)this.blur()" id="sub" href="http://iiit.ac.in/studentscorner/clubs">Clubs</a></li></ul></div>').get(null)})							
 		});
 
-		 	expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV#sub_menu_campuslife:first-child', content : { id : 'sub_menu_campuslife' } } ]) ; 
+		 	expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV#sub_menu_campuslife:first-child', content : { id : 'sub_menu_campuslife' } } ]) ; 
 			
 			// 1. insertNode    2.deleteNode 3. comments ... 
 
@@ -168,7 +168,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 
 		});
 
-		 expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI#news_tab:first-child + LI#events_tab + LI#notice_tab + LI#fop_tab + LI#academic_tab > A:first-child', content : { onmouseover : 'ShowTabContent(5);' } } ]) ; 
+		 expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI#news_tab:first-child + LI#events_tab + LI#notice_tab + LI#fop_tab + LI#academic_tab > A:first-child', content : { onmouseover : 'ShowTabContent(5);' } } ]) ; 
 			
 		// Works fine 
 			
@@ -185,7 +185,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<ul><li>ITEM1</li><li>ITEM2</li><li>ITEM3</li><li>ITEM4</li><li>ITEM5</li></ul>').get(null)})												    		
 		});
 		        		
-		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'ITEM1', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'ITEM2', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'ITEM3', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'ITEM4', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<li>ITEM5</li>', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child', indexInParent : 4, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI', indexInParent : 0, existsInDOM : false } } ]) ; 
+		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'ITEM1', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'ITEM2', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'ITEM3', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'ITEM4', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<li>ITEM5</li>', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child', indexInParent : 4, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI', indexInParent : 0, existsInDOM : false } } ]) ; 
 
 		// case of rearrangement ..... Asks to insert all the nodes , so not optimized ... But the steps are right 	
 
@@ -204,7 +204,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<div id="footer"><div>&nbsp;</div>Paras Chopra |  <a href="http://visualwebsiteoptimizer.com/" title="A/B Testing Software">A/B Testing Software</a> | <a href="http://visualwebsiteoptimizer.com/" title="Multivariate Testing Software">Multivariate Testing Software</a> | <a href="http://visualwebsiteoptimizer.com/" title="Split Testing Software" style="color:red">Split Testing</a><div class="vwo_1403601793422 vwo_1403601805554">&nbsp;</div></div>').get(null)})												    		
 		});
 		        		
-		 	expect(domNode.compare()).toEqual([{ name : 'insertNode', selectorPath : null, content : { html : 'Split Testing', parentSelectorPath : 'DIV#DOMComparisonResult > DIV#footer:first-child > DIV:first-child + A + A + A', indexInParent : 1, existsInDOM : true } }, { name : 'changeText', selectorPath : null, content : { text : 'Paras Chopra |  ', parentSelectorPath : 'DIV#DOMComparisonResult > DIV#footer:first-child', indexInParent : 1 } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > DIV#footer:first-child > DIV:first-child + A + A + A', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > DIV#footer:first-child > DIV:first-child + A + A + A', indexInParent : 0, existsInDOM : false } }]); 
+		 	expect(domNode.compare()).toEqual([{ name : 'insertNode', selectorPath : null, content : { html : 'Split Testing', parentSelectorPath : 'HIM#DOMComparisonResult > DIV#footer:first-child > DIV:first-child + A + A + A', indexInParent : 1, existsInDOM : true } }, { name : 'changeText', selectorPath : null, content : { text : 'Paras Chopra |  ', parentSelectorPath : 'HIM#DOMComparisonResult > DIV#footer:first-child', indexInParent : 1 } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > DIV#footer:first-child > DIV:first-child + A + A + A', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > DIV#footer:first-child > DIV:first-child + A + A + A', indexInParent : 0, existsInDOM : false } }]); 
 
 			// Works fine 
 		});
@@ -221,7 +221,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<div class="a"></div>').get(null)})												    		
 		});
 		        		
-		 	expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV#bottom-mid:first-child', content : { class : 'a' } }, { name : 'removeAttr', selectorPath : 'DIV#DOMComparisonResult > DIV#bottom-mid:first-child', content : { id : 'bottom-mid' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
+		 	expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV#bottom-mid:first-child', content : { class : 'a' } }, { name : 'removeAttr', selectorPath : 'HIM#DOMComparisonResult > DIV#bottom-mid:first-child', content : { id : 'bottom-mid' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
 
 		// 	*** for almost different nodes , if the parent structure is same, then works ...... 
 		// 	***  If parent is not same, then typeError or SelectorPath error is shown ... 
@@ -242,7 +242,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		        		
 		// 	expect(domNode.compare()).toEqual('') ;
 
-		// { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > A#tab-p_30345976:first-child', content : { class : 'a' } }, { name : 'removeAttr', selectorPath : 'DIV#DOMComparisonResult > A#tab-p_30345976:first-child', content : { href : '#', data-suid : '30345976', data-b : '_ylt=A2KLtXJObqlTcGEAflGuitIF', id : 'tab-p_30345976' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > A:first-child', indexInParent : 0, existsInDOM : false } }
+		// { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > A#tab-p_30345976:first-child', content : { class : 'a' } }, { name : 'removeAttr', selectorPath : 'HIM#DOMComparisonResult > A#tab-p_30345976:first-child', content : { href : '#', data-suid : '30345976', data-b : '_ylt=A2KLtXJObqlTcGEAflGuitIF', id : 'tab-p_30345976' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > A:first-child', indexInParent : 0, existsInDOM : false } }
 
 		});
 	});
@@ -282,7 +282,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 
 			//expect(domNode.compare()).toEqual('') ;
 			
-			// { name : 'insertNode', selectorPath : null, content : { html : '<span class="world"><b class="wc">World</b><span class="n">Next up</span><span class="n">Costa Rica</span><img src="hi" class="team-icon"><span class="vs">vilan</span><img src="Hi" alt="" class="team-icon"><span class="name">Eng</span></span>', parentSelectorPath : 'DIV#DOMComparisonResult > A:first-child', indexInParent : 0, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > A:first-child', content : { class : 'tab', data-b : 'ylt', id : 'tab' } }
+			// { name : 'insertNode', selectorPath : null, content : { html : '<span class="world"><b class="wc">World</b><span class="n">Next up</span><span class="n">Costa Rica</span><img src="hi" class="team-icon"><span class="vs">vilan</span><img src="Hi" alt="" class="team-icon"><span class="name">Eng</span></span>', parentSelectorPath : 'HIM#DOMComparisonResult > A:first-child', indexInParent : 0, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > A:first-child', content : { class : 'tab', data-b : 'ylt', id : 'tab' } }
 
 		       // Works fine .... 	
 			
@@ -298,7 +298,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<p>Hello Boy</p>').get(null)})
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 0, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : false } } ]) ;
 			// Works fine 
 		
 		});
@@ -313,7 +313,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeA: VWO.DOMNode.create({el:$('<a href="da"><span><span class="name">Eng</span></span></a>').get(null)}), 						
 		nodeB: VWO.DOMNode.create({el:$('<a href="da"><span class="world"><span class="name">Eng</span></span></a>').get(null)}) 						
 		});
-			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > A:first-child > SPAN:first-child', content : { class : 'world' } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > A:first-child > SPAN:first-child', content : { class : 'world' } } ]) ;
 			
 		});
 	});
@@ -347,7 +347,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 
 		});
 
-			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV:first-child > SPAN:first-child', content : { class : 'current' } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child > SPAN:first-child', content : { class : 'current' } } ]) ;
 
 			// 1 letter problem for the other things changed ... 
 			// was not working fine .... now works :D 
@@ -366,7 +366,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<div class="meta            "><div class="buttons"><a class="btn btn-large btn-primary open-gallery" href="#">Open Gallery</a><a class="btn btn-large btn-primary next" href="#">Next</a><a class="btn btn-large btn-primary prev" href="#">Prev</a><span class="slides"><span class="current">1</span><span class="total">9</span></span></div><h2 class="title">The Face of Android Wear</h2><div class="caption"><p>The Motorola Moto 360 is the first Android Wear smartwatch with a round face. And it\'s beautiful.</p></div><div class="credit"></div></div>').get(null)})
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'changeText', selectorPath : null, content : { text : 'The Motorola Moto 360 is the first Android Wear smartwatch with a round face. And it\'s beautiful.', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child > DIV:first-child + H2 + DIV > P:first-child', indexInParent : 0 } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV:first-child > DIV:first-child > A:first-child + A + A', content : { class : 'btn btn-large btn-primary prev' } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'changeText', selectorPath : null, content : { text : 'The Motorola Moto 360 is the first Android Wear smartwatch with a round face. And it\'s beautiful.', parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child > DIV:first-child + H2 + DIV > P:first-child', indexInParent : 0 } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child > DIV:first-child > A:first-child + A + A', content : { class : 'btn btn-large btn-primary prev' } } ]) ;
 
 		});
 	});
@@ -382,7 +382,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 		nodeB: VWO.DOMNode.create({el:$('<div><span class="current">1</span></div>').get(null)})
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'removeAttr', selectorPath : 'DIV#DOMComparisonResult > DIV:first-child', content : { class : 'a' } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'removeAttr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child', content : { class : 'a' } } ]) ;
 
 			// Problems for class removed ... 
 			// Now fixed ..... changes done in string-comparator.js
@@ -403,7 +403,7 @@ nodeB: VWO.DOMNode.create({el:$('<li class="testing fl "><div class="title" styl
 
 		});
 
-		 expect(domNode.compare()).toEqual([  { name : 'insertNode', selectorPath : null, content : { html : '<h3>Himanshu </h3>', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 2, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'Get feedback people on your website', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', content : { class : 'himanshu' } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI > DIV:first-child + DIV', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', indexInParent : 0, existsInDOM : false } }]);
+		 expect(domNode.compare()).toEqual([  { name : 'insertNode', selectorPath : null, content : { html : '<h3>Himanshu </h3>', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 2, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'Get feedback people on your website', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', content : { class : 'himanshu' } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI > DIV:first-child + DIV', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', indexInParent : 0, existsInDOM : false } }]);
 
 		 // Works fine ..... 
 
@@ -459,7 +459,7 @@ nodeB: VWO.DOMNode.create({el:$('<section class="section section-context-sense">
 
 		});
 			
-			 expect(domNode.compare()).toEqual([ { name : 'changeText', selectorPath : null, content : { text : 'Extracts sentiment,concepts and categories from a URL or piece of text. Fetches webpages from the Internet which are perfectly targeted according to context and semantics.', parentSelectorPath : 'DIV#DOMComparisonResult > SECTION:first-child > DIV:first-child > DIV:first-child + DIV > DIV:first-child + P', indexInParent : 0 } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > SECTION:first-child > DIV:first-child > DIV:first-child + DIV > DIV:first-child', content : { class : 'title bigger' } } ]) ;
+			 expect(domNode.compare()).toEqual([ { name : 'changeText', selectorPath : null, content : { text : 'Extracts sentiment,concepts and categories from a URL or piece of text. Fetches webpages from the Internet which are perfectly targeted according to context and semantics.', parentSelectorPath : 'HIM#DOMComparisonResult > SECTION:first-child > DIV:first-child > DIV:first-child + DIV > DIV:first-child + P', indexInParent : 0 } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > SECTION:first-child > DIV:first-child > DIV:first-child + DIV > DIV:first-child', content : { class : 'title bigger' } } ]) ;
 			// Works fine ---  
 
 		});
@@ -478,7 +478,7 @@ nodeA: VWO.DOMNode.create({el:$('<nav class="head_nav"><ul><li><a href="/welcome
 nodeB: VWO.DOMNode.create({el:$('<nav class="head_nav"><ul><li><a href="/welcome" style="color:blue">Home</a></li><li><a href="/home_bolly">Boll</a></li><li><a href="/home_tolly" class="hello">Tollywood</a></li></ul></nav>').get(null)})
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Boll', parentSelectorPath : 'DIV#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child + LI + LI > A:first-child', content : { class : 'hello' } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child > A:first-child', content : { color : 'blue' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'Boll', parentSelectorPath : 'HIM#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child + LI + LI > A:first-child', content : { class : 'hello' } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child > A:first-child', content : { color : 'blue' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > NAV:first-child > UL:first-child > LI:first-child + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
 
 		});
 	});
@@ -497,7 +497,7 @@ nodeB: VWO.DOMNode.create({el:$('<div class="inner"><h2>daily reddit gold goal</
 
 		});
 			
-			expect(domNode.compare()).toEqual([ { name : 'changeText', selectorPath : null, content : { text : 'Yesteay\'s reddit gold goal', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child > H2:first-child + DIV + A + DIV > P:first-child + P + P + P + DIV > P:first-child', indexInParent : 0 } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'changeText', selectorPath : null, content : { text : 'Yesteay\'s reddit gold goal', parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child > H2:first-child + DIV + A + DIV > P:first-child + P + P + P + DIV > P:first-child', indexInParent : 0 } } ]) ;
 
 		});
 	});
@@ -515,7 +515,7 @@ nodeB: VWO.DOMNode.create({el:$('<div by-zero="" class="footer rounded"><div cla
 
 		});
 			
-			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'reddit', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child > DIV:first-child + DIV + DIV + DIV > UL:first-child > LI:first-child + LI + LI + LI + LI + LI > SPAN:first-child + A', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > DIV:first-child > DIV:first-child + DIV + DIV + DIV > UL:first-child', content : { class : 'flat hover' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child > DIV:first-child + DIV + DIV + DIV > UL:first-child > LI:first-child + LI + LI + LI + LI + LI > SPAN:first-child + A', indexInParent : 0, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'reddit', parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child > DIV:first-child + DIV + DIV + DIV > UL:first-child > LI:first-child + LI + LI + LI + LI + LI > SPAN:first-child + A', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child > DIV:first-child + DIV + DIV + DIV > UL:first-child', content : { class : 'flat hover' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > DIV:first-child > DIV:first-child + DIV + DIV + DIV > UL:first-child > LI:first-child + LI + LI + LI + LI + LI > SPAN:first-child + A', indexInParent : 0, existsInDOM : false } } ]) ;
 
 		});
 	});
@@ -531,7 +531,7 @@ nodeB: VWO.DOMNode.create({el:$('<ul class="tabmenu about"><li><a href="http://w
 
 		});
 			
-			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'alien', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child', content : { class : 'tabmenu about' } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', content : { href : 'http://www.reddit.com/about/' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : 'alien', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child', content : { class : 'tabmenu about' } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', content : { href : 'http://www.reddit.com/about/' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
 
 		});
 	});
@@ -546,7 +546,7 @@ nodeA: VWO.DOMNode.create({el:$('<ul class="content"><li><a href="http://www.red
 nodeB: VWO.DOMNode.create({el:$('<ul class="content "><li><a href="http://www.reddit.com/" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair " title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj" style="color:red">316n</a><span class="flair flair-bulb" title="Jai ho"></span><span class="userattrs"></span></li></ul>').get(null)})
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '316n', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child', content : { class : 'content ' } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child > A:first-child', content : { href : 'http://www.reddit.com/' } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child + SPAN', content : { class : 'flair ' } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child + SPAN', content : { title : 'Jai ho' } }, { name : 'css', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '316n', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child', content : { class : 'content ' } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child > A:first-child', content : { href : 'http://www.reddit.com/' } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI > A:first-child + SPAN', content : { class : 'flair ' } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child + SPAN', content : { title : 'Jai ho' } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
 
 		});
 	});
@@ -563,7 +563,7 @@ nodeB: VWO.DOMNode.create({el:$('<ul class="content"><li><a href="http://www.red
 
 		});
 			
-		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '316nuts', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'HEloooooo', parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child + SPAN + SPAN', indexInParent : 0, existsInDOM : true } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', content : { width : '90', href : 'http://www.a.com' } }, { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child + SPAN + SPAN', content : { class : 'Hello' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
+		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '316nuts', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 1, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'HEloooooo', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child + SPAN + SPAN', indexInParent : 0, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', content : { width : '90', href : 'http://www.a.com' } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child + SPAN + SPAN', content : { class : 'Hello' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI + LI + LI + LI + LI + LI + LI + LI > A:first-child', indexInParent : 0, existsInDOM : false } } ]) ;
 
 		});
 	});
@@ -582,7 +582,7 @@ nodeB: VWO.DOMNode.create({el:$('<div>Third</div><ul class="content"></ul>').get
 
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div>Third</div>', parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 0, existsInDOM : true } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div>Third</div>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : true } } ]) ;
 
 		});
 	});
@@ -601,7 +601,7 @@ nodeB: VWO.DOMNode.create({el:$('<ul class="content"></ul><div>Third</div>').get
 
 
 		});
-		 	expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div>Third</div>', parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 1, existsInDOM : true } } ]) ;
+		 	expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div>Third</div>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 1, existsInDOM : true } } ]) ;
 			// Bug Fixing done in string-comparator.js  
 
 		});
@@ -618,29 +618,8 @@ nodeB: VWO.DOMNode.create({el:$('<ul class="content"></ul>').get(null)})
 
 
 		});
-			expect(domNode.compare()).toEqual([ { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 1, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 1, existsInDOM : false } } ]) ;
 			// Bug Fixing done in string-comparator.js  
-
-		});
-	});
-
-
-
-
-
-		describe('method: Compare', function () {
-			it('case 35: compares the dom trees and outputs the final result', function () {
-		var domNode = VWO.DOMComparator.create({
-
-nodeA: VWO.DOMNode.create({el:$('<ul class="content"><li><a href="http://www.reddit.com/user/krispykrackers" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb vwo_1404205657551" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair" title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li></ul>').get(null)}), 
-
-
-nodeB: VWO.DOMNode.create({el:$('<div>First</div><ul class="content"><li><a href="http://www.reddit.com/user/krispykrackers" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb vwo_1404205657551" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair" title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><div>Second</div><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li></ul><div>Third</div>').get(null)})		
-		});
-			
-		expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div>First</div>', parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 0, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<div>Second</div>', parentSelectorPath : 'DIV#DOMComparisonResult > DIV:first-child + UL', indexInParent : 9, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<div>Third</div>', parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 2, existsInDOM : true } } ]) ;
-
-		// Works fine ...... Insertnodes at any places ...... 
 
 		});
 	});
@@ -656,7 +635,7 @@ nodeB: VWO.DOMNode.create({el:$('<div><article id="wo"></article></div>').get(nu
 
 		});
 			
-		expect(domNode.compare()).toEqual([ { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 1, existsInDOM : false } } ]) ;
+		expect(domNode.compare()).toEqual([ { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 1, existsInDOM : false } } ]) ;
 
 		});
 	});
@@ -710,26 +689,48 @@ nodeB: VWO.DOMNode.create({el:$('<footer id="mastfoot"><section class="container
 
 		});
 			
-			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'DIV#DOMComparisonResult > A:first-child + FOOTER#mastfoot > SECTION:first-child > DIV:first-child > SECTION:first-child > DIV:first-child + DIV > ARTICLE:first-child + ARTICLE > UL:first-child > LI:first-child + DIV + LI > A:first-child > IMG:first-child', content : { title : 'twitter', src : 'images/footer/02.png' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'DIV#DOMComparisonResult > FOOTER#mastfoot:first-child > SECTION:first-child > DIV:first-child > SECTION:first-child > DIV:first-child + DIV > ARTICLE:first-child + ARTICLE > UL:first-child', indexInParent : 1, existsInDOM : false } } ]) ;
+			expect(domNode.compare()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > A:first-child + FOOTER#mastfoot > SECTION:first-child > DIV:first-child > SECTION:first-child > DIV:first-child + DIV > ARTICLE:first-child + ARTICLE > UL:first-child > LI:first-child + DIV + LI > A:first-child > IMG:first-child', content : { title : 'twitter', src : 'images/footer/02.png' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : false } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > FOOTER#mastfoot:first-child > SECTION:first-child > DIV:first-child > SECTION:first-child > DIV:first-child + DIV > ARTICLE:first-child + ARTICLE > UL:first-child', indexInParent : 1, existsInDOM : false } } ]) ;
 
 		});
 	});
 
 
+
+
+		// Nice Example of rearrangment .... Showing steps required for the cheges to be done in A to ---> B .... 
+		// A rearragnment should have been shown ... but the steps given are correct .... :D 
+
 		describe('method: Compare', function () {
-			it('case : compares the dom trees and outputs the final result', function () {
+			it('case 40 : compares the dom trees and outputs the final result', function () {
 		var domNode = VWO.DOMComparator.create({
 
-nodeA: VWO.DOMNode.create({el:$('<header class="shadow" id="nav-bar"><div class="constrain"><a href="/" id="logo"><img alt="Desiring God" height="19" src="http://cdn2.desiringgod.org/assets/dg-logo-2x-fb6358b4c19a942b8b769b834b3b2e31.png" width="127"></a><nav id="nav-bar-menus"><ul id="nav-bar-menu-primary"><li class=""><a href="/blog">Blog</a></li><li class=""><a href="/sermons">Sermons</a></li><li class=""><a href="/books">Books</a></li><li class="more"><a href="javascript:;">More<i class="icon-down-notch"></i></a><div class="whitestrip"></div><div class="popup"><div class="browseby"><h2 class="module-title">Browse By</h2><ul><li><a href="/all-resources/by-author">Author</a></li><li><a href="/all-resources/by-scripture">Scripture</a></li><li><a href="/all-resources/by-topic">Topic</a></li><li><a href="/all-resources/by-language">Language</a></li></ul></div><div class="resources"><h2 class="module-title">Resources</h2><ul class="col1"><li><a href="/conference-messages">Conference Messages</a></li><li><a href="/articles">Articles</a></li><li><a href="/biographies">Biographies</a></li></ul><ul class="col2"><li><a href="/seminars">Seminars</a></li><li><a href="/interviews">Interviews</a></li><li><a href="/poems">Poems</a></li></ul></div><div class="other"><h2 class="module-title">Other</h2><ul></ul></div></div></li><li class=""><a href="/events">Events</a></li><li class=""><a href="/about">About</a></li><li class=""><a href="/donate">Donate</a></li></ul></nav></div><ul id="nav-bar-menu-secondary"><li class=""><a href="/events">Events</a></li><li class=""><a href="/about">About</a></li><li class=""><a href="/donate">Donate</a></li></ul><nav id="nav-bar-menu-icons"><ul><li class="search-dropdown-icon hide-search"><a class="icon-search" href="javascript:;"><span>Search</span></a><div class="nav-search"><div class="search-form-holder"><div class="search-form"><form accept-charset="UTF-8" action="/search/results" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div><table class="gsc-search-box"><tbody><tr><td class="gsc-input"><input autocomplete="off" class="textfield" name="q" placeholder="" type="text"></td><td class="gsc-search-button"><input class="button" name="commit" type="submit" value="%"></td></tr></tbody></table></form></div><p class="browseby-links">Or browse by<a href="/all-resources/by-author" class="author">Author</a><span class="author">,</span><a href="/all-resources/by-scripture">Scripture</a>,<a href="/all-resources/by-topic">Topic</a>, or<a href="/all-resources/by-language">Language</a>.</p></div></div></li><li class="mobile-menu-icon"><a class="icon-menu" href="javascript:;"><span>Menu</span></a></li></ul></nav></header>').get(null)}), 
+nodeA: VWO.DOMNode.create({el:$('<div class="a"></div><a>Hello</a>').get(null)}), 
 
-nodeB: VWO.DOMNode.create({el:$('<header class="shadow" id="nav-bar"><div class="constrain"><a href="/" id="logo"><img alt="Desiring God" height="19" src="http://cdn2.desiringgod.org/assets/dg-logo-2x-fb6358b4c19a942b8b769b834b3b2e31.png" width="127"></a><nav id="nav-bar-menus"><ul id="nav-bar-menu-primary"><li class=""><a href="/blog">Blog</a></li><li class=""><a href="/sermons">Sermons</a></li><li class=""><a href="/books">Books</a></li><li class="more"><a href="javascript:;">More<i class="icon-down-notch"></i></a><div class="whitestrip"></div><div class="popup"><div class="browseby"><h2 class="module-title">Browse By</h2><ul><li><a href="/all-resources/by-author">Author</a></li><li><a href="/all-resources/by-scripture">Scripture</a></li><li><a href="/all-resources/by-topic">Topic</a></li><li><a href="/all-resources/by-language">Language</a></li></ul></div><div class="resources"><h2 class="module-title">Resources</h2><ul class="col1"><li><a href="/conference-messages">Conference Messages</a></li><li><a href="/articles">Articles</a></li><li><a href="/biographies">Biographies</a></li></ul><ul class="col2"><li><a href="/seminars">Seminars</a></li><li><a href="/interviews">Interviews</a></li><li><a href="/poems">Poems</a></li></ul></div><div class="other"><h2 class="module-title">Other</h2><ul></ul></div></div></li><li class=""><a href="/events">Events</a></li><li class=""><a href="/about">About</a></li><li class=""><a href="/donate">Donate</a></li></ul></nav></div><ul id="nav-bar-menu-secondary"><li class=""><a href="/events">Events</a></li><li class=""><a href="/about">About</a></li><li class=""><a href="/donate">Donate</a></li></ul><nav id="nav-bar-menu-icons"><ul><li class="search-dropdown-icon hide-search"><a class="icon-search" href="javascript:;"><span>Search</span></a><div class="nav-search"><div class="search-form-holder"><div class="search-form"><form accept-charset="UTF-8" action="/search/results" method="get"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"></div><table class="gsc-search-box"><tbody><tr><td class="gsc-input"><input autocomplete="off" class="textfield" name="q" placeholder="" type="text"></td><td class="gsc-search-button"><input class="button" name="commit" type="submit" value="%"></td></tr></tbody></table></form></div><p class="browseby-links">Or browse by<a href="/all-resources/by-author" class="author">Author</a><span class="author">,</span><a href="/all-resources/by-scripture">Scripture</a>,<a href="/all-resources/by-topic">Topic</a>, or<a href="/all-resources/by-language">Language</a>.</p></div></div></li><li class="menu-icon"><a class="icon-menu" href="javascript:;"><span>Menu</span></a></li></ul></nav></header>').get(null)})
+nodeB: VWO.DOMNode.create({el:$('<a>Hello</a><div class="a"></div><a>Hello</a>').get(null)})
 
 		});
 			
-	 	expect(domNode.compare()).toEqual('') ;
-
+			
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div class="a"></div>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 2, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : '<a>Hello</a>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 3, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : false } } ]) ;
 		});
 	});
+
+
+
+		describe('method: Compare', function () {
+			it('case 41 : compares the dom trees and outputs the final result', function () {
+		var domNode = VWO.DOMComparator.create({
+
+nodeA: VWO.DOMNode.create({el:$('<div class="a"></div><a>Hello</a>').get(null)}), 
+
+nodeB: VWO.DOMNode.create({el:$('<a>Hello</a><div class="a"></div>').get(null)})
+
+		});
+				
+			expect(domNode.compare()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<div class="a"></div>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 2, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : false } } ])
+		});
+	});
+
 
 
 

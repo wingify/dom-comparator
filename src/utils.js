@@ -261,7 +261,7 @@ jQuery_fn.isDescendantOf = function(el) {
  */
 jQuery_fn.outerHTML = function () {
   var $t = $(this), content;
-  if ('outerHTML' in $t[0]) {
+  if ($t[0] && 'outerHTML' in $t[0]) {
     content = '';
     $t.each(function (i) {
       content += this.outerHTML;
