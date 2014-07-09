@@ -33,6 +33,7 @@ VWO.DOMComparator = function (params) {
   this.nodeB = VWO.DOMNodePool.create({
     el: $("<him id='DOMComparisonResult'>" + $(this.elB).outerHTML() + "</him>").get(0)
   });
+  this.elAClone = $("<him id='DOMComparisonResult'>" + $(this.elA).outerHTML() + "</him>").get(0) ; 
 };
 
 VWO.DOMComparator.create = function (params) {
@@ -488,19 +489,18 @@ VWO.DOMComparator.prototype = {
     ];
 
     result = _(result).flatten();
-
+ 
+    console.log(result) ; 
     this.verifyComparison();
 
     result.toJqueryCode = function toJqueryCode() {
       function getActualIndex(parentSelectorPath, indexInParent) {
-        var parentNode = VWO.DOMNode.create({
-          el: self.nodeA.el.parentNode.querySelector(parentSelectorPath) 
+        var parentNode = VWO.DOMNode.create({	  		
+          el: self.elAClone.parentNode.querySelector(parentSelectorPath) 
         });
+	if(indexInParent < 0)
+		return -1 ; 
         var childNode = parentNode.children()[indexInParent];
-	var childs = [] , i , l = parentNode.el.childNodes.length; 
-//	fior(i=0;i<l;i++)
-//		childs[i] = parentNode.el.childNodes[i] ; 
-//	return childs.indexOf(childNode.el) ; 
         return Array.prototype.slice.apply(parentNode.el.childNodes).indexOf(childNode.el);
       }
 
@@ -512,7 +512,10 @@ VWO.DOMComparator.prototype = {
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
             path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
             html = op.content.html;
-            output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
+	    if(index == -1)
+            	output[i] = '$(' + JSON.stringify(path)  + ').append(' + JSON.stringify(html) + ');';
+	    else 			
+            	output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
             break;
           case 'deleteNode':
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
@@ -524,14 +527,16 @@ VWO.DOMComparator.prototype = {
           case 'changeComment':
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
             path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
-            text = op.content.text;
-            output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).text(' + JSON.stringify(text) + ');';
-            break;
+	    text = op.content.text;
+	    output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).remove();';
+	    var ctx = self.elAClone ; 
+	    var $ = function (selector) {
+		    return jQuery(selector, ctx);
+	    };
+	    eval(output[i]) ;
+            output[i] = '$(' + JSON.stringify(path)  + ').append(' + JSON.stringify(text) + ');';
+	    break;
           case 'attr':
-            path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            val = op.content;
-            output[i] = '$(' + JSON.stringify(path) + ').' + op.name + '(' + JSON.stringify(val) + ');';
-            break;
           case 'css':
             path = op.selectorPath.split('DOMComparisonResult > ')[1];
             val = op.content;
@@ -539,28 +544,26 @@ VWO.DOMComparator.prototype = {
             break;
           case 'removeAttr':
             path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            attr = op.content;
+            attr = Object.keys(op.content);
             output[i] = '$(' + JSON.stringify(path) + ')' + attr.map(function (attr) {
               return '.removeAttr(' + JSON.stringify(attr) + ')';
             }).join('') + ';';
             break;
           case 'removeCss':
             path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            css = op.content;
+            css = Object.keys(op.content);
             output[i] = '$(' + JSON.stringify(path) + ')' + css.map(function (css) {
               return '.css(' + JSON.stringify(css) + ', "")';
             }).join('') + ';';
             break;
         }
-	console.log(output) ; 
-        output.evalForContext = function (ctx) {
-          var $ = function (selector) {
-            return jQuery(selector, ctx);
-          };
-          eval(this.join(''));
-        }
+	var ctx = self.elAClone ; 
+	var $ = function (selector) {
+	return jQuery(selector, ctx);
+	};
+	eval(output[i]) ;
       }
-        return output;
+        return self.elAClone;
     };
     return result;
   }
