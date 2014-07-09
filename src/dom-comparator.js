@@ -480,12 +480,12 @@ VWO.DOMComparator.prototype = {
     this.analyzeMatches();
 
     var result = [
+      this.detectRearranges(),
       this.detectInserts(),
       this.detectTextNodeChanges(),
       this.detectAttributeChanges(),
       this.detectStyleChanges(),
-      this.detectRemoves(),
-      this.detectRearranges()
+      this.detectRemoves()
     ];
 
     result = _(result).flatten();

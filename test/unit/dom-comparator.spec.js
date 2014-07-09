@@ -101,7 +101,7 @@ describe('module: DOMNode-Comparator', function () {
 			it('case 6:compares the dom trees and outputs the final result', function () {
 
 
-		var el1 = $('<ul><li>ITEM2</li><li>ITEM3</li><li>ITEM4</li><li>ITEM5</li></ul>').get(0) ; 
+		var el1 = $('<ul><li>ITEM1</li><li>ITEM4</li><li>ITEM3</li><li>ITEM2</li><li>ITEM5</li></ul>').get(0) ; 
 		var el2 = $('<ul><li>ITEM1</li><li>ITEM2</li><li>ITEM3</li><li>ITEM4</li><li>ITEM5</li></ul>').get(0) ; 
 
 		var domComparator = VWO.DOMComparator.create({
@@ -109,10 +109,7 @@ describe('module: DOMNode-Comparator', function () {
 		elB : el2 
 		}) ; 
 
-
-		var ret = domComparator.compare().toJqueryCode() ;
-		var output = ret.outerHTML.toString().split('</him')[0].split('DOMComparisonResult">')[1]
-		expect(output).toEqual(el2.outerHTML) ; 
+		expect(domComparator.compare()).toEqual();
 		});
 		
 	});
@@ -157,9 +154,102 @@ describe('module: DOMNode-Comparator', function () {
 		
 	});
 
-		/*
 		describe('method: Compare', function () {
-			it('case 3:compares the dom trees and outputs the final result', function () {
+			it('case 9:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<nav class="head_nav"><ul><li><a href="/welcome">Home</a></li><li><a href="/home_bolly">Bollywood</a></li><li><a href="/home_tolly">Tollywood</a></li></ul></nav>').get(0) ; 
+		var el2 = $('<nav class="head_nav"><ul><li><a href="/welcome" style="color: blue;">Home</a></li><li><a href="/home_bolly">Boll</a></li><li><a href="/home_tolly" class="hello">Tollywood</a></li></ul></nav>').get(0) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+
+		var ret = domComparator.compare().toJqueryCode() ;
+		var output = ret.outerHTML.toString().split('</him')[0].split('DOMComparisonResult">')[1]
+		expect(output).toEqual(el2.outerHTML) ; 
+		});
+		
+	});
+
+		describe('method: Compare', function () {
+			it('case 10:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<ul><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li></ul>').get(0) ; 
+		var el2 = $('<ul><li style="color: red;"><a href="http://www.a.com" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="Hello">HEloooooo</span></li></ul>').get(0) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+		
+		var ret = domComparator.compare().toJqueryCode() ;
+		var output = ret.outerHTML.toString().split('</him')[0].split('DOMComparisonResult">')[1]
+		expect(output).toEqual(el2.outerHTML) ; 
+		});
+		
+	});
+
+
+		describe('method: Compare', function () {
+			it('case 11:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div><p>T1</p><p>T2</p></div>').get(null) ; 
+		var el2 = $('<div><p>T2</p><p>T1</p></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		expect(domComparator.compare()).toEqual();
+			
+		});
+	});
+
+
+		describe('method: Compare', function () {
+			it('case 12:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div><a>T1</a><p>T2</p></div>').get(null) ; 
+		var el2 = $('<div><p>T2</p><a>T1</a></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		expect(domComparator.compare()).toEqual();
+			
+		});
+	});
+
+		describe('method: Compare', function () {
+			it('case 13:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<ul class="features-list"><li class="testingfl"><div class="titlemediumbold">Testing</div><div class="text">Easily run A/B tests on your website</div></li><li class="heatmapsfr"><div class="titlemediumbold">Heatmaps</div><div class="text">Track visitors click behavior</div></li><div class="clr"></div><li class="personalizationfl"><div class="titlemediumbold">Personalization</div><div class="text">Show targeted offers to visitors</div></li><li class="user-insightsfr"><div class="titlemediumbold">User Insights</div><div class="text">Get feedback from people on your website</div></li><div class="clr"></div></ul>').get(null) ; 
+		var el2 = $('<ul class="features-list"><li class="testingfl"><div class="titlemediumbold">Testing</div><div class="text">Easily run A/B tests on your website</div></li><li class="heatmapsfr"><div class="titlemediumbold">Heatmaps</div><div class="text">Track visitors click behavior</div></li><div class="clr"></div><li class="personalizationfl"><div class="titlemediumbold">Personalization</div><div class="text">Show targeted offers to visitors</div></li><li class="user-insightsfr"><div class="text">Get feedback from people on your website</div><div class="titlemediumbold">User Insights</div></li><div class="clr"></div></ul>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		expect(domComparator.compare()).toEqual();
+			
+		});
+	});
+
+
+/*
+		describe('method: Compare', function () {
+			it('case :compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('').get(0) ; 
@@ -175,8 +265,9 @@ describe('module: DOMNode-Comparator', function () {
 		var output = ret.outerHTML.toString().split('</him')[0].split('DOMComparisonResult">')[1]
 		expect(output).toEqual(el2.outerHTML) ; 
 		});
-		
 	});
 
-	*/
+
+*/
+
 })

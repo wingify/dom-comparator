@@ -229,12 +229,59 @@ VWO.DOMMatchFinder.prototype = {
         var indexInStringInA, indexInStringInB;
         var matchInA, matchInB;
 
+	
+	var valA = [] , valB = [];
+	var len_A = stringA.length , len_B = stringB.length ; 
+	var c1 , c2 , co = 1 , f = 0 ;
+	valA[0] = 0 ; 
+	for(i=0;i<len_A;i++)
+	{
+		c1 = stringA[i];
+		c2 = c1.charCodeAt(0);
+		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32)
+		{
+			if(f)
+			{
+				valA[co] = i; 
+				co = co + 1 ; 
+				f = 0 ; 
+			}
+			continue ;
+		}
+		else
+			f = 1 ; 
+	}
+	
+	f = 0 ; co = 1 ; 
+	valB[0] = 0 ; 
+	for(i=0;i<len_B;i++)
+	{
+		c1 = stringB[i];
+		c2 = c1.charCodeAt(0);
+		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32)
+		{
+			if(f)
+			{
+				valB[co] = i; 
+				co = co + 1 ; 
+				f = 0 ; 
+			}
+			continue ;
+		}
+		else
+			f = 1 ; 
+	}
+
+	
+
+
         for (j = 0; j < innerResult.diffUnion.length; j++) {
           var innerDiff = innerResult.diffUnion[j];
           if (innerDiff.indexInA >= 0) {
             matchInA = splitOnRegExpA.exec(stringInStringInA);
             if (matchInA) {
-              indexInStringInA = splitOnRegExpA.lastIndex - matchInA[0].length - innerDiff.string.length;
+         //     indexInStringInA = splitOnRegExpA.lastIndex - matchInA[0].length - innerDiff.string.length;
+		indexInStringInA =  valA[innerDiff.indexInA] ;  
             } else {
               indexInStringInA = stringInStringInA.length - innerDiff.string.length;
             }
@@ -242,7 +289,8 @@ VWO.DOMMatchFinder.prototype = {
           if (innerDiff.indexInB >= 0) {
             matchInB = splitOnRegExpB.exec(stringInStringInB);
             if (matchInB) {
-              indexInStringInB = splitOnRegExpB.lastIndex - matchInB[0].length - innerDiff.string.length;
+             // indexInStringInB = splitOnRegExpB.lastIndex - matchInB[0].length - innerDiff.string.length;
+	      indexInStringInB =  valB[innerDiff.indexInB] ;  
             } else {
               indexInStringInB = stringInStringInB.length - innerDiff.string.length;
             }
@@ -263,6 +311,7 @@ VWO.DOMMatchFinder.prototype = {
 
         if (matchRatio > 3 / stringInStringInB.length) { // good match
           stringsLastAddedInB.shift();
+
 
           for (j = 0; j < unchangedRanges.length; j++) {
             var rangeInA = unchangedRanges[j].rangeInA;
