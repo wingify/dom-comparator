@@ -131,6 +131,8 @@ VWO.DOMMatchFinder.prototype = {
     var result = VWO.StringComparator.create({
       stringA: stringA,
       stringB: stringB,
+      matchA :  {} , 
+      matchB : {} , 
       splitOn: splitOn
     }).compare();
 
@@ -213,23 +215,8 @@ VWO.DOMMatchFinder.prototype = {
         indexInA = diff.indexInA;
         indexInB = stringsLastAddedInB[0].indexInB;
 
-        var splitOnRegExpA = /[^a-z0-9_ \r\n]+/gi;
-        var splitOnRegExpB = /[^a-z0-9_ \r\n]+/gi;
+	// for storing index .. which node at which place after regex ... 
 
-        var innerResult = VWO.StringComparator.create({
-          stringA: stringInStringInA,
-          stringB: stringInStringInB,
-          splitOn: /[^a-z0-9_ \r\n]+/gi
-        }).compare();
-
-        console.log(innerResult);
-
-        var matchRatio = 0;
-        var unchangedRanges = [];
-        var indexInStringInA, indexInStringInB;
-        var matchInA, matchInB;
-
-	
 	var valA = [] , valB = [];
 	var len_A = stringA.length , len_B = stringB.length ; 
 	var c1 , c2 , co = 1 , f = 0 ;
@@ -271,6 +258,106 @@ VWO.DOMMatchFinder.prototype = {
 		else
 			f = 1 ; 
 	}
+//   stroing index done .... 
+
+
+	// matching the exact indexes  .... 
+
+
+	var p = this.nodeA.children()[0] ; 
+	var num_childs = p.children().length ; 
+	var sA , sB , indA, indB ;  
+	var matching = [] ; 
+	for(i=0;i<num_childs;i++)
+	{
+		sA = p.children()[i].el.outerHTML ; 
+		indB = stringB.indexOf(sA) ; 
+		if(indB != -1)
+		{
+			matching.push({
+				InA: [stringA.indexOf(sA), stringA.indexOf(sA) + sA.length],
+				InB: [stringB.indexOf(sA) , stringB.indexOf(sA) + sA.length]
+				});
+		}
+	}	
+
+	var matching_len = matching.length ; 
+	var st , en , j , flag = 0 ;
+	var indexA1 , indexA2 , indexB1 , indexB2;
+	var matchesInA = {} , matchesInB = {} ; 
+	for(i=0;i<matching_len;i++)
+	{	
+		// For A 
+		st = matching[i].InA[0] ; 
+		for(j=0;j<valA.length;j++)
+		{
+			if(valA[j] > st)
+			{
+				indexA1 = j ; 
+				break ; 
+			}
+		}
+		en = matching[i].InA[1] ; 
+		for(j=0;j<valA.length;j++)
+		{
+			if(valA[j] > en)
+			{
+				indexA2 = j - 1 ; 
+				break ; 
+			}
+		}
+
+		// for B 
+		st = matching[i].InB[0] ; 
+		for(j=0;j<valB.length;j++)
+		{
+			if(valB[j] > st)
+			{
+				indexB1 = j ; 
+				break ; 
+			}
+		}
+		en = matching[i].InB[1] ; 
+		for(j=0;j<valB.length;j++)
+		{
+			if(valB[j] > en)
+			{
+				indexB2 = j - 1 ; 
+				break ; 
+			}
+		}
+
+		// Storing the indexes .... 
+		var lo = indexA2 - indexA1 + 1; 
+		for(j=0;j<lo;j++)
+		{
+			matchesInA[indexA1] = indexB1 ; 
+			matchesInB[indexB1] = indexA1 ; 
+			indexA1++ ; indexB1++ ; 
+		}
+	}
+
+	
+
+        var splitOnRegExpA = /[^a-z0-9_ \r\n]+/gi;
+        var splitOnRegExpB = /[^a-z0-9_ \r\n]+/gi;
+
+        var innerResult = VWO.StringComparator.create({
+          stringA: stringInStringInA,
+          stringB: stringInStringInB,
+	  matchA: matchesInA , 
+	  matchB: matchesInB,
+          splitOn: /[^a-z0-9_ \r\n]+/gi
+        }).compare();
+
+        console.log(innerResult);
+
+        var matchRatio = 0;
+        var unchangedRanges = [];
+        var indexInStringInA, indexInStringInB;
+        var matchInA, matchInB;
+
+	
 
 	
 

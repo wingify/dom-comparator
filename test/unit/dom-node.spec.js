@@ -80,4 +80,21 @@ el: $('<div class="a" style=color:blue> <div class="b" style=color:red><span>spa
 
 		});
 	});
+
+
+	describe('method: Children', function () {
+		it('Children details', function () {
+			var domNode = VWO.DOMNode.create({
+			el: $('<ul><p>IT1</p><li>IT12</li></ul>').get(0)
+			});
+
+			expect(domNode.children().length).toBe(2);
+			expect(domNode.children()[0].outerHTML()).toBe('<p>IT1</p>');
+			expect(domNode.children()[1].outerHTML()).toBe('<li>IT12</li>');
+
+
+		});
+	});
+
+
 })

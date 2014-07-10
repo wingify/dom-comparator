@@ -131,9 +131,11 @@ VWO.StringComparator.prototype = {
       stringB = this.stringB;
 
 	
+ //   var matchesInA = {},
+  //    matchesInB = {};
 
-    var matchesInA = {},
-      matchesInB = {};
+   var matchesInA = this.matchA,
+      matchesInB = this.matchB;
 
     var stringsInA = stringA.split(this.splitOn),
       stringsInB = stringB.split(this.splitOn);
@@ -172,10 +174,13 @@ VWO.StringComparator.prototype = {
 
 
 	// While loop used for the rearranged parts 
+
+	 /* 
+
           while (prevMatch) {
             if (prevMatch.to > indexInB) {
-  //            delete matchesInA[prevMatch.from];
-    //          delete matchesInB[prevMatch.to];
+            delete matchesInA[prevMatch.from];
+              delete matchesInB[prevMatch.to];
               prevMatch.next = match;
               match = prevMatch;
             }
@@ -187,6 +192,7 @@ VWO.StringComparator.prototype = {
           match.next = {};
           match.next.prev = match;
           match = match.next;
+	*/
           matchesInA[indexInA] = indexInB;
           matchesInB[indexInB] = indexInA;
           break;
