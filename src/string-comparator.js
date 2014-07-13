@@ -131,11 +131,11 @@ VWO.StringComparator.prototype = {
       stringB = this.stringB;
 
 	
- //   var matchesInA = {},
-  //    matchesInB = {};
+    var matchesInA1 = {},
+     matchesInB1 = {};
 
-   var matchesInA = this.matchA,
-      matchesInB = this.matchB;
+   var matchesInA2 = this.matchA,
+      matchesInB2 = this.matchB;
 
     var stringsInA = stringA.split(this.splitOn),
       stringsInB = stringB.split(this.splitOn);
@@ -144,10 +144,13 @@ VWO.StringComparator.prototype = {
     this.stringsInB = stringsInB;
 
     for (indexInA = 0, countOfStringsInA = stringsInA.length; indexInA < countOfStringsInA; indexInA++) {
+	    if(matchesInA2[indexInA])
+		    continue ; 
       for (indexInB = 0, countOfStringsInB = stringsInB.length; indexInB < countOfStringsInB; indexInB++) {
         if (stringsInA[indexInA] === stringsInB[indexInB]) 
 	{
-          if (typeof matchesInB[indexInB] === 'number') continue;
+          if (typeof matchesInB1[indexInB] === 'number' || typeof matchesInB2[indexInB] === 'number') 
+		  continue;
 
 	  // fix for div name added in last ..... see test cases 33 and 34 for this .... in dom-comparator.js ..... 
 	  if (stringsInA[indexInA] == 'div' && stringsInB[indexInB] == 'div')
@@ -163,42 +166,65 @@ VWO.StringComparator.prototype = {
 	  // fix done 	
 
 
-	  // Fix for 'if new class name is added' ... 
 	  var prevMatch = match.prev;
+
+	  // Fix for 'if new class name is added' ... 
 	  if(prevMatch)
 	  {
-	  if(prevMatch.to > indexInB && stringsInB[indexInB] == 'div')
+	  if(prevMatch.to > indexInB)
 		  continue ; 
 	  }
 	 // Fix done 
 
 
+
 	// While loop used for the rearranged parts 
-
-	 /* 
-
-          while (prevMatch) {
+ /*         while (prevMatch) {
             if (prevMatch.to > indexInB) {
-            delete matchesInA[prevMatch.from];
-              delete matchesInB[prevMatch.to];
+            delete matchesInA1[prevMatch.from];
+              delete matchesInB1[prevMatch.to];
               prevMatch.next = match;
               match = prevMatch;
             }
             prevMatch = prevMatch.prev;
           }
-
+	 */ 
           match.from = indexInA;
           match.to = indexInB;
           match.next = {};
           match.next.prev = match;
           match = match.next;
-	*/
-          matchesInA[indexInA] = indexInB;
-          matchesInB[indexInB] = indexInA;
+          matchesInA1[indexInA] = indexInB;
+          matchesInB1[indexInB] = indexInA;
           break;
         }
       }
     }
+
+
+    var matchesInA = {} , matchesInB = {} ; 
+
+    var i, j ; 
+    for(i=0, lA = this.couA; i < lA ; i++)	
+    {	
+	    if(typeof (matchesInA1[i]) === 'number')
+		    matchesInA[i] = matchesInA1[i] ; 
+
+	    if(typeof (matchesInA2[i]) === 'number')
+		    matchesInA[i] = matchesInA2[i] ; 
+
+    }
+
+    for(j = 0,  lB = this.couB ; j < lB ;j++)
+    {
+
+	    if(typeof (matchesInB1[j]) === 'number')
+		    matchesInB[j] = matchesInB1[j] ; 
+	    if(typeof (matchesInB2[j]) === 'number')
+		    matchesInB[j] = matchesInB2[j] ; 
+    }
+
+
 
     var lastMatchIndexInB = -1;
 

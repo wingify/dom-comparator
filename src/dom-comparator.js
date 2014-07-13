@@ -466,6 +466,7 @@ VWO.DOMComparator.prototype = {
    */
   verifyComparison: function () {
     console.log('comparison successful: ' + this.nodeA.equals(this.nodeB));
+    return this.nodeA.equals(this.nodeB) ; 
   },
 
   /**
@@ -480,12 +481,12 @@ VWO.DOMComparator.prototype = {
     this.analyzeMatches();
 
     var result = [
-      this.detectInserts(),
-      this.detectTextNodeChanges(),
-      this.detectAttributeChanges(),
-      this.detectStyleChanges(),
-      this.detectRemoves(), 
-      this.detectRearranges() 
+	    this.detectInserts(),
+	    this.detectTextNodeChanges(),
+	    this.detectAttributeChanges(),
+	    this.detectStyleChanges(),
+	    this.detectRemoves(),
+	    this.detectRearranges() 
     ];
 
     result = _(result).flatten();
@@ -504,7 +505,7 @@ VWO.DOMComparator.prototype = {
         return Array.prototype.slice.apply(parentNode.el.childNodes).indexOf(childNode.el);
       }
 
-      var output = [], index, path, html, text, val, attr, css;
+      var output = [], index, path, html, text, val, attr, css, index1, index2, path1, path2;
       for (var i = 0, l = this.length; i < l; i++) {
         var op = this[i];
         switch (op.name) {
@@ -517,6 +518,18 @@ VWO.DOMComparator.prototype = {
 	    else 			
             	output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
             break;
+	 /*   
+	  case  'rearrange' : 
+            index1 = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
+            index2 = getActualIndex(op.content.oldParentSelectorPath, op.content.oldIndexInParent);
+            path1 = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+            path2 = op.content.oldParentSelectorPath.split('DOMComparisonResult > ')[1];
+	    var node = '$(' + path2 + ').get(0).childNodes[' + index2 + ']';
+	    if(index1 == -1)
+            	output[i] = '$(' + JSON.stringify(path1)  + ').append(' + node + ');';
+	    else 			
+            	output[i] = '$($(' + JSON.stringify(path1)  + ').get(0).childNodes[' + index1 + ']).after(' + node + ');';
+	 */ 
           case 'deleteNode':
             index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
             path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];

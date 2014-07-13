@@ -128,11 +128,15 @@ VWO.DOMMatchFinder.prototype = {
       return i < 10 ? " " + i : i.toString();
     };
 
+    var couA = 0 , couB = 0 ; 
+
     var result = VWO.StringComparator.create({
       stringA: stringA,
       stringB: stringB,
       matchA :  {} , 
       matchB : {} , 
+      couA : 0 , 
+      couB : 0 , 
       splitOn: splitOn
     }).compare();
 
@@ -225,7 +229,7 @@ VWO.DOMMatchFinder.prototype = {
 	{
 		c1 = stringA[i];
 		c2 = c1.charCodeAt(0);
-		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32)
+		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32 || c2 == 95)
 		{
 			if(f)
 			{
@@ -238,14 +242,15 @@ VWO.DOMMatchFinder.prototype = {
 		else
 			f = 1 ; 
 	}
-	
+
+        couA = co  ; 	
 	f = 0 ; co = 1 ; 
 	valB[0] = 0 ; 
 	for(i=0;i<len_B;i++)
 	{
 		c1 = stringB[i];
 		c2 = c1.charCodeAt(0);
-		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32)
+		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32 || c2 == 95)
 		{
 			if(f)
 			{
@@ -258,19 +263,29 @@ VWO.DOMMatchFinder.prototype = {
 		else
 			f = 1 ; 
 	}
-//   stroing index done .... 
+	couB = co ; 
+	//  stroing index done .... 
 
+
+	
 
 	// matching the exact indexes  .... 
 
-
-	var p = this.nodeA.children()[0] ; 
+	var p = this.nodeA ; 
 	var num_childs = p.children().length ; 
 	var sA , sB , indA, indB ;  
-	var matching = [] ; 
-	for(i=0;i<num_childs;i++)
+	var matchesInA = {} , matchesInB = {} ; 
+
+
+	var rec = function (num_childs,p) {
+	
+	if(num_childs == 0)
+		return ; 
+	var x ; 	
+	for(x=0;x<num_childs;x++)
 	{
-		sA = p.children()[i].el.outerHTML ; 
+		var matching = [] ; 
+		sA = p.children()[x].el.outerHTML ; 
 		indB = stringB.indexOf(sA) ; 
 		if(indB != -1)
 		{
@@ -278,65 +293,75 @@ VWO.DOMMatchFinder.prototype = {
 				InA: [stringA.indexOf(sA), stringA.indexOf(sA) + sA.length],
 				InB: [stringB.indexOf(sA) , stringB.indexOf(sA) + sA.length]
 				});
-		}
-	}	
+		
+		var matching_len = matching.length ; 
+		var st , en , j , flag = 0 ;
+		var indexA1 , indexA2 , indexB1 , indexB2;
+		for(i=0;i<matching_len;i++)
+		{	
+			// For A 
+			st = matching[i].InA[0] ; 
+			for(j=0;j<valA.length;j++)
+			{
+				if(valA[j] > st)
+				{
+					indexA1 = j ; 
+					break ; 
+				}
+			}
+			en = matching[i].InA[1] ; 
+			for(j=0;j<valA.length;j++)
+			{
+				if(valA[j] > en)
+				{
+					indexA2 = j - 1 ; 
+					break ; 
+				}
+			}
 
-	var matching_len = matching.length ; 
-	var st , en , j , flag = 0 ;
-	var indexA1 , indexA2 , indexB1 , indexB2;
-	var matchesInA = {} , matchesInB = {} ; 
-	for(i=0;i<matching_len;i++)
-	{	
-		// For A 
-		st = matching[i].InA[0] ; 
-		for(j=0;j<valA.length;j++)
-		{
-			if(valA[j] > st)
+			// for B 
+			st = matching[i].InB[0] ; 
+			for(j=0;j<valB.length;j++)
 			{
-				indexA1 = j ; 
-				break ; 
+				if(valB[j] > st)
+				{
+					indexB1 = j ; 
+					break ; 
+				}
 			}
-		}
-		en = matching[i].InA[1] ; 
-		for(j=0;j<valA.length;j++)
-		{
-			if(valA[j] > en)
+			en = matching[i].InB[1] ; 
+			for(j=0;j<valB.length;j++)
 			{
-				indexA2 = j - 1 ; 
-				break ; 
+				if(valB[j] > en)
+				{
+					indexB2 = j - 1 ; 
+					break ; 
+				}
 			}
-		}
 
-		// for B 
-		st = matching[i].InB[0] ; 
-		for(j=0;j<valB.length;j++)
-		{
-			if(valB[j] > st)
+			// Storing the indexes .... 
+			var lo = indexA2 - indexA1 + 1; 
+			for(j=0;j<lo;j++)
 			{
-				indexB1 = j ; 
-				break ; 
+				matchesInA[indexA1] = indexB1 ; 
+				matchesInB[indexB1] = indexA1 ; 
+				indexA1++ ; indexB1++ ; 
 			}
 		}
-		en = matching[i].InB[1] ; 
-		for(j=0;j<valB.length;j++)
-		{
-			if(valB[j] > en)
-			{
-				indexB2 = j - 1 ; 
-				break ; 
-			}
+		
+		continue ; 
+		
 		}
+		
 
-		// Storing the indexes .... 
-		var lo = indexA2 - indexA1 + 1; 
-		for(j=0;j<lo;j++)
-		{
-			matchesInA[indexA1] = indexB1 ; 
-			matchesInB[indexB1] = indexA1 ; 
-			indexA1++ ; indexB1++ ; 
-		}
+		rec(p.children()[x].children().length , p.children()[x]) ; 
 	}
+};
 
+
+	rec(num_childs,p) ; 
+
+	// matching exact indices done .... 
 	
 
         var splitOnRegExpA = /[^a-z0-9_ \r\n]+/gi;
@@ -347,6 +372,8 @@ VWO.DOMMatchFinder.prototype = {
           stringB: stringInStringInB,
 	  matchA: matchesInA , 
 	  matchB: matchesInB,
+	  couA : couA , 
+	  couB : couB ,
           splitOn: /[^a-z0-9_ \r\n]+/gi
         }).compare();
 
