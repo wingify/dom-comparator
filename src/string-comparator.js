@@ -205,7 +205,7 @@ VWO.StringComparator.prototype = {
     var matchesInA = {} , matchesInB = {} ; 
 
     var i, j ; 
-    for(i=0, lA = this.couA; i < lA ; i++)	
+    for(i=0, lA = this.couA; i < (lA+1) ; i++)	
     {	
 	    if(typeof (matchesInA1[i]) === 'number')
 		    matchesInA[i] = matchesInA1[i] ; 
@@ -215,7 +215,7 @@ VWO.StringComparator.prototype = {
 
     }
 
-    for(j = 0,  lB = this.couB ; j < lB ;j++)
+    for(j = 0,  lB = this.couB ; j < (lB+1) ;j++)
     {
 
 	    if(typeof (matchesInB1[j]) === 'number')

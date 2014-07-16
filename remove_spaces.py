@@ -6,31 +6,26 @@ a = """
 
 
 
-<div id="login-form">
-<div class="box-inner">
 
-<form name="form" action="./" method="post">
-<input type="hidden" name="_task" value="login"><input type="hidden" name="_action" value="login"><input type="hidden" name="_timezone" id="rcmlogintz" value="_default_"><input type="hidden" name="_dstactive" id="rcmlogindst" value="_default_"><input type="hidden" name="_url" id="rcmloginurl" value=""><table><tbody><tr><td class="title"><label for="rcmloginuser">Username</label>
-</td>
-<td class="input"><input name="_user" id="rcmloginuser" size="40" autocapitalize="off" type="text"></td>
-</tr>
-<tr><td class="title"><label for="rcmloginpwd">Password</label>
-</td>
-<td class="input"><input name="_pass" id="rcmloginpwd" size="40" autocapitalize="off" type="password"></td>
-</tr>
-</tbody>
-</table>
 
-NICE
-<p class="formbuttons"><input type="submit" class="button mainaction" value="Login" /></p>
+<ul>
 
-</form>
-</div>
 
-<img src="skins/larry/images/IIIT_logo.png" id="logo" border="0" alt="Students Mail Server">
-<div class="box-bottom" style="color:red;">
-<div id="m"></div>
-</div>
+<li>2</li>
+
+<li>Jai ho</li>
+<li>4</li>
+
+<li>5</li>
+
+<li>HImanshu</li>
+</ul>
+<li>1</li>
+
+
+
+
+
 
 
 
