@@ -27,14 +27,73 @@ VWO.DOMComparator = function (params) {
   // Wrapping method changed ... since matching with the end "div " gives choas ... 
   // See test case 41 as reference .... 
 
+
+  var outA = stripNodes($(this.elA).outerHTML()) ; 
+  var outB = stripNodes($(this.elB).outerHTML()) ; 
+
   this.nodeA = VWO.DOMNodePool.create({
-    el: $("<him id='DOMComparisonResult'>" + $(this.elA).outerHTML() + "</him>").get(0)
+    el: $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0)
   });
   this.nodeB = VWO.DOMNodePool.create({
-    el: $("<him id='DOMComparisonResult'>" + $(this.elB).outerHTML() + "</him>").get(0)
+    el: $("<him id='DOMComparisonResult'>" + outB + "</him>").get(0)
   });
-  this.elAClone = $("<him id='DOMComparisonResult'>" + $(this.elA).outerHTML() + "</him>").get(0) ; 
+  this.elAClone = $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0) ; 
 };
+
+  function stripNodes(node)
+  {
+	  var ans = node.replace(/(\r\n|\n|\r)/gm,"");
+	  var out = '', l = ans.length, i = 0 ;
+		  while(i < l)
+		  {
+			  if(ans[i] == '"')
+			  {
+				  out += ans[i]; 
+				  while(1)
+				  {
+					  i = i + 1 ; 
+					  if(ans[i] == '"')
+					  {
+						  out += ans[i] ; 
+						  break ; 
+					  }
+					  if((i+1) < l && ans[i+1] == "'")
+					  {
+						  out += ans[i] ;
+						  out += '\\' ; 
+						  continue ; 
+					  }
+					  if(ans[i] == ' ')
+					  {
+						  if(ans[i+1].isAlpha)
+						  {
+							  out += ans[i] ; 
+							  continue ; 
+						  }
+						  else
+							  continue ; 
+					  }
+
+					  out += ans[i] ; 
+				  }
+			  }
+		
+			  else
+			  {
+				if((i+1) < l && ans[i+1] == "'")
+				{
+					out += ans[i] ; 
+					out += '\\' ; 
+				}
+				else
+					out += ans[i] ; 
+			  }
+			i = i + 1 ; 
+		  }
+
+		  return out ; 
+  }; 
+
 
 VWO.DOMComparator.create = function (params) {
   return new VWO.DOMComparator(params);
@@ -60,6 +119,8 @@ VWO.DOMComparator.prototype = {
    * the second tree, additional properties 'matchScore' and
    * 'matchDifference' are also set.
    */
+
+
   analyzeMatches: function () {
     var matches = VWO.DOMMatchFinder.create({
       nodeA: this.nodeA,
@@ -451,6 +512,7 @@ VWO.DOMComparator.prototype = {
         // a text node could also be removed
         selectorPath: null,
         content: {
+          html: node.outerHTML(),
           parentSelectorPath: parentSelectorPath,
           indexInParent: indexInParent,
           existsInDOM: false

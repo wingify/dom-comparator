@@ -7,23 +7,15 @@ a = """
 
 
 
-
-<ul>
-
-
-<li>2</li>
-
-<li>Jai ho</li>
-<li>4</li>
-
-<li>5</li>
-
-<li>HImanshu</li>
+<div style="display: block;">
+<ul class="navigation vwo_1405423029796" style="cursor: auto; display: block;">
+<li><a href="/about">Our Team</a></li>
+<li><a href="/careers">Careers</a></li>
+<li><a href="/labs">Labs</a></li>
+<li class="trigger-contact"><a href="/contact" class="">Contact Us</a></li>
 </ul>
-<li>1</li>
-
-
-
+<div class="clear" style="color: red;">CHANGED TEXT</div>
+</div>
 
 
 

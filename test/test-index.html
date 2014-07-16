@@ -48,22 +48,33 @@ $(document).ready(function() {
   $(".compare").click(function() {
     VWO.DOMNodePool.clear();
 
+  /*  
     window.dom1 = VWO.DOMNodePool.create({
       el: $($('.txt1').val()).get(null)
     });
     window.dom2 = VWO.DOMNodePool.create({
       el: $($('.txt2').val()).get(null)
     });
+   */
+
+    window.el1 = $($('.txt1').val()).get(null) ; 
+    window.el2 = $($('.txt2').val()).get(null) ; 
 
     localStorage.setItem('txt1Val', $('.txt1').val());
     localStorage.setItem('txt2Val', $('.txt2').val());
 
-    var comp = VWO.DOMComparator.create({
-      nodeA: dom1,
-      nodeB: dom2
+    var domComparator = VWO.DOMComparator.create({
+      elA: el1 ,
+      elB: el2
     });
 
-    comp.compare();
+    var ret = domComparator.compare();
+    //alert(JSON.stringify(ret));
+    document.getElementById('output').value = JSON.stringify(ret) ; 
+
+    var res = domComparator.verifyComparison()
+    alert(res) ;
+
   });
 });
 </script>
@@ -104,6 +115,11 @@ $(document).ready(function() {
 </textarea>
 <br/>
 <button class="compare">Compare</button>
+
+
+<textarea id="output">
+</textarea>
+
 
 
 </body>
