@@ -155,11 +155,11 @@ VWO.StringComparator.prototype = {
 	  // fix for div name added in last ..... see test cases 33 and 34 for this .... in dom-comparator.js ..... 
 	  if (stringsInA[indexInA] == 'div' && stringsInB[indexInB] == 'div')
 	  {
-		  if(indexInA == (countOfStringsInA-2) || indexInB == (countOfStringsInB-2)) // test case 36 for this ..... 
+		  if(indexInA == (countOfStringsInA-3) || indexInB == (countOfStringsInB-3)) // test case 36 for this ..... 
 		  {
-			  if(countOfStringsInB > countOfStringsInA && indexInB < (countOfStringsInB-2))
+			  if(countOfStringsInB > countOfStringsInA && indexInB < (countOfStringsInB-3))
 				  continue ; 
-			  if(countOfStringsInB < countOfStringsInA && indexInA < (countOfStringsInA-2))
+			  if(countOfStringsInB < countOfStringsInA && indexInA < (countOfStringsInA-3))
 				  continue ; 
 		  }
 	  }

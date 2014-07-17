@@ -27,7 +27,24 @@ VWO.DOMComparator = function (params) {
   // Wrapping method changed ... since matching with the end "div " gives choas ... 
   // See test case 41 as reference .... 
 
+  var h , leA = this.elA.length, leB = this.elB.length;
+  for(h=0;h<leA;h++)
+  {
+	  if(this.elA[h].data)
+	  {
+		  this.elA.splice(h,1); 
+		  h-- ; leA-- ; 
+	  }
+  }
 
+  for(h=0;h<leB;h++)
+  {
+	  if(this.elB[h].data)
+	  {
+		  this.elB.splice(h,1); 
+		  h-- ; leB-- ; 
+	  }
+  }
   var outA = stripNodes($(this.elA).outerHTML()) ; 
   var outB = stripNodes($(this.elB).outerHTML()) ; 
 
@@ -40,9 +57,10 @@ VWO.DOMComparator = function (params) {
   this.elAClone = $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0) ; 
 };
 
+
   function stripNodes(node)
   {
-	  var ans = node.replace(/(\r\n|\n|\r)/gm,"");
+	  var ans = node.replace(/(?:\r\n|\r|\n)/g, '');
 	  var out = '', l = ans.length, i = 0 ;
 		  while(i < l)
 		  {
@@ -65,7 +83,7 @@ VWO.DOMComparator = function (params) {
 					  }
 					  if(ans[i] == ' ')
 					  {
-						  if(ans[i+1].isAlpha)
+						  if(ans[i+1].search(/[^A-Z0-9a-z\s]/) == -1)
 						  {
 							  out += ans[i] ; 
 							  continue ; 
@@ -189,8 +207,8 @@ VWO.DOMComparator.prototype = {
 
       if (nodeI && nodeI.matchedWith) {
         adjacentNode = nodeI.matchedWith;
-        //adjacentNode.parent().addChildAt(insertedNode, adjacentNode.index());
-        adjacentNode.parent().addChildAt(insertedNode, node.index());
+        adjacentNode.parent().addChildAt(insertedNode, adjacentNode.index());
+        //adjacentNode.parent().addChildAt(insertedNode, node.index());
 
       } else {
         adjacentNode = node.parent().matchedWith;
@@ -594,7 +612,8 @@ VWO.DOMComparator.prototype = {
     this.analyzeMatches();
  
     var final_results = [] ; 
-   
+  
+  /*  
     var result1 = [
 	    this.detectRemoves(),
 	    this.detectRemovesInB(),
@@ -636,17 +655,15 @@ VWO.DOMComparator.prototype = {
 		final_results.push(result1[i]) ; 
       }
 	
-     
+    */ 
 
     var result = [
-//	    this.detectRemoves(),
-//	    this.detectRemovesInB(),
-//	    this.detectRearranges(),
-//	    this.restoreB(),
+	    this.detectRearranges(),
 	    this.detectInserts(),
 	    this.detectTextNodeChanges(),
 	    this.detectAttributeChanges(),
-	    this.detectStyleChanges()
+	    this.detectStyleChanges(),
+	    this.detectRemoves()
     ];
 
      result = _(result).flatten();
