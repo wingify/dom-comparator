@@ -136,7 +136,9 @@ VWO.DOMMatchFinder.prototype = {
       matchA :  {} , 
       matchB : {} , 
       couA : 0 , 
-      couB : 0 , 
+      couB : 0 ,
+      ignoreA : [], 
+      ignoreB : [], 
       splitOn: splitOn
     }).compare();
 
@@ -267,13 +269,192 @@ VWO.DOMMatchFinder.prototype = {
 	//  stroing index done .... 
 
 
-	
 
-	// matching the exact indexes  .... 
+	// matching the exact indexes ..... 
+
+	var str; 
+	var pB = this.nodeB ; 
+	var num_childsB = pB.children().length ; 
+	var sA , sB , indA, indB ;  
+	var ignoreB = [] , coB = 0;
+	
+	var recForB = function (num_childsB,pB) {
+	
+	if(num_childsB == 0)
+	{
+		sA = pB.el.outerHTML ;
+		if(sA)
+			indB = stringA.indexOf(sA) ; 
+		else
+		{
+			sA = pB.el.nodeValue ; 
+			indB = stringA.indexOf(sA) ; 
+		}
+		if(indB != -1)
+			return ;
+		else
+		{	
+	
+			if(sA.indexOf("class") != -1 || sA.indexOf("href") != -1 || sA.indexOf("style") != -1)
+				return ;  
+			while(pB.parent())
+			{
+				pB = pB.parent() ;
+				str = pB.el.outerHTML ; 
+				if(str.indexOf("class") != -1 || str.indexOf("href") != -1 || str.indexOf("style") != -1)
+					break ; 
+				sA = pB.el.outerHTML ; // Dont ignore class , style like things ...  
+				indB = stringA.indexOf(sA) ; 
+				if(indB == -1 && pB.parent() && pB.parent().children().length == 1)
+					prev = sA ;
+				else
+					break ; 
+			}
+			
+			var matching = [] ; 
+			matching.push({
+				InB: [stringB.indexOf(sA) , stringB.indexOf(sA) + sA.length]
+				});
+		
+			var matching_len = matching.length ; 
+			var st , en , j , indexB1 , indexB2 ;
+			for(i=0;i<matching_len;i++)
+			{	
+				st = matching[i].InB[0] ; 
+				for(j=0;j<valB.length;j++)
+				{
+					if(valB[j] > st)
+					{
+						indexB1 = j ; 
+						break ; 
+					}
+				}
+				en = matching[i].InB[1] ; 
+				for(j=0;j<valB.length;j++)
+				{
+					if(valB[j] > en)
+					{
+						indexB2 = j - 1 ; 
+						break ; 
+					}
+				}
+	
+				// Storing the indexes .... 
+				var lo = indexB2 - indexB1 + 1; 
+				for(j=0;j<lo;j++)
+				{
+					ignoreB[coB] = indexB1 ; 
+					indexB1++ ; coB++ ;  
+				}
+			}
+		}
+		return ; 
+	}
+
+	var y ; 	
+	for(y=0;y<num_childsB;y++)
+	{
+		recForB(pB.children()[y].children().length , pB.children()[y]) ; 
+	}
+};
+
+
+	recForB(num_childsB,pB) ; 
+
+
+	var pA = this.nodeA ; 
+	var num_childsA = pA.children().length ; 
+	var ignoreA = [] , coA = 0;
+	
+	var recForA = function (num_childsA,pA) {
+	
+	if(num_childsA == 0)
+	{
+		sA = pA.el.outerHTML ; 
+		if(sA)
+			indB = stringB.indexOf(sA) ; 
+		else
+		{
+			sA = pA.el.nodeValue ; 
+			indB = stringB.indexOf(sA) ; 
+		}
+		if(indB != -1)
+			return ;
+		else
+		{	
+			if(sA.indexOf("class") != -1 || sA.indexOf("href") != -1 || sA.indexOf("style") != -1)
+				return ;  
+			while(pA.parent())
+			{
+				pA = pA.parent() ;
+				str = pA.el.outerHTML ; 
+				if(str.indexOf("class") != -1 || str.indexOf("href") != -1 || str.indexOf("style") != -1)
+					break ; 
+				sA = pA.el.outerHTML ; 
+				indB = stringB.indexOf(sA) ; 
+				if(indB == -1 && pA.parent() && pA.parent().children().length == 1)
+					prev = sA ;
+				else
+					break ; 
+			}
+			
+			var matching = [] ; 
+			matching.push({
+				InA: [stringA.indexOf(sA) , stringA.indexOf(sA) + sA.length]
+				});
+		
+			var matching_len = matching.length ; 
+			var st , en , j , indexA1 , indexA2 ;
+			for(i=0;i<matching_len;i++)
+			{	
+				st = matching[i].InA[0] ; 
+				for(j=0;j<valA.length;j++)
+				{
+					if(valA[j] > st)
+					{
+						indexA1 = j ; 
+						break ; 
+					}
+				}
+				en = matching[i].InA[1] ; 
+				for(j=0;j<valA.length;j++)
+				{
+					if(valA[j] > en)
+					{
+						indexA2 = j - 1 ; 
+						break ; 
+					}
+				}
+	
+				// Storing the indexes .... 
+				var lo = indexA2 - indexA1 + 1; 
+				for(j=0;j<lo;j++)
+				{
+					ignoreA[coA] = indexA1 ; 
+					indexA1++ ; coA++ ;  
+				}
+			}
+		}
+		return ; 
+	}
+
+	var y ; 	
+	for(y=0;y<num_childsA;y++)
+	{
+		recForA(pA.children()[y].children().length , pA.children()[y]) ; 
+	}
+};
+
+
+	recForA(num_childsA,pA) ; 
+
+
+
+
+	// matching the rearranged indexes  .... 
 
 	var p = this.nodeA ; 
 	var num_childs = p.children().length ; 
-	var sA , sB , indA, indB ;  
 	var matchesInA = {} , matchesInB = {} ; 
 
 
@@ -374,6 +555,8 @@ VWO.DOMMatchFinder.prototype = {
 	  matchB: matchesInB,
 	  couA : couA , 
 	  couB : couB ,
+	  ignoreA : ignoreA,
+	  ignoreB : ignoreB,
           splitOn: /[^a-z0-9_ \r\n]+/gi
         }).compare();
 

@@ -142,15 +142,21 @@ VWO.StringComparator.prototype = {
 
     this.stringsInA = stringsInA;
     this.stringsInB = stringsInB;
-
+    var ignoreA = this.ignoreA ; 	
+    var ignoreB = this.ignoreB ; 	
     for (indexInA = 0, countOfStringsInA = stringsInA.length; indexInA < countOfStringsInA; indexInA++) {
 	    if(matchesInA2[indexInA])
 		    continue ; 
+	  if(ignoreA.indexOf(indexInA) != -1)
+		  continue ; 
       for (indexInB = 0, countOfStringsInB = stringsInB.length; indexInB < countOfStringsInB; indexInB++) {
         if (stringsInA[indexInA] === stringsInB[indexInB]) 
 	{
           if (typeof matchesInB1[indexInB] === 'number' || typeof matchesInB2[indexInB] === 'number') 
 		  continue;
+
+	  if(ignoreB.indexOf(indexInB) != -1)
+		  continue ; 
 
 	  // fix for div name added in last ..... see test cases 33 and 34 for this .... in dom-comparator.js ..... 
 	  if (stringsInA[indexInA] == 'div' && stringsInB[indexInB] == 'div')

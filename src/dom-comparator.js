@@ -207,8 +207,8 @@ VWO.DOMComparator.prototype = {
 
       if (nodeI && nodeI.matchedWith) {
         adjacentNode = nodeI.matchedWith;
-        adjacentNode.parent().addChildAt(insertedNode, adjacentNode.index());
-        //adjacentNode.parent().addChildAt(insertedNode, node.index());
+     //   adjacentNode.parent().addChildAt(insertedNode, adjacentNode.index());
+        adjacentNode.parent().addChildAt(insertedNode, node.index());
 
       } else {
         adjacentNode = node.parent().matchedWith;
@@ -543,54 +543,6 @@ VWO.DOMComparator.prototype = {
 
 
 
-  detectRemovesInB: function () {
-    var initialTree = this.nodeB.descendants();
-    var finalOperationsList = [];
-
-    _(initialTree).each(function (node, i) {
-      if (node.matchedWith) return;
-
-      // if the node has been just inserted by detectInserts, ignore
-      if (node.isInserted) return;
-
-      // if my parent is removed, i am implicitly removed too.
-      // removed = !matchedWith
-      if (node.parent() && !node.parent().matchedWith) return;
-
-      var parentSelectorPath = node.parent().selectorPath();
-      var indexInParent = node.index();
-
-      // this node has no match, this should be removed
-      node.parent().removeChild(node);
-
-      finalOperationsList.push(({
-        name: 'deleteNodeInB',
-        // a remove operation cannot have a selector path,
-        // a text node could also be removed
-        selectorPath: null,
-        content: {
-          html: node.outerHTML(),
-          parentSelectorPath: parentSelectorPath,
-          indexInParent: indexInParent,
-          existsInDOM: false
-        }
-      }));
-    });
-
-    return finalOperationsList;
-  },
-
-
-
-
-
-
-
-
-
-
-
-
   /**
    * Finally, verify if the comparison was successful.
    * (A console.log message is sent.)
@@ -658,12 +610,12 @@ VWO.DOMComparator.prototype = {
     */ 
 
     var result = [
-	    this.detectRearranges(),
 	    this.detectInserts(),
 	    this.detectTextNodeChanges(),
 	    this.detectAttributeChanges(),
 	    this.detectStyleChanges(),
-	    this.detectRemoves()
+	    this.detectRemoves(),
+	    this.detectRearranges()
     ];
 
      result = _(result).flatten();
