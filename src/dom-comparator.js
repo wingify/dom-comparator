@@ -61,6 +61,7 @@ VWO.DOMComparator = function (params) {
   function stripNodes(node)
   {
 	  var ans = node.replace(/(?:\r\n|\r|\n)/g, '');
+	  ans = ans.replace(/\>\s+\</g,'><')
 	  var out = '', l = ans.length, i = 0 ;
 		  while(i < l)
 		  {
@@ -492,6 +493,9 @@ VWO.DOMComparator.prototype = {
           existsInDOM: true
         }
       }));
+      VWO.DOMNodePool.uncacheAll();
+      VWO.DOMNodePool.cacheAll();
+
     });
 
     return finalOperationsList;
@@ -541,6 +545,47 @@ VWO.DOMComparator.prototype = {
     return finalOperationsList;
   },
 
+  detectRemovesInB: function () {
+    var initialTree = this.nodeB.descendants();
+    var finalOperationsList = [];
+
+    _(initialTree).each(function (node, i) {
+      if (node.matchedWith) return;
+
+      // if the node has been just inserted by detectInserts, ignore
+      if (node.isInserted) return;
+
+      // if my parent is removed, i am implicitly removed too.
+      // removed = !matchedWith
+      if (node.parent() && !node.parent().matchedWith) return;
+
+      var parentSelectorPath = node.parent().selectorPath();
+      var indexInParent = node.index();
+
+      // this node has no match, this should be removed
+      node.parent().removeChild(node);
+
+      finalOperationsList.push(({
+        name: 'deleteNodeInB',
+        // a remove operation cannot have a selector path,
+        // a text node could also be removed
+        selectorPath: null,
+        content: {
+          html: node.outerHTML(),
+          node: node,
+          parentSelectorPath: parentSelectorPath,
+          indexInParent: indexInParent,
+          existsInDOM: false
+        }
+      }));
+    });
+	
+     VWO.DOMNodePool.uncacheAll();
+         VWO.DOMNodePool.cacheAll();
+
+    return finalOperationsList;
+  },
+
 
 
   /**
@@ -565,13 +610,14 @@ VWO.DOMComparator.prototype = {
  
     var final_results = [] ; 
   
-  /*  
     var result1 = [
-	    this.detectRemoves(),
 	    this.detectRemovesInB(),
 	    this.detectRearranges()
     ];
-   	
+   
+	 VWO.DOMNodePool.uncacheAll();
+	     VWO.DOMNodePool.cacheAll();
+
     result1 = _(result1).flatten();
 
       function getActualIndex(parentSelectorPath, indexInParent) {
@@ -585,12 +631,15 @@ VWO.DOMComparator.prototype = {
       }; 
 
       var output = [], index, path, html, text, val, attr, css, index1, index2, path1, path2;
-      for (var i = 0, l = result1.length; i < l; i++) {
+      var l = result1.length ; 
+      for (var i = (l-1); i >= 0; i--) {
         var op = result1[i];
         if (op.name == 'deleteNodeInB')
 	{
 		index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
 		path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+		if(!path)
+			path = op.content.parentSelectorPath;
 		html = op.content.html;
 		if(index == -1)
 			output[i] = '$(' + JSON.stringify(path)  + ').append(' + JSON.stringify(html) + ');';
@@ -599,6 +648,8 @@ VWO.DOMComparator.prototype = {
 
 		var ctx = self.nodeB.el ; 
 		var $ = function (selector) {
+			if(selector == "HIM#DOMComparisonResult")
+				return jQuery(ctx) ; 
 			return jQuery(selector, ctx);
 		};
 		eval(output[i]) ;
@@ -606,16 +657,18 @@ VWO.DOMComparator.prototype = {
 	else
 		final_results.push(result1[i]) ; 
       }
-	
-    */ 
+	 VWO.DOMNodePool.uncacheAll();
+	     VWO.DOMNodePool.cacheAll();
+
 
     var result = [
 	    this.detectInserts(),
+	    this.detectRemoves(),
+	   // this.detectRearranges(),
 	    this.detectTextNodeChanges(),
 	    this.detectAttributeChanges(),
 	    this.detectStyleChanges(),
-	    this.detectRemoves(),
-	    this.detectRearranges()
+	 //   this.detectRemoves()
     ];
 
      result = _(result).flatten();
