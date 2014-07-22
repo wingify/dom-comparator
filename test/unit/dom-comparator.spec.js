@@ -817,6 +817,24 @@ describe('module: DOMNode-Comparator', function () {
 
 
 
+		describe('method: Compare', function () {
+			xit('case :compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div style="display: block;"></div>').get(null) ; 
+		var el2 = $('<div><div style="display: block;"></div></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+//		expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
 
 
 

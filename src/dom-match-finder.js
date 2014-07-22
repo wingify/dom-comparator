@@ -458,6 +458,17 @@ VWO.DOMMatchFinder.prototype = {
 	var matchesInA = {} , matchesInB = {} ; 
 
 
+	function allIndexOf(str, toSearch) {
+		var indices = [];
+		for(var pos = str.indexOf(toSearch); pos !== -1; pos = str.indexOf(toSearch, pos + 1)) {
+			indices.push(pos);
+		}
+		return indices;
+	}; 
+
+
+
+
 	var rec = function (num_childs,p) {
 	
 	if(num_childs == 0)
@@ -467,9 +478,11 @@ VWO.DOMMatchFinder.prototype = {
 	{
 		var matching = [] ; 
 		sA = p.children()[x].el.outerHTML ; 
-		indB = stringB.indexOf(sA) ; 
-		if(indB != -1)
+		//indB = stringB.indexOf(sA) ; 
+		var instances = allIndexOf(stringB,sA) ; 
+		if(instances.length == 1)
 		{
+			
 			matching.push({
 				InA: [stringA.indexOf(sA), stringA.indexOf(sA) + sA.length],
 				InB: [stringB.indexOf(sA) , stringB.indexOf(sA) + sA.length]

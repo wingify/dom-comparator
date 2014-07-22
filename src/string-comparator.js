@@ -146,9 +146,16 @@ VWO.StringComparator.prototype = {
     var ignoreB = this.ignoreB ; 	
     for (indexInA = 0, countOfStringsInA = stringsInA.length; indexInA < countOfStringsInA; indexInA++) {
 	    if(matchesInA2[indexInA])
+	    {
+		    match.from = indexInA;
+		    match.to = matchesInA2[indexInA];
+		    match.next = {};
+		    match.next.prev = match;
+		    match = match.next;
 		    continue ; 
-	  if(ignoreA.indexOf(indexInA) != -1)
-		  continue ; 
+	    }
+	    if(ignoreA.indexOf(indexInA) != -1)
+		    continue ; 
       for (indexInB = 0, countOfStringsInB = stringsInB.length; indexInB < countOfStringsInB; indexInB++) {
         if (stringsInA[indexInA] === stringsInB[indexInB]) 
 	{
@@ -158,6 +165,7 @@ VWO.StringComparator.prototype = {
 	  if(ignoreB.indexOf(indexInB) != -1)
 		  continue ; 
 
+	 /* 
 	  // fix for div name added in last ..... see test cases 33 and 34 for this .... in dom-comparator.js ..... 
 	  if (stringsInA[indexInA] == 'div' && stringsInB[indexInB] == 'div')
 	  {
@@ -171,7 +179,7 @@ VWO.StringComparator.prototype = {
 	  }
 	  // fix done 	
 
-
+*/
 	  var prevMatch = match.prev;
 
 	  // Fix for 'if new class name is added' ... 

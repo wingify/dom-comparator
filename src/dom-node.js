@@ -619,8 +619,9 @@ VWO.DOMNode.prototype = {
 
   equals: function (domNode) {
     if (domNode.nodeName() !== this.nodeName() ||
-      !_(domNode.attributes()).isEqual(this.attributes()) ||
-      !_(domNode.styles()).isEqual(this.styles())) return false;
+      !_(domNode.attributes()).isEqual(this.attributes())
+//     || !_(domNode.styles()).isEqual(this.styles())
+      ) return false;
 
     for (var i = 0, il = this.children().length; i < il; i++) {
       if (!domNode.children()[i]) return false;

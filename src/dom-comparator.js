@@ -642,7 +642,7 @@ VWO.DOMComparator.prototype = {
 			path = op.content.parentSelectorPath;
 		html = op.content.html;
 		if(index == -1)
-			output[i] = '$(' + JSON.stringify(path)  + ').append(' + JSON.stringify(html) + ');';
+			output[i] = '$(' + JSON.stringify(path)  + ').prepend(' + JSON.stringify(html) + ');';
 		else 			
 			output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
 
