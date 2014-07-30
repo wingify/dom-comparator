@@ -73,8 +73,12 @@ VWO.DOMMatchFinder.prototype = {
 
     var splitOn = '\n';
 
-// Adding Code 
 
+/*
+
+Manually removing the comments in both strings ..
+   
+*/
   var i  , A_len = stringA1.length , B_len = stringB1.length; 
   var start_comment_flag = 0 ; 
  
@@ -120,9 +124,6 @@ VWO.DOMMatchFinder.prototype = {
 		stringB += stringB1[i] ; 
    }
 
-// code Adding done 
-
-
 
     var f = function (i) {
       return i < 10 ? " " + i : i.toString();
@@ -144,8 +145,7 @@ VWO.DOMMatchFinder.prototype = {
 
     var diffUnion = result.diffUnion;
 
-// Define diffUnion.length 
-
+/*
     for (var i = 0; i < diffUnion.length; i++) {
       var diff = diffUnion[i];
       console.log(
@@ -155,7 +155,14 @@ VWO.DOMMatchFinder.prototype = {
       );
     }
 
-// for  strings unchanged ... string pointer has been apllied for each unchanged node 
+*/
+
+
+
+/*
+   for  strings unchanged ... string pointer has been apllied for each unchanged node 
+
+*/
 
     var nodeMatches = {};
     var stringsInA = result.stringsInA;
@@ -194,12 +201,13 @@ VWO.DOMMatchFinder.prototype = {
           index: startIndexInB + pointers[j].index + num,
           haystack: stringB
         });
-//	prev = pointers[j].index ; 
         nodeMatches[pointerInA.masterIndex()] = pointerInB.masterIndex();
       }
     }
 
- // for all the changed nodes , they are compared using the string comparator ..
+/*
+    for all the changed nodes , they are compared using the string comparator ..
+*/
 
     var innerNodeMatches = {};
     var stringsLastAddedInB = [];
@@ -221,8 +229,14 @@ VWO.DOMMatchFinder.prototype = {
         indexInA = diff.indexInA;
         indexInB = stringsLastAddedInB[0].indexInB;
 
-	// for storing index .. which node at which place after regex ... 
+/*
 
+   Storing pointers of the strings after applying the regex breaking ...
+   For e.g
+   stringA = <him id="DOMComparisonResult">
+   valA = [0, 1, 9, 31]
+
+*/
 	var valA = [] , valB = [];
 	var len_A = stringA.length , len_B = stringB.length ; 
 	var c1 , c2 , co = 1 , f = 0 ;
@@ -230,8 +244,8 @@ VWO.DOMMatchFinder.prototype = {
 	for(i=0;i<len_A;i++)
 	{
 		c1 = stringA[i];
-		c2 = c1.charCodeAt(0);
-		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32 || c2 == 95)
+		c2 = c1.charCodeAt(0); 
+		if((c2>47 && c2<58) || (c2>64 && c2<91) || (c2>96 && c2<123) || c2 == 32 || c2 == 95) // chaecking for alpha_numeric character
 		{
 			if(f)
 			{
@@ -266,20 +280,33 @@ VWO.DOMMatchFinder.prototype = {
 			f = 1 ; 
 	}
 	couB = co ; 
-	//  stroing index done .... 
 
 
+/*
 
-	// matching the exact indexes ..... 
-
+   * recForB() and recForA() are the functions for finding ignore matches 
+   * These matches are useful for finding nodes which are in A but not in B and vice-versa
+   * Each children is visited recurssively and searched for corresponding match in alternate node. So, basically if node not found, then 
+     it is included in ignore node.
+   
+*/
 	var str; 
 	var pB = this.nodeB ; 
 	var num_childsB = pB.children().length ; 
 	var sA , sB , indA, indB ;  
 	var ignoreB = [] , coB = 0;
-	
+
+
+/*	
+
+	* finding nodes which are only in nodeB and not in nodeA .
+	* counted as for insertNode()
+
+*/
+
 	var recForB = function (num_childsB,pB) {
 	
+	// if number of childs = 0, back-track for the longest node(do not have any attributes included) which does not have match in nodeA	
 	if(num_childsB == 0)
 	{
 		sA = pB.el.outerHTML ;
@@ -287,23 +314,27 @@ VWO.DOMMatchFinder.prototype = {
 			indB = stringA.indexOf(sA) ; 
 		else
 		{
+			// if "sA" = text 
 			sA = pB.el.nodeValue ; 
 			indB = stringA.indexOf(sA) ; 
 		}
+		// indB != -1 means match has been found and hence return 
 		if(indB != -1)
 			return ;
 		else
 		{	
 	
+			// If children node has some attributes, they should not be ignored ...		
 			if(sA.indexOf("class") != -1 || sA.indexOf("href") != -1 || sA.indexOf("style") != -1)
-				return ;  
+				return ; 
+			// Go to the outer parent from IN-to-OUT in order to find the longest non-matching children
 			while(pB.parent())
 			{
 				pB = pB.parent() ;
 				str = pB.el.outerHTML ; 
 				if(str.indexOf("class") != -1 || str.indexOf("href") != -1 || str.indexOf("style") != -1)
 					break ; 
-				sA = pB.el.outerHTML ; // Dont ignore class , style like things ...  
+				sA = pB.el.outerHTML ;  
 				indB = stringA.indexOf(sA) ; 
 				if(indB == -1 && pB.parent() && pB.parent().children().length == 1)
 					prev = sA ;
@@ -311,6 +342,7 @@ VWO.DOMMatchFinder.prototype = {
 					break ; 
 			}
 			
+			// Store matching indexes from start to end 
 			var matching = [] ; 
 			matching.push({
 				InB: [stringB.indexOf(sA) , stringB.indexOf(sA) + sA.length]
@@ -351,6 +383,7 @@ VWO.DOMMatchFinder.prototype = {
 		return ; 
 	}
 
+	// recursing for every children of nodeB 
 	var y ; 	
 	for(y=0;y<num_childsB;y++)
 	{
@@ -361,6 +394,12 @@ VWO.DOMMatchFinder.prototype = {
 
 	recForB(num_childsB,pB) ; 
 
+/*	
+
+	* finding nodes which are only in nodeA and not in nodeB .
+	* counted as for deleteNode()
+
+*/
 
 	var pA = this.nodeA ; 
 	var num_childsA = pA.children().length ; 
@@ -368,6 +407,7 @@ VWO.DOMMatchFinder.prototype = {
 	
 	var recForA = function (num_childsA,pA) {
 	
+	// if number of childs = 0, back-track for the longest node(do not have any attributes included) which does not have match in nodeB	
 	if(num_childsA == 0)
 	{
 		sA = pA.el.outerHTML ; 
@@ -375,15 +415,18 @@ VWO.DOMMatchFinder.prototype = {
 			indB = stringB.indexOf(sA) ; 
 		else
 		{
-			sA = pA.el.nodeValue ; 
+			// if "sA" = text 
+			sA = pA.el.nodeValue ;  
 			indB = stringB.indexOf(sA) ; 
 		}
 		if(indB != -1)
 			return ;
 		else
-		{	
+		{
+			// If children node has some attributes, they should not be ignored ...		
 			if(sA.indexOf("class") != -1 || sA.indexOf("href") != -1 || sA.indexOf("style") != -1)
 				return ;  
+			// Go to the outer parent from IN-to-OUT in order to find the longest non-matching children
 			while(pA.parent())
 			{
 				pA = pA.parent() ;
@@ -397,7 +440,8 @@ VWO.DOMMatchFinder.prototype = {
 				else
 					break ; 
 			}
-			
+		
+			// Store matching indexes from start to end 
 			var matching = [] ; 
 			matching.push({
 				InA: [stringA.indexOf(sA) , stringA.indexOf(sA) + sA.length]
@@ -438,6 +482,7 @@ VWO.DOMMatchFinder.prototype = {
 		return ; 
 	}
 
+	// recursing for every children of nodeA 
 	var y ; 	
 	for(y=0;y<num_childsA;y++)
 	{
@@ -445,13 +490,21 @@ VWO.DOMMatchFinder.prototype = {
 	}
 };
 
-
 	recForA(num_childsA,pA) ; 
 
 
 
+/**	
 
-	// matching the rearranged indexes  .... 
+*   Doing the exact matches ..
+*   These matches are used for finding the exact position of some children of nodeA in nodeB
+*   For this, each children of nodeA is visited recurssively and it's exact position in nodeB is stored 
+*   Exact matches helps for finding re-arrangments
+*   Since, indexOf() method is used, if two duplicate children appears in nodeA, results may be bad. So we have assume that the keys are almost
+    unique, which is relevant to most prqactical cases.
+
+*/	
+
 
 	var p = this.nodeA ; 
 	var num_childs = p.children().length ; 
@@ -465,8 +518,6 @@ VWO.DOMMatchFinder.prototype = {
 		}
 		return indices;
 	}; 
-
-
 
 
 	var rec = function (num_childs,p) {
@@ -547,17 +598,18 @@ VWO.DOMMatchFinder.prototype = {
 		
 		}
 		
-
 		rec(p.children()[x].children().length , p.children()[x]) ; 
 	}
 };
 
-
 	rec(num_childs,p) ; 
 
-	// matching exact indices done .... 
-	
 
+/*
+	
+   After doing exact and ignore matches, flow passes to string-comparator for partial matches
+
+*/   
         var splitOnRegExpA = /[^a-z0-9_ \r\n]+/gi;
         var splitOnRegExpB = /[^a-z0-9_ \r\n]+/gi;
 

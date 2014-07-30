@@ -16,7 +16,7 @@ describe('module: DOMNode-Comparator', function () {
 		//expect(domComparator.compare().slice()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<h3>Himanshu </h3>', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child', indexInParent : 2, existsInDOM : true } }, { name : 'insertNode', selectorPath : null, content : { html : 'Get feedback people on your website', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', indexInParent : 1, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', content : { class : 'himanshu' } }, { name : 'css', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI > DIV:first-child + DIV', content : { color : 'red' } }, { name : 'deleteNode', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + DIV + LI + LI > DIV:first-child + DIV', indexInParent : 0, existsInDOM : false } } ]);
 
 		var ret = domComparator.compare() ; 
-		//              expect(ret).toEqual() ;   
+		// expect(ret).toEqual() ;   
 		expect(domComparator.verifyComparison()).toEqual(true) ;
 
 		});
@@ -426,27 +426,6 @@ describe('module: DOMNode-Comparator', function () {
 
 
 
-		describe('method: Compare', function () {
-			it('case 19_copy:compares the dom trees and outputs the final result', function () {
-
-
-		var el1 = $('<ul><li>1</li><li class="a">2</li><li>3</li></ul>').get(0) ; 
-		var el2 = $('<ul><li>In</li><li>1</li><li>3</li><li class="av">2</li></ul>').get(0) ; 
-
-		var domComparator = VWO.DOMComparator.create({
-		elA : el1, 
-		elB : el2 
-		}) ; 
-
-		var ret = domComparator.compare() ; 
-	//	expect(ret).toEqual() ; 
-	//	expect(ret.slice()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<li>In</li>', parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child', indexInParent : 0, existsInDOM : true } }, { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > UL:first-child > LI:first-child + LI + LI', content : { class : 'av' } }, { name : 'rearrange', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child', indexInParent : 3, oldParentSelectorPath : 'HIM#DOMComparisonResult > UL:first-child', oldIndexInParent : 2, existsInDOM : true } } ]) ;   
-		expect(domComparator.verifyComparison()).toEqual(true) ; 
-
-		});
-	});
-
-
 
 
 
@@ -654,8 +633,6 @@ describe('module: DOMNode-Comparator', function () {
 	});
 
 
-		// NOT WORKING CASE 29 .... 
-
 
 		describe('method: Compare', function () {
 			it('case 29:compares the dom trees and outputs the final result', function () {
@@ -676,48 +653,12 @@ describe('module: DOMNode-Comparator', function () {
 		});
 	});
 
+
+		
+
+	
 		describe('method: Compare', function () {
-			it('case 29_BEBUG:compares the dom trees and outputs the final result', function () {
-
-
-		var el1 = $('<div class="content" style="display: block;"><img src="/f/show/subnav/Raw/20120719_raw_header.png" class="vwo_1405328797148" style="cursor: auto; display: block;"><div class="top-links"><p><span>Next Event:</span> Monday Jul. 14 @ The Richmond Coliseum, Richmond, VA<a href="http://www.ticketmaster.com/wwe-monday-night-raw-richmond-virginia-07-14-2014/event/01004B8D859E5E84?artistid=836344&amp;majorcatid=10004&amp;minorcatid=27" target="_blank" rel="nofollow" class="event-buy-ticket">Tickets<span class="red-arrow">»</span></a></p></div><div class="bottom-links"><a>1</a><a>2</a><a>3</a><a>5</a></div></div>').get(0) ; 
-		var el2 = $('<div class="content" style="display: block;"><img src="/f/show/subnav/Raw/20120719_raw_header.png" class="vwo_1405328797148" style="cursor: auto; display: block;"><div class="top-links"><p><span>Next Event:</span> Monday Jul. 14 @ The RicA<a href="http://www.ticketmaster.com/wwe-monday-night-raw-richmond-virginia-07-14-2014/event/01004B8D859E5E84?artistid=836344&amp;majorcatid=10004&amp;minorcatid=27" target="_blank" rel="nofollow" class="event-buy-ticket">Tickets<span class="red-arrow">1</span></a></p></div><a href="google.com"></a><div class="bottom-l"><a>1</a><a>4</a><a>5</a><a>2</a><a>3</a></div></div>').get(0) ; 
-
-		var domComparator = VWO.DOMComparator.create({
-		elA : el1, 
-		elB : el2 
-		}) ; 
-
-		var ret = domComparator.compare() ; 
-	//	expect(ret).toEqual() ;   
-		expect(domComparator.verifyComparison()).toEqual(true) ; 
-
-		});
-	});
-
-		describe('method: Compare', function () {
-			it('case 29_BEBUG_my:compares the dom trees and outputs the final result', function () {
-
-
-		var el1 = $('<div class="content" style="display: block;"><img src="/f/show/subnav/Raw/20120719_raw_header.png" class="vwo_1405328797148" style="cursor: auto; display: block;"><div class="top-links"><p><span>Next Event:</span> Monday Jul. 14 @ The Richmond Coliseum, Richmond, VA<a href="http://www.ticketmaster.com/wwe-monday-night-raw-richmond-virginia-07-14-2014/event/01004B8D859E5E84?artistid=836344&amp;majorcatid=10004&amp;minorcatid=27" target="_blank" rel="nofollow" class="event-buy-ticket">Tickets<span class="red-arrow">»</span></a></p></div><div class="bottom-links"><a>1</a><a>2</a><a>3</a><a>5</a></div></div>').get(0) ; 
-		var el2 = $('<div class="content" style="display: block;"><img src="/f/show/subnav/Raw/20120719_raw_header.png" class="vwo_1405328797148" style="cursor: auto; display: block;"><div class="top-links"><p><span>Next Event:</span> Monday Jul. 14 @ The RicA<a href="http://www.ticketmaster.com/wwe-monday-night-raw-richmond-virginia-07-14-2014/event/01004B8D859E5E84?artistid=836344&amp;majorcatid=10004&amp;minorcatid=27" target="_blank" rel="nofollow" class="event-buy-ticket">Tickets<span class="red-arrow">1</span></a></p></div><a href="google.com"></a><div class="bottom-l"><a>1</a><a>4</a><a>5</a><a>2</a><a>3</a></div></div>').get(0) ; 
-
-		var domComparator = VWO.DOMComparator.create({
-		elA : el1, 
-		elB : el2 
-		}) ; 
-
-		var ret = domComparator.compare() ; 
-	//	expect(ret).toEqual() ;   
-		expect(domComparator.verifyComparison()).toEqual(true) ; 
-
-		});
-	});
-
-
-	//  Not working ... 	
-		describe('method: Compare', function () {
-			it('case DE_1:compares the dom trees and outputs the final result', function () {
+			it('case 30:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<div><a>1</a><a>2</a><a>3</a><a>5</a></div>').get(0) ; 
@@ -737,7 +678,7 @@ describe('module: DOMNode-Comparator', function () {
 
 
 		describe('method: Compare', function () {
-			it('case SOlve:compares the dom trees and outputs the final result', function () {
+			it('case 31:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<div style="display: block;"><ul class="navigation vwo_1405423029796" style="cursor: auto; display: block;"><li><a href="/about">Our Team</a></li><li><a href="/labs">Labs</a></li><li><a href="/careers">Careers</a></li><li class="trigger-contact"><a href="/contact" class="">Contact Us</a></li></ul><div class="clr">ORIGINAL TEXT</div></div>').get(null) ; 
@@ -758,7 +699,7 @@ describe('module: DOMNode-Comparator', function () {
 
 	
 		describe('method: Compare', function () {
-			it('case :compares the dom trees and outputs the final result', function () {
+			it('case 32:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<ul><li>1</li><li>2</li><li>3</li><li>4</li><li>5</li></ul>').get(null) ; 
@@ -778,7 +719,7 @@ describe('module: DOMNode-Comparator', function () {
 
 
 		describe('method: Compare', function () {
-			it('case :compares the dom trees and outputs the final result', function () {
+			it('case 33:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<div><div class="a"></div></div>').get(0) ; 
@@ -797,7 +738,7 @@ describe('module: DOMNode-Comparator', function () {
 	});
 
 		describe('method: Compare', function () {
-			it('case :compares the dom trees and outputs the final result', function () {
+			it('case 34:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<div><div class="a">PN</div></div>').get(0) ; 
@@ -818,7 +759,7 @@ describe('module: DOMNode-Comparator', function () {
 
 
 		describe('method: Compare', function () {
-			it('case :compares the dom trees and outputs the final result', function () {
+			it('case 35:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<div style="display: block;"></div>').get(null) ; 
@@ -839,7 +780,7 @@ describe('module: DOMNode-Comparator', function () {
 
 		// Not working ... .Since "<div class="clr">ASASAS</div>" not deleted .... 
 		describe('method: Compare', function () {
-			it('case :compares the dom trees and outputs the final result', function () {
+			it('case 36:compares the dom trees and outputs the final result', function () {
 
 
 		var el1 = $('<div style="display: block;"><div class="clr">ORIGINAL TEXT</div></div>').get(0) ; 
@@ -858,13 +799,311 @@ describe('module: DOMNode-Comparator', function () {
 	});
 
 
+
+	describe('method: Compare', function () {
+			it('case 37:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<ul><li><a href="item1">IT1</a></li><li><a href="item2">IT2</a></li><li class="c"><a href="item3">IT3</a></li><li><a class="d" href="item4">IT4</a></li></ul>').get(null) ; 
+		var el2 = $('<ul><li><a href="item1">IT1</a></li><li></li><li class="c"><a href="item3">IT3</a></li><li><a href="item4">IT4</a></li></ul>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 38:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<ul><li><a href="/hello">Hello</a></li><li><a href="/about">Our</a></li><li><a href="/lab">Labs</a></li><li><a href="/careers">Careers</a></li></ul>').get(null) ; 
+		var el2 = $('<ul><li><a href="/about">Our Team</a></li><li><a href="/lab">Labs</a></li><li><a href="/careers">Careers</a></li><li><a href="/hello">Hello</a></li></ul>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		//expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 39:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div class="a"></div>').get(null) ; 
+		var el2 = $('<div class="ta-c"><a href="vwo.com" style="color:red">Learn</a><h2>Himanshu</h2></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		//expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+	describe('method: Compare', function () {
+			it('case 40:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div id="bottom-mid"><h2><a href="http://www.paraschopra.com/personal.php">Personal</a></h2></div>').get(null) ; 
+		var el2 = $('<div class="a"></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		//expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 41:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<a href="da"></a>').get(null) ; 
+		var el2 = $('<a href="da" class="tab" data-b="ylt" id="tab"><span class="world"><b class="wc">World</b><span class="n">Next up</span><span class="n">Costa Rica</span><img src="hi" class="team-icon"><span class="vs">vilan</span><img src="Hi" alt="" class="team-icon"><span class="name">Eng</span></span></a>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+	// If wrapper changed .....
+	describe('method: Compare', function () {
+			it('case 42:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<a href="da"><p>Hello Boy</p></a>').get(null) ; 
+		var el2 = $('<p>Hello Boy</p>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		expect(ret.slice()).toEqual([ { name : 'rearrange', selectorPath : null, content : { parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 1, oldParentSelectorPath : 'HIM#DOMComparisonResult > A:first-child', oldIndexInParent : 0, existsInDOM : true } }, { name : 'deleteNode', selectorPath : null, content : { html : '<a href="da"></a>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : false } } ]) ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 43:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<a href="da"><span><span class="name">Eng</span></span></a>').get(null) ; 
+		var el2 = $('<a href="da"><span class="world"><span class="name">Eng</span></span></a>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+	describe('method: Compare', function () {
+			it('case 44:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div><span class="cur">1</span></div>').get(null) ; 
+		var el2 = $('<div><span class="current">1</span></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		expect(ret.slice()).toEqual([ { name : 'attr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child > SPAN:first-child', content : { class : 'current' } } ]) ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 45:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div class="a"><span class="current">1</span></div>').get(null) ; 
+		var el2 = $('<div><span class="current">1</span></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		expect(ret.slice()).toEqual([ { name : 'removeAttr', selectorPath : 'HIM#DOMComparisonResult > DIV:first-child', content : { class : 'a' } } ]) ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});	
+	
+	
+	describe('method: Compare', function () {
+			it('case 46:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div class="nav-item"><a href="http://vwo.com/"><div class="logo-vwo"></div></a><div class="links-wrapper"><a href="/careers" class="link">Careers</a><a href="/about" class="link">Team</a></div><div class="clr"></div><ul><li><a href="http://vwo.com/blog/">Blog</a></li><li><a href="http://team.wingify.com/">Team Blog</a></li><li><a href="http://engineering.wingify.com/">Engineering Blog</a></li><li class=""><a href="/contact">Contact Us</a></li></ul><div class="copyrightnav-item"><ul><li><span>Copyright © Wingify</span></li><li><a href="http://visualwebsiteoptimizer.com/terms-conditions.php">Terms of Use</a></li><li><a href="http://visualwebsiteoptimizer.com/privacy-policy.php">Privacy Policy</a></li></ul></div><div class="clr"></div></div>').get(null) ; 
+		var el2 = $('<div class="nav-item"><a href="http://vwo.com/"><div class="logo-vwo"></div></a><div class="links-wrapper"><a href="/careers" class="link">Careers</a><a href="/about" class="link">Team</a></div><div class="clr"></div><ul><li><a href="http://vwo.com/blog/">Blog</a></li><li><a href="http://team.wingify.com/">Team Blog</a></li><li><a href="http://engineering.wingify.com/">Engineering Blog</a></li><li class=""><a href="/contact">Contact Us</a></li></ul><div class="copyrightnav-item"><ul><li><span>Copyright © Wingify</span></li><li><a href="http://visualwebsiteoptimizer.com/terms-conditions.php">Terms of Use</a></li><li><a href="http://visualwebsiteoptimizer.com/privacy-policy.php">Privacy Policy</a></li></ul></div><div class="clr"></div></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 47:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<section class="section section-context-sense"><div class="container"><div class="grid_one_third alpha icon tab-grid-one-third"><img src="/images/labs/context_sens_2@2x.png"></div><div class="grid_two_third omega tab-grid-two-third"><div class="title bigger blue-dark">Context Sense</div><p class="text">Extracts sentiment, tags, concepts and categories from a URL or piece of text. Fetches webpages from the Internet which are perfectly targeted according to context and semantics.</p><form method="get" action="/contextsense" class="form-input-button"><input type="text" name="url" class="input-text inline" placeholder="http://wingify.com/"><input type="submit" class="button dark-blue filled-shadow clickable" value="Go"></form></div><div class="clr"></div></div></section>').get(null) ; 
+		var el2 = $('<section class="section section-context-sense"><div class="container"><div class="grid_one_third alpha icon tab-grid-one-third"><img src="/images/labs/context_sens_2@2x.png"></div><div class="grid_two_third omega tab-grid-two-third"><div class="title bigger">Context Sense</div><p class="text">Extracts sentiment,concepts and categories from a URL or piece of text. Fetches webpages from the Internet which are perfectly targeted according to context and semantics.</p><form method="get" action="/contextsense" class="form-input-button"><input type="text" name="url" class="input-text inline" placeholder="http://wingify.com/"><input type="submit" class="button dark-blue filled-shadow clickable" value="Go"></form></div><div class="clr"></div></div></section>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+
+	describe('method: Compare', function () {
+			it('case 48:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<nav class="head_nav"><ul><li><a href="/welcome">Home</a></li><li><a href="/home_bolly">Bollywood</a></li><li><a href="/home_tolly">Tollywood</a></li></ul></nav>').get(null) ; 
+		var el2 = $('<nav class="head_nav"><ul><li><a href="/welcome" style="color:blue">Home</a></li><li><a href="/home_bolly">Boll</a></li><li><a href="/home_tolly" class="hello">Tollywood</a></li></ul></nav>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
+	describe('method: Compare', function () {
+			it('case 49:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div class="inner"><h2>daily reddit gold goal</h2><div class="progress"><p>3%</p><div class="bar"><span style="width:3%"></span></div></div><a href="/gold?goldtype=code&amp;source=progressbar" target="_blank">help support reddit</a><div class="gold-bubble hover-bubble help-bubble anchor-top-centered"><p><span class="gold-branding">reddit gold</span> gives you extra features and helps keep our servers running. We believe the more reddit can be user-supported, the freer we will be to make reddit the best it can be.</p><p class="buy-gold">Buy gold for yourself to gain access to <a href="/gold/about" target="_blank">extra features</a> and <a href="/r/goldbenefits" target="_blank">special benefits</a>. A month of gold pays for  <b>231.26 minutes</b> of reddit server time!</p><p class="give-gold">Give gold to thank exemplary people and encourage them to post more.</p><p class="aside">This daily goal updates every 10 minutes and is reset at midnight <a target="_blank" href="http://en.wikipedia.org/wiki/Pacific_Time_Zone">Pacific Time</a>  (1 day, 12 minutes from now).</p><div class="history"><p>Yesterday\'s reddit gold goal</p><div class="progress"><p>103%</p><div class="bar"><span style="width:100%"></span></div></div></div></div></div>').get(null) ; 
+		var el2 = $('<div class="inner"><h2>daily reddit gold goal</h2><div class="progress"><p>3%</p><div class="bar"><span style="width:3%"></span></div></div><a href="/gold?goldtype=code&amp;source=progressbar" target="_blank">help support reddit</a><div class="gold-bubble hover-bubble help-bubble anchor-top-centered"><p><span class="gold-branding">reddit gold</span> gives you extra features and helps keep our servers running. We believe the more reddit can be user-supported, the freer we will be to make reddit the best it can be.</p><p class="buy-gold">Buy gold for yourself to gain access to <a href="/gold/about" target="_blank">extra features</a> and <a href="/r/goldbenefits" target="_blank">special benefits</a>. A month of gold pays for  <b>231.26 minutes</b> of reddit server time!</p><p class="give-gold">Give gold to thank exemplary people and encourage them to post more.</p><p class="aside">This daily goal updates every 10 minutes and is reset at midnight <a target="_blank" href="http://en.wikipedia.org/wiki/Pacific_Time_Zone">Pacific Time</a>  (1 day, 12 minutes from now).</p><div class="history"><p>Yesteay\'s reddit gold goal</p><div class="progress"><p>103%</p><div class="bar"><span style="width:100% "></span></div></div></div></div></div>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		//expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+	describe('method: Compare', function () {
+			it('case 50:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<ul class="content"><li><a href="http://www.reddit.com/user/krispykrackers" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb vwo_1404205657551" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair" title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/316nuts" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li></ul>').get(null) ; 
+		var el2 = $('<ul class="content"><li><a href="http://www.reddit.com/user/krispykrackers" class="author may-blank id-t2_35gvu">krispykrackers</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/qgyh2" class="author may-blank id-t2_1uzpp">qgyh2</a><span class="flair flair-bulb vwo_1404205657551" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/ytwang" class="author may-blank id-t2_8bne">ytwang</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/davidreiss666" class="author may-blank id-t2_pfn1">davidreiss666</a><span class="flair" title="Helper Monkey">Helper Monkey</span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Skuld" class="author may-blank id-t2_32zzr">Skuld</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/redtaboo" class="author may-blank id-t2_3belm">redtaboo</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/dzneill" class="author may-blank id-t2_3usiy">dzneill</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/Raerth" class="author may-blank id-t2_35izj">Raerth</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.reddit.com/user/sodypop" class="author may-blank id-t2_39hzo">sodypop</a><span class="flair flair-bulb" title=""></span><span class="userattrs"></span></li><li><a href="http://www.a.com" width="90" class="author may-blank id-t2_4x3zj">316nuts</a><span class="flair flair-bulb" title=""></span><span class="Hello">HEloooooo</span></li></ul>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+	//	expect(ret).toEqual() ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+	describe('method: Compare', function () {
+			it('case 51:compares the dom trees and outputs the final result', function () {
+
+
+		var el1 = $('<div class="a"></div><a>Hello</a>').get(null) ; 
+		var el2 = $('<a>Hello</a><div class="a"></div><a>Hello</a>').get(null) ; 
+
+		var domComparator = VWO.DOMComparator.create({
+		elA : el1, 
+		elB : el2 
+		}) ; 
+
+		var ret = domComparator.compare() ; 
+		expect(ret.slice()).toEqual([ { name : 'insertNode', selectorPath : null, content : { html : '<a>Hello</a>', parentSelectorPath : 'HIM#DOMComparisonResult', indexInParent : 0, existsInDOM : true } } ]) ;   
+		expect(domComparator.verifyComparison()).toEqual(true) ; 
+
+		});
+	});
+
+
 	/*	
 		describe('method: Compare', function () {
 			it('case :compares the dom trees and outputs the final result', function () {
 
 
-		var el1 = $('').get(0) ; 
-		var el2 = $('').get(0) ; 
+		var el1 = $('').get(null) ; 
+		var el2 = $('').get(null) ; 
 
 		var domComparator = VWO.DOMComparator.create({
 		elA : el1, 

@@ -22,11 +22,10 @@ VWO.DOMComparator = function (params) {
     this.elB = this.nodeB.el;
   }
 
-  // store nodes after wrapping them in a wrapper node.
 
-  // Wrapping method changed ... since matching with the end "div " gives choas ... 
-  // See test case 41 as reference .... 
-
+  /* 
+   	Removing extra #text coming as inputs via textarea .	
+  */   
   var h , leA = this.elA.length, leB = this.elB.length;
   for(h=0;h<leA;h++)
   {
@@ -45,8 +44,22 @@ VWO.DOMComparator = function (params) {
 		  h-- ; leB-- ; 
 	  }
   }
+
+/*
+ 	Striping the nodes and removing extra spaces and line breaks
+	taking care of all escape characters 
+   
+*/
+
   var outA = stripNodes($(this.elA).outerHTML()) ; 
   var outB = stripNodes($(this.elB).outerHTML()) ; 
+
+/*
+
+   Wrapper method is set to  "<him *** </him>" 
+   Because it is not standard as <div> *** </div>
+
+*/   
 
   this.nodeA = VWO.DOMNodePool.create({
     el: $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0)
@@ -60,7 +73,7 @@ VWO.DOMComparator = function (params) {
 
   function stripNodes(node)
   {
-	  var ans = node.replace(/(?:\r\n|\r|\n)/g, '');
+	  var ans = node.replace(/(?:\r\n|\r|\n)/g, '');  
 	  ans = ans.replace(/\>\s+\</g,'><')
 	  var out = '', l = ans.length, i = 0 ;
 		  while(i < l)
@@ -664,16 +677,15 @@ VWO.DOMComparator.prototype = {
     var result = [
 	    this.detectInserts(),
 	    this.detectRemoves(),
-	   // this.detectRearranges(),
 	    this.detectTextNodeChanges(),
 	    this.detectAttributeChanges(),
 	    this.detectStyleChanges(),
-	 //   this.detectRemoves()
     ];
 
      result = _(result).flatten();
  
-    var le = result.length ; 
+    var le = result.length ;
+
     for(i=0;i<le;i++)
 	    final_results.push(result[i]) ; 
 

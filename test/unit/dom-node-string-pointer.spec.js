@@ -1,5 +1,5 @@
 describe('module: DomNode-match-finder', function () {
-	describe('method: nodeName', function () {
+	describe('case:1 method: nodeName', function () {
 		it('gets the name of the node', function () {
 		
 		var domNode = VWO.DOMNodeStringPointer.create({haystack : '<div class="chapter"><div class="prev"><a class="chapter" href="/default.asp" style=color:red>W3Schools Home</a></div><h2>Tutorial</h2></div>'}) ; 	

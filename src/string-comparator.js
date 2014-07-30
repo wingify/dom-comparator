@@ -130,20 +130,27 @@ VWO.StringComparator.prototype = {
     var stringA = this.stringA,
       stringB = this.stringB;
 
-	
     var matchesInA1 = {},
-     matchesInB1 = {};
+	matchesInB1 = {};
 
-   var matchesInA2 = this.matchA,
-      matchesInB2 = this.matchB;
+    var matchesInA2 = this.matchA,
+	matchesInB2 = this.matchB;
 
     var stringsInA = stringA.split(this.splitOn),
-      stringsInB = stringB.split(this.splitOn);
+	stringsInB = stringB.split(this.splitOn);
 
     this.stringsInA = stringsInA;
     this.stringsInB = stringsInB;
     var ignoreA = this.ignoreA ; 	
-    var ignoreB = this.ignoreB ; 	
+    var ignoreB = this.ignoreB ; 
+
+
+/*    
+
+	* Applying simple n^2 loop for finding partial matches
+	* Here, after finding one match point, next match point is found only after the previous match point.
+*/
+
     for (indexInA = 0, countOfStringsInA = stringsInA.length; indexInA < countOfStringsInA; indexInA++) {
 	    if(matchesInA2[indexInA])
 	    {
@@ -180,16 +187,15 @@ VWO.StringComparator.prototype = {
 	  // fix done 	
 
 */
+
+
 	  var prevMatch = match.prev;
 
-	  // Fix for 'if new class name is added' ... 
 	  if(prevMatch)
 	  {
 	  if(prevMatch.to > indexInB)
 		  continue ; 
 	  }
-	 // Fix done 
-
 
 
 	// While loop used for the rearranged parts 
@@ -202,7 +208,8 @@ VWO.StringComparator.prototype = {
             }
             prevMatch = prevMatch.prev;
           }
-	 */ 
+	 */
+
           match.from = indexInA;
           match.to = indexInB;
           match.next = {};
@@ -215,6 +222,14 @@ VWO.StringComparator.prototype = {
       }
     }
 
+
+/*
+
+   matchesIn*2 = ignore + exact matches  
+   matchesIn*1 = partial matches
+   merging the matches of matchesInA1 + matchesInA2 = matchesInA in sorted manner
+ 
+*/   
 
     var matchesInA = {} , matchesInB = {} ; 
 
@@ -239,6 +254,11 @@ VWO.StringComparator.prototype = {
     }
 
 
+/*
+	
+   calculating diffUnion and other things with matchesInA and matchesInB 
+
+*/  
 
     var lastMatchIndexInB = -1;
 
