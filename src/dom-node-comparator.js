@@ -175,7 +175,8 @@ VWO.DOMNodeComparator.prototype = {
   attributeScore: function () {
     if (!this.nodeNameScore()) return 0;
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAAttributeKeys = _.keys(nodeA.attributes());
     var nodeBAttributeKeys = _.keys(nodeB.attributes());
@@ -199,7 +200,8 @@ VWO.DOMNodeComparator.prototype = {
   addedAttributes: function () {
     if (!this.nodeNameScore()) return {};
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAAttributeKeys = _.keys(nodeA.attributes());
     var nodeBAttributeKeys = _.keys(nodeB.attributes());
@@ -217,7 +219,8 @@ VWO.DOMNodeComparator.prototype = {
   changedAttributes: function () {
     if (!this.nodeNameScore()) return {};
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAAttributes = nodeA.attributes();
     var nodeBAttributes = nodeB.attributes();
@@ -227,7 +230,7 @@ VWO.DOMNodeComparator.prototype = {
 
     var commonAttributeKeys = _.intersection(nodeBAttributeKeys, nodeAAttributeKeys);
 
-    var changedAttributeKeys = commonAttributeKeys.filter(function(item) {
+    var changedAttributeKeys = commonAttributeKeys.filter(function (item) {
       return nodeAAttributes[item] !== nodeBAttributes[item];
     });
 
@@ -242,7 +245,8 @@ VWO.DOMNodeComparator.prototype = {
   removedAttributes: function () {
     if (!this.nodeNameScore()) return {};
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAAttributeKeys = _.keys(nodeA.attributes());
     var nodeBAttributeKeys = _.keys(nodeB.attributes());
@@ -260,7 +264,8 @@ VWO.DOMNodeComparator.prototype = {
   styleScore: function () {
     if (!this.nodeNameScore()) return 0;
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAStyleKeys = _.keys(nodeA.styles());
     var nodeBStyleKeys = _.keys(nodeB.styles());
@@ -284,7 +289,8 @@ VWO.DOMNodeComparator.prototype = {
   addedStyles: function () {
     if (!this.nodeNameScore()) return {};
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAStyleKeys = _.keys(nodeA.styles());
     var nodeBStyleKeys = _.keys(nodeB.styles());
@@ -302,7 +308,8 @@ VWO.DOMNodeComparator.prototype = {
   changedStyles: function () {
     if (!this.nodeNameScore()) return {};
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAStyles = nodeA.styles();
     var nodeBStyles = nodeB.styles();
@@ -312,7 +319,7 @@ VWO.DOMNodeComparator.prototype = {
 
     var commonStyleKeys = _.intersection(nodeBStyleKeys, nodeAStyleKeys);
 
-    var changedStyleKeys = commonStyleKeys.filter(function(item) {
+    var changedStyleKeys = commonStyleKeys.filter(function (item) {
       return nodeAStyles[item] !== nodeBStyles[item];
     });
 
@@ -327,7 +334,8 @@ VWO.DOMNodeComparator.prototype = {
   removedStyles: function () {
     if (!this.nodeNameScore()) return {};
 
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     var nodeAStyleKeys = _.keys(nodeA.styles());
     var nodeBStyleKeys = _.keys(nodeB.styles());
@@ -359,7 +367,8 @@ VWO.DOMNodeComparator.prototype = {
    * @return {Number} The final score.
    */
   finalScore: function () {
-    var nodeA = this.nodeA, nodeB = this.nodeB;
+    var nodeA = this.nodeA,
+      nodeB = this.nodeB;
 
     if (!nodeA || !nodeB) return 0;
 
@@ -382,7 +391,7 @@ VWO.DOMNodeComparator.prototype = {
 
     // input tags with their type attributes changed are not valid matches.
     if (nodeA.nodeName().toUpperCase() === 'INPUT' &&
-        nodeA.attributes()['type'] !== nodeB.attributes()['type']) return 0;
+      nodeA.attributes()['type'] !== nodeB.attributes()['type']) return 0;
 
     if (innerHTMLScore) {
       return (8 + indexScore + (2 * attributeScore + styleScore) / 3) / 10;

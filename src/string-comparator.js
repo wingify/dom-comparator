@@ -131,75 +131,72 @@ VWO.StringComparator.prototype = {
       stringB = this.stringB;
 
     var matchesInA1 = {},
-	matchesInB1 = {};
+      matchesInB1 = {};
 
     var matchesInA2 = this.matchA,
-	matchesInB2 = this.matchB;
+      matchesInB2 = this.matchB;
 
     var stringsInA = stringA.split(this.splitOn),
-	stringsInB = stringB.split(this.splitOn);
+      stringsInB = stringB.split(this.splitOn);
 
     this.stringsInA = stringsInA;
     this.stringsInB = stringsInB;
-    var ignoreA = this.ignoreA ; 	
-    var ignoreB = this.ignoreB ; 
+    var ignoreA = this.ignoreA;
+    var ignoreB = this.ignoreB;
 
 
-/*    
+    /*
 
-	* Applying simple n^2 loop for finding partial matches
-	* Here, after finding one match point, next match point is found only after the previous match point.
+  * Applying simple n^2 loop for finding partial matches
+  * Here, after finding one match point, next match point is found only after the previous match point.
 */
 
     for (indexInA = 0, countOfStringsInA = stringsInA.length; indexInA < countOfStringsInA; indexInA++) {
-	    if(matchesInA2[indexInA])
-	    {
-		    match.from = indexInA;
-		    match.to = matchesInA2[indexInA];
-		    match.next = {};
-		    match.next.prev = match;
-		    match = match.next;
-		    continue ; 
-	    }
-	    if(ignoreA.indexOf(indexInA) != -1)
-		    continue ; 
+      if (matchesInA2[indexInA]) {
+        match.from = indexInA;
+        match.to = matchesInA2[indexInA];
+        match.next = {};
+        match.next.prev = match;
+        match = match.next;
+        continue;
+      }
+      if (ignoreA.indexOf(indexInA) != -1)
+        continue;
       for (indexInB = 0, countOfStringsInB = stringsInB.length; indexInB < countOfStringsInB; indexInB++) {
-        if (stringsInA[indexInA] === stringsInB[indexInB]) 
-	{
-          if (typeof matchesInB1[indexInB] === 'number' || typeof matchesInB2[indexInB] === 'number') 
-		  continue;
+        if (stringsInA[indexInA] === stringsInB[indexInB]) {
+          if (typeof matchesInB1[indexInB] === 'number' || typeof matchesInB2[indexInB] === 'number')
+            continue;
 
-	  if(ignoreB.indexOf(indexInB) != -1)
-		  continue ; 
+          if (ignoreB.indexOf(indexInB) != -1)
+            continue;
 
-	 /* 
-	  // fix for div name added in last ..... see test cases 33 and 34 for this .... in dom-comparator.js ..... 
-	  if (stringsInA[indexInA] == 'div' && stringsInB[indexInB] == 'div')
-	  {
-		  if(indexInA == (countOfStringsInA-3) || indexInB == (countOfStringsInB-3)) // test case 36 for this ..... 
-		  {
-			  if(countOfStringsInB > countOfStringsInA && indexInB < (countOfStringsInB-3))
-				  continue ; 
-			  if(countOfStringsInB < countOfStringsInA && indexInA < (countOfStringsInA-3))
-				  continue ; 
-		  }
-	  }
-	  // fix done 	
+          /*
+    // fix for div name added in last ..... see test cases 33 and 34 for this .... in dom-comparator.js .....
+    if (stringsInA[indexInA] == 'div' && stringsInB[indexInB] == 'div')
+    {
+      if(indexInA == (countOfStringsInA-3) || indexInB == (countOfStringsInB-3)) // test case 36 for this .....
+      {
+        if(countOfStringsInB > countOfStringsInA && indexInB < (countOfStringsInB-3))
+          continue ;
+        if(countOfStringsInB < countOfStringsInA && indexInA < (countOfStringsInA-3))
+          continue ;
+      }
+    }
+    // fix done
 
 */
 
 
-	  var prevMatch = match.prev;
+          var prevMatch = match.prev;
 
-	  if(prevMatch)
-	  {
-	  if(prevMatch.to > indexInB)
-		  continue ; 
-	  }
+          if (prevMatch) {
+            if (prevMatch.to > indexInB)
+              continue;
+          }
 
 
-	// While loop used for the rearranged parts 
- /*         while (prevMatch) {
+          // While loop used for the rearranged parts
+          /*         while (prevMatch) {
             if (prevMatch.to > indexInB) {
             delete matchesInA1[prevMatch.from];
               delete matchesInB1[prevMatch.to];
@@ -208,7 +205,7 @@ VWO.StringComparator.prototype = {
             }
             prevMatch = prevMatch.prev;
           }
-	 */
+   */
 
           match.from = indexInA;
           match.to = indexInB;
@@ -223,49 +220,46 @@ VWO.StringComparator.prototype = {
     }
 
 
-/*
+    /*
 
-   matchesIn*2 = ignore + exact matches  
+   matchesIn*2 = ignore + exact matches
    matchesIn*1 = partial matches
    merging the matches of matchesInA1 + matchesInA2 = matchesInA in sorted manner
- 
-*/   
 
-    var matchesInA = {} , matchesInB = {} ; 
+*/
 
-    var i, j ; 
-    for(i=0, lA = this.couA; i < (lA+1) ; i++)	
-    {	
-	    if(typeof (matchesInA1[i]) === 'number')
-		    matchesInA[i] = matchesInA1[i] ; 
+    var matchesInA = {},
+      matchesInB = {};
 
-	    if(typeof (matchesInA2[i]) === 'number')
-		    matchesInA[i] = matchesInA2[i] ; 
+    var i, j;
+    for (i = 0, lA = this.couA; i < (lA + 1); i++) {
+      if (typeof (matchesInA1[i]) === 'number')
+        matchesInA[i] = matchesInA1[i];
+
+      if (typeof (matchesInA2[i]) === 'number')
+        matchesInA[i] = matchesInA2[i];
 
     }
 
-    for(j = 0,  lB = this.couB ; j < (lB+1) ;j++)
-    {
+    for (j = 0, lB = this.couB; j < (lB + 1); j++) {
 
-	    if(typeof (matchesInB1[j]) === 'number')
-		    matchesInB[j] = matchesInB1[j] ; 
-	    if(typeof (matchesInB2[j]) === 'number')
-		    matchesInB[j] = matchesInB2[j] ; 
+      if (typeof (matchesInB1[j]) === 'number')
+        matchesInB[j] = matchesInB1[j];
+      if (typeof (matchesInB2[j]) === 'number')
+        matchesInB[j] = matchesInB2[j];
     }
 
 
-/*
-	
-   calculating diffUnion and other things with matchesInA and matchesInB 
+    /*
 
-*/  
+   calculating diffUnion and other things with matchesInA and matchesInB
+
+*/
 
     var lastMatchIndexInB = -1;
 
     for (indexInA = 0, countOfStringsInA = stringsInA.length; indexInA < countOfStringsInA; indexInA++) {
-      for (indexInB = lastMatchIndexInB + 1, countOfStringsInB = stringsInB.length;
-           typeof matchesInB[indexInB] === 'undefined' && indexInB < countOfStringsInB;
-           indexInB++) {
+      for (indexInB = lastMatchIndexInB + 1, countOfStringsInB = stringsInB.length; typeof matchesInB[indexInB] === 'undefined' && indexInB < countOfStringsInB; indexInB++) {
         // Strings added in B
         this.stringsAddedInB.push(new VWO.StringComparisonResult(stringsInB[indexInB], -1, indexInB));
         this.diffUnion.push(this.stringsAddedInB[this.stringsAddedInB.length - 1]);

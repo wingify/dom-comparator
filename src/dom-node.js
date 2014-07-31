@@ -79,9 +79,10 @@ VWO.DOMNode.prototype = {
       'masterIndex', 'selectorPath'
     ];
 
-    for (var i in fn) if (fn.hasOwnProperty(i)) {
-      this[fn[i]] = this[fn[i]].cache();
-    }
+    for (var i in fn)
+      if (fn.hasOwnProperty(i)) {
+        this[fn[i]] = this[fn[i]].cache();
+      }
   },
 
   /**
@@ -98,9 +99,10 @@ VWO.DOMNode.prototype = {
       'masterIndex', 'selectorPath'
     ];
 
-    for (var i in fn) if (fn.hasOwnProperty(i) && typeof this[fn[i]].uncache === 'function') {
-      this[fn[i]] = this[fn[i]].uncache();
-    }
+    for (var i in fn)
+      if (fn.hasOwnProperty(i) && typeof this[fn[i]].uncache === 'function') {
+        this[fn[i]] = this[fn[i]].uncache();
+      }
   },
 
   /**
@@ -156,8 +158,8 @@ VWO.DOMNode.prototype = {
 
     // if previous sibling is whitespace, get previous element node
     if (this.ignoreWhitespace &&
-        this.el.previousSibling instanceof Text &&
-        !this.el.previousSibling.textContent.trim()) {
+      this.el.previousSibling instanceof Text &&
+      !this.el.previousSibling.textContent.trim()) {
       return previousSibling.previousSibling();
     }
 
@@ -307,7 +309,7 @@ VWO.DOMNode.prototype = {
     return (
       el.outerHTML ||
       $("<div></div>").append($(el).clone(true)).html()
-     );
+    );
   },
 
 
@@ -321,7 +323,8 @@ VWO.DOMNode.prototype = {
   attributes: function () {
     if (this.nodeType() !== Node.ELEMENT_NODE) return {};
 
-    var el = this.el, attributes = {};
+    var el = this.el,
+      attributes = {};
 
     for (var i = 0; i < el.attributes.length; i++) {
       var attr = el.attributes[i];
@@ -341,7 +344,8 @@ VWO.DOMNode.prototype = {
   styles: function () {
     if (this.nodeType() !== Node.ELEMENT_NODE) return {};
 
-    var el = this.el, stylesHash = {};
+    var el = this.el,
+      stylesHash = {};
 
     for (var i = 0; i < el.attributes.length; i++) {
       var attr = el.attributes[i];
@@ -367,7 +371,8 @@ VWO.DOMNode.prototype = {
    * @readonly
    */
   children: function () {
-    var el = this.el, children = [];
+    var el = this.el,
+      children = [];
 
     for (var node = el.firstChild; node; node = node.nextSibling) {
       // ignore text nodes with only whitespace
@@ -409,8 +414,8 @@ VWO.DOMNode.prototype = {
    */
   descendants: function () {
     var descendants = {},
-        masterIndex = this.masterIndex(),
-        children = this.children();
+      masterIndex = this.masterIndex(),
+      children = this.children();
 
     descendants[masterIndex] = this;
 
@@ -610,7 +615,8 @@ VWO.DOMNode.prototype = {
     children[indexB] = nodeA;
     children[indexA] = nodeB;
 
-    var elA = nodeA.el, elB = nodeB.el;
+    var elA = nodeA.el,
+      elB = nodeB.el;
 
     var elASibling = elA.nextSibling === elB ? elA : elA.nextSibling;
     elB.parentNode.insertBefore(elA, elB);
@@ -620,8 +626,8 @@ VWO.DOMNode.prototype = {
   equals: function (domNode) {
     if (domNode.nodeName() !== this.nodeName() ||
       !_(domNode.attributes()).isEqual(this.attributes())
-//     || !_(domNode.styles()).isEqual(this.styles())
-      ) return false;
+      //     || !_(domNode.styles()).isEqual(this.styles())
+    ) return false;
 
     for (var i = 0, il = this.children().length; i < il; i++) {
       if (!domNode.children()[i]) return false;

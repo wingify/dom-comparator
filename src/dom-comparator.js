@@ -23,43 +23,42 @@ VWO.DOMComparator = function (params) {
   }
 
 
-  /* 
-   	Removing extra #text coming as inputs via textarea .	
-  */   
-  var h , leA = this.elA.length, leB = this.elB.length;
-  for(h=0;h<leA;h++)
-  {
-	  if(this.elA[h].data)
-	  {
-		  this.elA.splice(h,1); 
-		  h-- ; leA-- ; 
-	  }
+  /*
+    Removing extra #text coming as inputs via textarea .
+  */
+  var h, leA = this.elA.length,
+    leB = this.elB.length;
+  for (h = 0; h < leA; h++) {
+    if (this.elA[h].data) {
+      this.elA.splice(h, 1);
+      h--;
+      leA--;
+    }
   }
 
-  for(h=0;h<leB;h++)
-  {
-	  if(this.elB[h].data)
-	  {
-		  this.elB.splice(h,1); 
-		  h-- ; leB-- ; 
-	  }
+  for (h = 0; h < leB; h++) {
+    if (this.elB[h].data) {
+      this.elB.splice(h, 1);
+      h--;
+      leB--;
+    }
   }
 
-/*
- 	Striping the nodes and removing extra spaces and line breaks
-	taking care of all escape characters 
-   
+  /*
+  Striping the nodes and removing extra spaces and line breaks
+  taking care of all escape characters
+
 */
 
-  var outA = stripNodes($(this.elA).outerHTML()) ; 
-  var outB = stripNodes($(this.elB).outerHTML()) ; 
+  var outA = stripNodes($(this.elA).outerHTML());
+  var outB = stripNodes($(this.elB).outerHTML());
 
-/*
+  /*
 
-   Wrapper method is set to  "<him *** </him>" 
+   Wrapper method is set to  "<him *** </him>"
    Because it is not standard as <div> *** </div>
 
-*/   
+*/
 
   this.nodeA = VWO.DOMNodePool.create({
     el: $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0)
@@ -67,64 +66,52 @@ VWO.DOMComparator = function (params) {
   this.nodeB = VWO.DOMNodePool.create({
     el: $("<him id='DOMComparisonResult'>" + outB + "</him>").get(0)
   });
-  this.elAClone = $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0) ; 
+  this.elAClone = $("<him id='DOMComparisonResult'>" + outA + "</him>").get(0);
 };
 
 
-  function stripNodes(node)
-  {
-	  var ans = node.replace(/(?:\r\n|\r|\n)/g, '');  
-	  ans = ans.replace(/\>\s+\</g,'><')
-	  var out = '', l = ans.length, i = 0 ;
-		  while(i < l)
-		  {
-			  if(ans[i] == '"')
-			  {
-				  out += ans[i]; 
-				  while(1)
-				  {
-					  i = i + 1 ; 
-					  if(ans[i] == '"')
-					  {
-						  out += ans[i] ; 
-						  break ; 
-					  }
-					  if((i+1) < l && ans[i+1] == "'")
-					  {
-						  out += ans[i] ;
-						  out += '\\' ; 
-						  continue ; 
-					  }
-					  if(ans[i] == ' ')
-					  {
-						  if(ans[i+1].search(/[^A-Z0-9a-z\s]/) == -1)
-						  {
-							  out += ans[i] ; 
-							  continue ; 
-						  }
-						  else
-							  continue ; 
-					  }
+function stripNodes(node) {
+  var ans = node.replace(/(?:\r\n|\r|\n)/g, '');
+  ans = ans.replace(/\>\s+\</g, '><')
+  var out = '',
+    l = ans.length,
+    i = 0;
+  while (i < l) {
+    if (ans[i] == '"') {
+      out += ans[i];
+      while (1) {
+        i = i + 1;
+        if (ans[i] == '"') {
+          out += ans[i];
+          break;
+        }
+        if ((i + 1) < l && ans[i + 1] == "'") {
+          out += ans[i];
+          out += '\\';
+          continue;
+        }
+        if (ans[i] == ' ') {
+          if (ans[i + 1].search(/[^A-Z0-9a-z\s]/) == -1) {
+            out += ans[i];
+            continue;
+          } else
+            continue;
+        }
 
-					  out += ans[i] ; 
-				  }
-			  }
-		
-			  else
-			  {
-				if((i+1) < l && ans[i+1] == "'")
-				{
-					out += ans[i] ; 
-					out += '\\' ; 
-				}
-				else
-					out += ans[i] ; 
-			  }
-			i = i + 1 ; 
-		  }
+        out += ans[i];
+      }
+    } else {
+      if ((i + 1) < l && ans[i + 1] == "'") {
+        out += ans[i];
+        out += '\\';
+      } else
+        out += ans[i];
+    }
+    i = i + 1;
+  }
 
-		  return out ; 
-  }; 
+  return out;
+};
 
 
 VWO.DOMComparator.create = function (params) {
@@ -162,23 +149,24 @@ VWO.DOMComparator.prototype = {
     var nodeADescendants = this.nodeA.descendants();
     var nodeBDescendants = this.nodeB.descendants();
 
-    for (var i in matches) if (matches.hasOwnProperty(i)) {
-      var j = matches[i];
+    for (var i in matches)
+      if (matches.hasOwnProperty(i)) {
+        var j = matches[i];
 
-      var comparison = VWO.DOMNodeComparator.create({
-        nodeA: nodeADescendants[i],
-        nodeB: nodeBDescendants[j]
-      });
+        var comparison = VWO.DOMNodeComparator.create({
+          nodeA: nodeADescendants[i],
+          nodeB: nodeBDescendants[j]
+        });
 
-      var matchScore = comparison.finalScore();
+        var matchScore = comparison.finalScore();
 
-      if (matchScore) {
-        nodeADescendants[i].matchedWith = nodeBDescendants[j];
-        nodeBDescendants[j].matchedWith = nodeADescendants[i];
-        nodeBDescendants[j].matchScore = comparison.finalScore();
-        nodeBDescendants[j].matchDifference = comparison.difference();
+        if (matchScore) {
+          nodeADescendants[i].matchedWith = nodeBDescendants[j];
+          nodeBDescendants[j].matchedWith = nodeADescendants[i];
+          nodeBDescendants[j].matchScore = comparison.finalScore();
+          nodeBDescendants[j].matchDifference = comparison.difference();
+        }
       }
-    }
   },
 
   /**
@@ -221,7 +209,7 @@ VWO.DOMComparator.prototype = {
 
       if (nodeI && nodeI.matchedWith) {
         adjacentNode = nodeI.matchedWith;
-     //   adjacentNode.parent().addChildAt(insertedNode, adjacentNode.index());
+        //   adjacentNode.parent().addChildAt(insertedNode, adjacentNode.index());
         adjacentNode.parent().addChildAt(insertedNode, node.index());
 
       } else {
@@ -331,7 +319,7 @@ VWO.DOMComparator.prototype = {
           oldattr[key] = node.$().attr(key);
         });
 
-  // node.$().attr('class') = class_name
+        // node.$().attr('class') = class_name
         node.$().attr(attr);
         finalOperationsList.push(({
           name: 'attr',
@@ -592,9 +580,9 @@ VWO.DOMComparator.prototype = {
         }
       }));
     });
-	
-     VWO.DOMNodePool.uncacheAll();
-         VWO.DOMNodePool.cacheAll();
+
+    VWO.DOMNodePool.uncacheAll();
+    VWO.DOMNodePool.cacheAll();
 
     return finalOperationsList;
   },
@@ -607,7 +595,7 @@ VWO.DOMComparator.prototype = {
    */
   verifyComparison: function () {
     console.log('comparison successful: ' + this.nodeA.equals(this.nodeB));
-    return this.nodeA.equals(this.nodeB) ; 
+    return this.nodeA.equals(this.nodeB);
   },
 
   /**
@@ -618,167 +606,167 @@ VWO.DOMComparator.prototype = {
    */
   compare: function () {
     var self = this;
-	
+
     this.analyzeMatches();
- 
-    var final_results = [] ; 
-  
+
+    var final_results = [];
+
     var result1 = [
-	    this.detectRemovesInB(),
-	    this.detectRearranges()
+      this.detectRemovesInB(),
+      this.detectRearranges()
     ];
-   
-	 VWO.DOMNodePool.uncacheAll();
-	     VWO.DOMNodePool.cacheAll();
+
+    VWO.DOMNodePool.uncacheAll();
+    VWO.DOMNodePool.cacheAll();
 
     result1 = _(result1).flatten();
 
-      function getActualIndex(parentSelectorPath, indexInParent) {
-        var parentNode = VWO.DOMNode.create({	  		
-          el: self.nodeB.el.parentNode.querySelector(parentSelectorPath) 
-        });
-	if(indexInParent < 0)
-		return -1 ; 
-        var childNode = parentNode.children()[indexInParent];
-        return Array.prototype.slice.apply(parentNode.el.childNodes).indexOf(childNode.el);
-      }; 
+    function getActualIndex(parentSelectorPath, indexInParent) {
+      var parentNode = VWO.DOMNode.create({
+        el: self.nodeB.el.parentNode.querySelector(parentSelectorPath)
+      });
+      if (indexInParent < 0)
+        return -1;
+      var childNode = parentNode.children()[indexInParent];
+      return Array.prototype.slice.apply(parentNode.el.childNodes).indexOf(childNode.el);
+    };
 
-      var output = [], index, path, html, text, val, attr, css, index1, index2, path1, path2;
-      var l = result1.length ; 
-      for (var i = (l-1); i >= 0; i--) {
-        var op = result1[i];
-        if (op.name == 'deleteNodeInB')
-	{
-		index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
-		path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
-		if(!path)
-			path = op.content.parentSelectorPath;
-		html = op.content.html;
-		if(index == -1)
-			output[i] = '$(' + JSON.stringify(path)  + ').prepend(' + JSON.stringify(html) + ');';
-		else 			
-			output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
+    var output = [],
+      index, path, html, text, val, attr, css, index1, index2, path1, path2;
+    var l = result1.length;
+    for (var i = (l - 1); i >= 0; i--) {
+      var op = result1[i];
+      if (op.name == 'deleteNodeInB') {
+        index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent - 1);
+        path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+        if (!path)
+          path = op.content.parentSelectorPath;
+        html = op.content.html;
+        if (index == -1)
+          output[i] = '$(' + JSON.stringify(path) + ').prepend(' + JSON.stringify(html) + ');';
+        else
+          output[i] = '$($(' + JSON.stringify(path) + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
 
-		var ctx = self.nodeB.el ; 
-		var $ = function (selector) {
-			if(selector == "HIM#DOMComparisonResult")
-				return jQuery(ctx) ; 
-			return jQuery(selector, ctx);
-		};
-		eval(output[i]) ;
-	}
-	else
-		final_results.push(result1[i]) ; 
-      }
-	 VWO.DOMNodePool.uncacheAll();
-	     VWO.DOMNodePool.cacheAll();
+        var ctx = self.nodeB.el;
+        var $ = function (selector) {
+          if (selector == "HIM#DOMComparisonResult")
+            return jQuery(ctx);
+          return jQuery(selector, ctx);
+        };
+        eval(output[i]);
+      } else
+        final_results.push(result1[i]);
+    }
+    VWO.DOMNodePool.uncacheAll();
+    VWO.DOMNodePool.cacheAll();
 
 
     var result = [
-	    this.detectInserts(),
-	    this.detectRemoves(),
-	    this.detectTextNodeChanges(),
-	    this.detectAttributeChanges(),
-	    this.detectStyleChanges(),
+      this.detectInserts(),
+      this.detectRemoves(),
+      this.detectTextNodeChanges(),
+      this.detectAttributeChanges(),
+      this.detectStyleChanges(),
     ];
 
-     result = _(result).flatten();
- 
-    var le = result.length ;
+    result = _(result).flatten();
 
-    for(i=0;i<le;i++)
-	    final_results.push(result[i]) ; 
+    var le = result.length;
 
-    console.log(final_results) ; 
+    for (i = 0; i < le; i++)
+      final_results.push(result[i]);
+
+    console.log(final_results);
 
     this.verifyComparison();
 
 
-  /*  
+
     result.toJqueryCode = function toJqueryCode() {
       function getActualIndex(parentSelectorPath, indexInParent) {
-        var parentNode = VWO.DOMNode.create({	  		
-          el: self.elAClone.parentNode.querySelector(parentSelectorPath) 
+        var parentNode = VWO.DOMNode.create({
+          el: self.elAClone.parentNode.querySelector(parentSelectorPath)
         });
-	if(indexInParent < 0)
-		return -1 ; 
+        if (indexInParent < 0)
+          return -1;
         var childNode = parentNode.children()[indexInParent];
         return Array.prototype.slice.apply(parentNode.el.childNodes).indexOf(childNode.el);
       }
 
-      var output = [], index, path, html, text, val, attr, css, index1, index2, path1, path2;
+      var output = [],
+        index, path, html, text, val, attr, css, index1, index2, path1, path2;
       for (var i = 0, l = this.length; i < l; i++) {
         var op = this[i];
         switch (op.name) {
-          case 'insertNode':
-            index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
-            path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
-            html = op.content.html;
-	    if(index == -1)
-            	output[i] = '$(' + JSON.stringify(path)  + ').append(' + JSON.stringify(html) + ');';
-	    else 			
-            	output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
-            break;
-	 /*   
-	  case  'rearrange' : 
-            index1 = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent-1);
-            index2 = getActualIndex(op.content.oldParentSelectorPath, op.content.oldIndexInParent);
-            path1 = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
-            path2 = op.content.oldParentSelectorPath.split('DOMComparisonResult > ')[1];
-	    var node = '$(' + path2 + ').get(0).childNodes[' + index2 + ']';
-	    if(index1 == -1)
-            	output[i] = '$(' + JSON.stringify(path1)  + ').append(' + node + ');';
-	    else 			
-            	output[i] = '$($(' + JSON.stringify(path1)  + ').get(0).childNodes[' + index1 + ']).after(' + node + ');';
-          case 'deleteNode':
-            index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
-            path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
-            html = op.content.html;
-            output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).remove();';
-            break;
-          case 'changeText':
-          case 'changeComment':
-            index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
-            path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
-	    text = op.content.text;
-	    output[i] = '$($(' + JSON.stringify(path)  + ').get(0).childNodes[' + index + ']).remove();';
-	    var ctx = self.elAClone ; 
-	    var $ = function (selector) {
-		    return jQuery(selector, ctx);
-	    };
-	    eval(output[i]) ;
-            output[i] = '$(' + JSON.stringify(path)  + ').append(' + JSON.stringify(text) + ');';
-	    break;
-          case 'attr':
-          case 'css':
-            path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            val = op.content;
-            output[i] = '$(' + JSON.stringify(path) + ').' + op.name + '(' + JSON.stringify(val) + ');';
-            break;
-          case 'removeAttr':
-            path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            attr = Object.keys(op.content);
-            output[i] = '$(' + JSON.stringify(path) + ')' + attr.map(function (attr) {
-              return '.removeAttr(' + JSON.stringify(attr) + ')';
-            }).join('') + ';';
-            break;
-          case 'removeCss':
-            path = op.selectorPath.split('DOMComparisonResult > ')[1];
-            css = Object.keys(op.content);
-            output[i] = '$(' + JSON.stringify(path) + ')' + css.map(function (css) {
-              return '.css(' + JSON.stringify(css) + ', "")';
-            }).join('') + ';';
-            break;
+        case 'insertNode':
+          index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent - 1);
+          path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+          html = op.content.html;
+          if (index == -1)
+            output[i] = '$(' + JSON.stringify(path) + ').append(' + JSON.stringify(html) + ');';
+          else
+            output[i] = '$($(' + JSON.stringify(path) + ').get(0).childNodes[' + index + ']).after(' + JSON.stringify(html) + ');';
+          break;
+
+        case 'rearrange':
+          index1 = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent - 1);
+          index2 = getActualIndex(op.content.oldParentSelectorPath, op.content.oldIndexInParent);
+          path1 = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+          path2 = op.content.oldParentSelectorPath.split('DOMComparisonResult > ')[1];
+          var node = '$(' + path2 + ').get(0).childNodes[' + index2 + ']';
+          if (index1 == -1)
+            output[i] = '$(' + JSON.stringify(path1) + ').append(' + node + ');';
+          else
+            output[i] = '$($(' + JSON.stringify(path1) + ').get(0).childNodes[' + index1 + ']).after(' + node + ');';
+        case 'deleteNode':
+          index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
+          path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+          html = op.content.html;
+          output[i] = '$($(' + JSON.stringify(path) + ').get(0).childNodes[' + index + ']).remove();';
+          break;
+        case 'changeText':
+        case 'changeComment':
+          index = getActualIndex(op.content.parentSelectorPath, op.content.indexInParent);
+          path = op.content.parentSelectorPath.split('DOMComparisonResult > ')[1];
+          text = op.content.text;
+          output[i] = '$($(' + JSON.stringify(path) + ').get(0).childNodes[' + index + ']).remove();';
+          var ctx = self.elAClone;
+          var $ = function (selector) {
+            return jQuery(selector, ctx);
+          };
+          eval(output[i]);
+          output[i] = '$(' + JSON.stringify(path) + ').append(' + JSON.stringify(text) + ');';
+          break;
+        case 'attr':
+        case 'css':
+          path = op.selectorPath.split('DOMComparisonResult > ')[1];
+          val = op.content;
+          output[i] = '$(' + JSON.stringify(path) + ').' + op.name + '(' + JSON.stringify(val) + ');';
+          break;
+        case 'removeAttr':
+          path = op.selectorPath.split('DOMComparisonResult > ')[1];
+          attr = Object.keys(op.content);
+          output[i] = '$(' + JSON.stringify(path) + ')' + attr.map(function (attr) {
+            return '.removeAttr(' + JSON.stringify(attr) + ')';
+          }).join('') + ';';
+          break;
+        case 'removeCss':
+          path = op.selectorPath.split('DOMComparisonResult > ')[1];
+          css = Object.keys(op.content);
+          output[i] = '$(' + JSON.stringify(path) + ')' + css.map(function (css) {
+            return '.css(' + JSON.stringify(css) + ', "")';
+          }).join('') + ';';
+          break;
         }
-	var ctx = self.elAClone ; 
-	var $ = function (selector) {
-	return jQuery(selector, ctx);
-	};
-	eval(output[i]) ;
+        var ctx = self.elAClone;
+        var $ = function (selector) {
+          return jQuery(selector, ctx);
+        };
+        eval(output[i]);
       }
-        return self.elAClone;
+      return self.elAClone;
     };
-   */ 
+
     return final_results;
   }
 };

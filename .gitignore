@@ -18,8 +18,4 @@ test/unit-tests.js
 test/dom-comparator.js
 testem.json
 node_modules
-<<<<<<< HEAD
 bower_components
-=======
-bower_components
->>>>>>> 6d4984b978d7e7cc6c3a8430f5a290518a3b7c7f
