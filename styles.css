@@ -1,0 +1,181 @@
+html, body {
+    margin: 0;
+	padding: 0;
+    background: #2c3e50;
+    color: #2c3e50;
+    cursor: default;
+    font-family: Lato;
+    font-size: 16px;
+    line-height: 1.5em;
+    font-weight: 300;
+}
+
+footer {
+    color: #ecf0f1;
+    margin: 20px 20px 20px calc(25% + 20px);
+}
+
+b, strong {
+    font-weight: 400;
+}
+
+h2 {
+    font-weight: 300;
+    font-style: italic;
+    padding: 20px 40px;
+    background:#8e44ad;
+    color: white;
+    margin-top: 0;
+}
+
+h3 {
+    font-weight: 300;
+    font-style: italic;
+    font-size: 20px;
+    color: #8e44ad;
+}
+
+h4 {
+	font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: #8e44ad;
+}
+
+p {
+    margin: 20px 0;
+}
+
+a {
+    color: #8e44ad;
+    text-decoration: none;
+}
+
+code {
+	background: #ecf0f1;
+	padding: 2px 5px;
+	color: #16a085;
+	border-radius: 5px;
+	font-weight: 400;
+	font-family: Lato;
+	font-size: 0.9em;
+}
+
+code a {
+	color: #16a085;
+}
+
+code a:hover {
+	opacity: 0.75;
+	color: #16a085;
+	border: none;
+}
+
+pre code {
+	padding: 20px!important;
+	overflow: scroll;
+	font-weight: 300;
+}
+
+code, pre {
+	font-family: 'Source Code Pro';
+	cursor: text;
+}
+
+a:hover {
+    color: #e67e22;
+    border-bottom: 1px solid;
+}
+
+.flexbox{
+    display:table;
+    width:100%;
+    height: 100%;
+}
+
+.flexbox__item{
+    display:table-cell;
+    vertical-align:top;
+}
+
+.main-container {
+    margin: 40px;
+}
+
+.content {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.main-content {
+	margin: 40px;
+}
+
+.title {
+    color: #ecf0f1;
+    font-weight: 300;
+    font-size: 24px;
+    margin: 40px 20px 20px 20px;
+}
+
+.green {
+	color: #2ecc71;
+}
+
+.red {
+	color: #e74c3c;
+}
+
+.hidden {
+	display:none;
+}
+
+.color--alizarin {
+    color: #e74c3c
+}
+
+.color--pomgranate {
+    color: #c0392b
+}
+
+.color--sunflower {
+    color: #95a5a6;
+}
+
+.nav {
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.nav > li > a {
+    padding: 20px;
+    display: block;
+    color: #ecf0f1;
+}
+
+.nav > li > a.active {
+    color: #8e44ad;
+    background: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    cursor: default;
+}
+
+.nav > li > a:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.25);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom: none;
+}
+
+.nav > li > a.active:hover {
+    color: #8e44ad;
+    background: white;
+    border-bottom: none;
+}
+
+.text--right {
+    text-align: right;
+}

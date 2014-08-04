@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Comparator</title>
+    <style>
+    @import url("https://fonts.googleapis.com/css?family=Lato:300,100,300italic,400");
+    @import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:300,300italic,400");
+    @import url("styles.css");
+    @import url("default.css");
+    @import url("dark.css");
+    </style>
+    <script src="script.js"></script>
+    <script src="highlight.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class='main-container'>
+        <div class="flexbox" style="table-layout:fixed">
+            <div class="flexbox__item  text--right" style="width: 25%; min-width: 300px;">
+                <h1 class='title'>
+                    <span class="color--sunflower">&lt;</span>dom-comparator<span class="color--sunflower">/&gt;</span>
+                </h1>
+                <nav>
+                <ul class="nav">
+                    <li><a href="what-is-dom-comparator.html" class="active">What is DOM Comparator?</a></li>
+                    <li><a href="setting-up.html">Setting Up</a></li>
+                    <li><a href="basic-usage.html">Basic Usage</a></li>
+                    <li><a href="advanced-usage.html">Advanced Usage</a></li>
+                    <li><a href="the-algorithm.html">The Algorithm</a></li>
+                </ul>
+                </nav>
+                <script>parseAnchors()</script>
+            </div>
+            <div class="flexbox__item  content" style="width: 75%;">
+                <script>includeContent()</script>
+            </div>
+        </div>
+        <footer><em>&copy; 2014 Wingify Software Pvt. Ltd.</em></footer>
+    </div>
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+
+</body>
+</html>
