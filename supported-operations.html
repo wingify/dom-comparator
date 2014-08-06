@@ -1,7 +1,186 @@
-<script src="script.js"></script><script>navigateHome()</script>
+<script src='script.js'></script><script>navigateHome()</script>
 
 ## Supported Operations
 
-The output of `VWO.DOMComparator`'s instance's `compare` function supports 9 kinds of operations. These are listed below with suitable examples:
+The output of `VWO.DOMComparator`'s instance's `compare` function supports 8 kinds of operations. 5 of these operations: `attr`, `removeAttr`, `css`, `removeCss` and `changeText` are operations that do not involve any DOM manipulations. The remaining 3 operations - `insertNode`, `deleteNode` and `rearrange` are DOM modifying operations. These operations are described below with suitable examples:
 
-### 1. Attr
+### 1. attr
+
+Identifies addition or change of attribute(s) on a particular element. The `content` property of the returned `VWO.Operation` object is a hashmap of attributes to add or change to the element identified by `selectorPath`.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<a class="add_to_cart" href="#">Add to Cart</a>',
+	stringB: '<a class="add_to_cart" href="#add_to_cart" data-custom="hello" target="_blank">Add to Cart</a>'
+});
+
+expect(result[0]).toEqual({
+	name: 'attr',
+	selectorPath: 'A:first-child',
+	content: {
+		'href': '#add_to_cart',
+		'data-custom': 'hello',
+		'target': '_blank'
+	}
+});
+```
+
+### 2. removeAttr
+
+Identifies removal of attributes from an element. The `content` property of the returned object is a key-value pair of the attributes removed from the element identified by `selectorPath`.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<a class="add_to_cart" href="#" data-custom="hello" target="_blank">Add to Cart</a>',
+	stringB: '<a class="add_to_cart" href="#">Add to Cart</a>'
+});
+
+expect(result[0]).toEqual({
+	name: 'removeAttr',
+	selectorPath: 'A:first-child',
+	content: {
+		'data-custom': 'hello',
+		'target': '_blank'
+	}
+});
+```
+
+### 3. css
+
+Identifies addition or change of css styles(s) on a particular element. The `content` property of the returned `VWO.Operation` object is a hashmap of css styles to add or change to the element identified by `selectorPath`.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<a class="add_to_cart" href="#" style="color:black;">Add to Cart</a>',
+	stringB: '<a class="add_to_cart" href="#" style="color:red;font-weight:bold">Add to Cart</a>'
+});
+
+expect(result[0]).toEqual({
+	name: 'css',
+	selectorPath: 'A:first-child',
+	content: {
+		'font-weight': 'bold',
+		'color': 'red'
+	}
+});
+```
+
+### 4. removeCss
+
+Identifies removal of css styles from an element. The `content` property of the returned object is a key-value pair of the css styles removed from the element identified by `selectorPath`.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<a class="add_to_cart" href="#" style="color:red;font-weight:bold">Add to Cart</a>',
+	stringB: '<a class="add_to_cart" href="#">Add to Cart</a>'
+});
+
+expect(result[0]).toEqual({
+	name: 'removeAttr',
+	selectorPath: 'A:first-child',
+	content: {
+		'font-weight': 'bold',
+		'color': 'red'
+	}
+});
+```
+
+### 5. changeText
+
+If a text node in a markup is modified, and it appears as changed in `stringB` from `stringA`, it is detected as a `changeText` operation. The `content` property contains three sub-properties: `text`, `parentSelectorPath` and `indexInParent`. The `content.text` key contains the new text, `content.parentSelectorPath` is the selector path of the parent element of the text node modified, and `content.indexInParent` contains the index of the text node in the parent container identified by the given selector path.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<a class="add_to_cart" href="#">Add to Cart</a>',
+	stringB: '<a class="add_to_cart" href="#">Add to My Cart</a>'
+});
+
+expect(result[0]).toEqual({
+	name: 'changeText',
+	content: {
+		text: 'Add to My Cart',
+		parentSelectorPath: 'A:first-child',
+		indexInParent: 0
+	}
+});
+```
+
+Here's a little complex example:
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<p>The quick <strong>brown</strong> fox jumped over the <em>lazy</em> dog.</p>',
+	stringB: '<p>The quick <strong>brown</strong> wolf jumped over the <em>lazy</em> dog.</p>'
+});
+
+expect(result[0]).toEqual({
+	name: 'changeText',
+	content: {
+		text: ' wolf jumpled over the ',
+		parentSelectorPath: 'P:first-child',
+		indexInParent: 2
+	}
+});
+```
+
+### 6. insertNode
+
+Indicates that a node that that was not present in the initial markup has been inserted in the final markup. The `content` property for this operation contains three properties: `html`, `parentSelectorPath` and `indexInParent`. The `content.html` contains the new markup to be inserted. The `content.parentSelectorPath` contains the selector path of the container in which this markup needs to be inserted, and `content.indexInParent` key contains the index of the existing element *before* which the new element needs to be inserted.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<ul><li>red</li><li>blue</li></ul>',
+	stringB: '<ul><li>red</li><li>blue</li><li>green</li></ul>'
+});
+
+expect(result[0]).toEqual({
+	name: 'insertNode',
+	content: {
+		html: "<li>green</li>",
+		parentSelectorPath: "UL:first-child",
+		indexInParent: 2
+	}
+});
+```
+
+### 7. deleteNode
+
+Indicates that a node that was present in the initial markup has been removed from the final markup. The `content` property contains two keys: `parentSelectorPath` and `indexInParent`, the combination of which indicates the position of the element to be deleted.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<ul><li>red</li><li>blue</li><li>green</li></ul>',
+	stringB: '<ul><li>red</li><li>blue</li></ul>'
+});
+
+expect(result[0]).toEqual({
+	name: 'insertNode',
+	content: {
+		parentSelectorPath: "UL:first-child",
+		indexInParent: 2
+	}
+});
+```
+
+### 8. rearrange
+
+Indicates that an element has been moved from one position in the initial DOM to another position in the final DOM. The `content` property
+contains four keys: `parentSelectorPath` and `indexInParent` identify the new position of the element and `oldParentSelectorPath` and `oldIndexInParent` identify the old position of the element.
+
+```js
+var result = VWO.DOMComparator.create({
+	stringA: '<ul><li>red</li><li>blue</li></ul><ul><li>green</li><li>yellow</li></ul>',
+	stringB: '<ul><li>red</li><li>blue</li><li>yellow</li></ul><ul><li>green</li></ul>'
+});
+
+// <li>yellow</li> has been moved from the second list to the first.
+expect(result[0]).toEqual({
+	name: 'rearrange',
+	content: {
+		parentSelectorPath: 'UL:first-child',
+		indexInParent: 2,
+		oldParentSelectorPath: 'UL:first-child + UL',
+		oldIndexInParent: 1
+	}
+});
+```

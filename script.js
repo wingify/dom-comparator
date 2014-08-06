@@ -27,6 +27,7 @@ function include(file, node, cb) {
         content.innerHTML = marked(contents);
         node.parentNode.replaceChild(content, node);
         parseAnchors(content);
+        $('html, body').animate({scrollTop: 0});
 
         var blocks = content.querySelectorAll('pre code');
         for (i = 0; i < blocks.length; i ++) {
