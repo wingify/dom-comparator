@@ -30,6 +30,7 @@ function include(file, node, cb) {
 
         var blocks = content.querySelectorAll('pre code');
         for (i = 0; i < blocks.length; i ++) {
+            blocks[i].className = blocks[i].className.replace('lang-', '')
             hljs.highlightBlock(blocks[i]);
         }
         cb();
