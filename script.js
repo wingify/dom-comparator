@@ -24,8 +24,9 @@ function include(file, node, cb) {
         }
 
         var content = document.createElement('div');
-        content.innerHTML = contents;
+        content.innerHTML = marked(contents);
         node.parentNode.replaceChild(content, node);
+        parseAnchors(content);
 
         var blocks = content.querySelectorAll('pre code');
         for (i = 0; i < blocks.length; i ++) {
@@ -37,18 +38,21 @@ function include(file, node, cb) {
 
 function parseAnchors(node) {
     node = node || document;
-    var anchors = node.querySelectorAll('nav a'), anchor;
+    var anchors = node.querySelectorAll('a'), anchor;
     for (var i = 0; i < anchors.length; i++) {
         anchor = anchors[i];
-        if (window.location.href.indexOf(anchor.getAttribute('href')) >= 0) {
-            node.querySelector('nav a.active').className = '';
+        if (window.location.href.indexOf(anchor.getAttribute('href')) >= 0 && node === document) {
+            document.querySelector('nav a.active').className = '';
             anchor.className = 'active';
         }
         anchor.onclick = function () {
-            var active = node.querySelector('nav a.active');;
-            if (active) { active.className = ''; }
-            this.className = 'active';
+            var active = document.querySelector('nav a.active');
             var href = this.getAttribute('href');
+            if (active) { active.className = ''; }
+            var a = document.querySelector('nav a[href="' + href + '"]');
+            if (a) {
+                a.className = this.className = 'active';
+            }
             window.history.pushState(href, href, href);
             includeContent();
             return false;
@@ -63,7 +67,7 @@ function includeContent() {
             $('.content .main-content').append(disqus);
         });
     });
-    document.title = activeAnchor.textContent + ' - Resource Manager';
+    document.title = activeAnchor.textContent + ' - DOM Comparator';
 }
 
 function navigateHome() {

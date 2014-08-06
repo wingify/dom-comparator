@@ -25,7 +25,7 @@ h2 {
     padding: 20px 40px;
     background:#8e44ad;
     color: white;
-    margin-top: 0;
+    margin: -40px -40px 40px -40px;
 }
 
 h3 {
@@ -106,6 +106,7 @@ a:hover {
     background: white;
     border-radius: 10px;
     overflow: hidden;
+    padding: 40px;
 }
 
 .main-content {

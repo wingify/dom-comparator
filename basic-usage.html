@@ -1,0 +1,60 @@
+<script src="script.js"></script><script>navigateHome()</script>
+
+## Basic Usage
+
+After including `dist/dom-comparator.js` in your project, the basic usage involves just two steps: creating an instance of `VWO.DOMComparator` and calling the `compare()` function on the instance.
+
+### Constructor
+
+The constructor of `VWO.DOMComparator` can be called using `new VWO.DOMComparator(options)` or `VWO.DOMComparator.create(options)`. The `options` can take three kinds of parameters:
+
+
+* Pass the strings to compare as `stringA` and `stringB`.
+```js
+var comparator = VWO.DOMComparator.create({
+    stringA: '<div class="hello">some markup</div>',
+    stringB: '<div>some markup</div>'
+});
+```
+
+* Pass the elements directly as `elA` and `elB`.
+```js
+var div1 = document.createElement('div');
+div1.innerHTML = '<p>some text</p>';
+var div2 = document.createElement('div');
+div2.innerHTML = '<p class="paragraph">some other text</p>';
+var comparator = VWO.DOMComparator.create({
+    elA: div1,
+    elB: div2
+});
+```
+If you're using jQuery, use `get(0)` to get the elements and pass to the constructor.
+```js
+var comparator = VWO.DOMComparator.create({
+    elA: $('<div class="hello">some text</div>').get(0),
+    elB: $('<div class="hello2">some text</div>').get(0)
+});
+```
+
+* Finally, you could also pass instances of `VWO.DOMNode` as `nodeA` and `nodeB`. The above two methods define these properties anyway. This is how you'd do it:
+```js
+var comparator = VWO.DOMComparator.create({
+    nodeA: VWO.DOMNode.create({ el: $('<div class="hello">some text</div>').get(0) }),
+    nodeB: VWO.DOMNode.create({ el: $('<div class="hello2">some text</div>').get(0) })
+});
+```
+
+### Comparison
+
+Comparison is as easy as calling the `compare` function on the `VWO.DOMComparator` instance. The output returned is an array of operations.
+```js
+var output = comparator.compare();
+```
+
+Each of the operations are instances of `VWO.Operation` which hold three properties:
+
+* `name`: The name of the operation to apply. See [supported operations](supported-operations.html) for the list of operations that the output format supports.
+* `selectorPath`: The unique CSS selector path that corresponds to the given element.
+* `content`: Depending on the operation, the content key contains various properties / additional information about that operation.
+
+The operations are meant to be applied in a serial order, as an operation might be dependent on the one preceding it.

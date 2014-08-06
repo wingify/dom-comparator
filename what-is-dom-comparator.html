@@ -1,14 +1,14 @@
 <script src="script.js"></script><script>navigateHome()</script>
-<h2>What is DOM Comparator?</h2>
-<div class="main-content">
-	<p>
-		DOM Comparator is a library that, simply put, compares two strings of DOM nodes (which are called <code>stringA</code> and <code>stringB</code>), and returns an output containing the minimal number of steps that must be taken (like attribute changes, style changes, text changes and DOM manimpulation) to convert <code>stringA</code> into <code>stringB</code>.
-	</p>
-	<p>
-		The output returned by DOM Comparator is an array of <code>Operation</code> objects, which can also be expressed as jQuery code.
-		Here's a simple example:
-<pre><code class="javascript">var stringA = '&lt;ul&gt;&lt;li class="active"&gt;list item 1&lt;/li&gt;&lt;li&gt;list item 2&lt;/li&gt;&lt;/ul&gt;';
-var stringB = '&lt;ul&gt;&lt;li&gt;list item 1&lt;/li&gt;&lt;li&gt;list item 2&lt;/li&gt;&lt;/ul&gt;';
+
+## What is DOM Comparator?
+
+DOM Comparator is a library that, simply put, compares two strings of DOM nodes (which are called `stringA` and `stringB`), and returns an output containing the minimal number of steps that must be taken (like attribute changes, style changes, text changes and DOM manimpulation) to convert `stringA` into `stringB`.
+
+The output returned by DOM Comparator is an array of `VWO.Operation` objects, which can also be expressed as jQuery code. Here's a simple example:
+
+```js
+var stringA = '<ul><li class="active">list item 1</li><li>list item 2</li></ul>';
+var stringB = '<ul><li>list item 1</li><li>list item 2</li></ul>';
 
 // Compare the two strings
 var result = VWO.DOMComparator.create({
@@ -28,74 +28,64 @@ expect(result[0].selectorPath).toEqual('UL:first-child > LI:first-child');
 
 // With below content
 expect(result[0].content).toEqual({class: 'active'});
-</code></pre>
-	</p>
-    <h3>Motivation</h3>
-    <p>
-        One of the core components of our A/B testing software - Visual Website Optimizer is the Editor. It allows you to make
-        changes to any website on the fly. Assuming the target website has a small snippet of VWO Smart Code (Javascript) inserted, the
-        changes made by the user are applied when the A/B test is run. These changes are little snippets of jQuery operations that are
-        applied on the client-end.
-    </p>
-    <p>
-    	One of the major problems faced when applying such changes that they did not regard for dynamic content that might have
-    	been rendered by the client's website's backend. Let us consider a simple example:
-    </p>
-    <p>
-    	Imagine somebody wanting to run an A/B test on all the product pages of an eCommerce website. He wants to modify the "Buy Now"
-    	button on all such pages and make it appear bigger and bolder, so that it captures the end-user's attention better.
-    	He navigates to some product page, selects the button and tries to edit it. Assume that that button has markup that looks
-    	like below:
-<pre><code class="html">&lt;a href="javascript:addToCart(16);" class="add_to_cart"&gt;Add to Cart&lt;a&gt;</code></pre>
-    </p>
-    <p>
-		The Editor component of Visual Website Optimizer provides an "Edit" operation, that opens up a rich text editor for the user
-		to make changes to any element with ease. Assuming, he makes the text of the button bolder and changes the color to a bright
-		red, here's what the resulting markup would look like:
-<pre><code class="html">&lt;a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;"&gt;Add to Cart&lt;a&gt;</code></pre>
-    </p>
-    <p>
-    	Internally, an Edit operation is identified by the element the operation is applied on, and the new markup
-    	provided by the user, which in this case is the above code. It means that if a Buy Now button is found on any page,
-    	it will be replaced with the above code. The jQuery code for such an operation would look something like this:
-    </p>
-<pre><code class="javascript">// A unique selector path to identify the element
-var selector = '#product_description > P:first-child + P > A:first-child';
-$(selector).replaceWith('&lt;a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;"&gt;Add to Cart&lt;a&gt;');</code></pre>
-    	Notice how this would not only add the styles to that element, but also change its <code>href</code> to always execute
-    	<code>addToCart(16);</code> regardless of the product page the user is on. Essentially, the dynamic content rendered by the
-    	client's backend has now been replaced with static content.
-    </p>
-    <h3>This is where DOM Comparator comes in</h3>
-    <p>
-        With DOM Comparator in place, the initial markup of the Edit operation above will be compared with the final one, and a difference
-        would be returned. The difference would contain the minimal changes necessary to be made to the target element, thereby impacting
-        dynamic content as less as possible.
-    </p>
-    <p>
-    	For the above example, here's what the list of resulting operations would look like:
-<pre><code class="javascript">[{"name":"css","selectorPath":"#product_description > P:first-child + P > A:first-child","content":{"font-weight":"bold","color":"red"}}]</code></pre>
-    </p>
-    <p>
-    	The jQuery code would look like this:
-<pre><code class="javascript">// A unique selector path to identify the element
-var selector = '#product_description > P:first-child + P > A:first-child';
-$(selector).css({'font-weight': 'bold', 'color': 'red'});</code></pre>
-    </p>
-    <h3>Supported Operations</h3>
-    <p>
-    	Below is the list of operations supported by DOM Comparator's output:
+```
 
-    	<ul>
-    		<li><strong>Insert Node:</strong> Identifies the insertion of a new node in the final markup.</li>
-    		<li><strong>Delete Node:</strong> Identifies the deletion of a node in the initial markup.</li>
-    		<li><strong>Rearrange:</strong> Identifies rearrangement of an element within a parent container to a different position
-    			within the same or a different parent container.</li>
-    		<li><strong>Change Text:</strong> Identifies a simple text change.</li>
-    		<li><strong>CSS:</strong> Identifies addition of new styles to an element.</li>
-    		<li><strong>Remove CSS:</strong> Identifies removal of existing styles from an element.</li>
-    		<li><strong>Attr:</strong> Identifies addition of new attributes to an element.</li>
-    		<li><strong>Remove Attr:</strong> Identifies removal of existing attributes from an element.</li>
-    	</ul>
-    </p>
-</div>
+### Motivation
+
+One of the core components of our A/B testing software - Visual Website Optimizer is the Editor. It allows you to make changes to any website on the fly. Assuming the target website has a small snippet of VWO Smart Code (Javascript) inserted, the changes made by the user are applied when the A/B test is run. These changes are little snippets of jQuery operations that are applied on the client-end.
+
+One of the major problems faced when applying such changes that they did not regard for dynamic content that might have been rendered by the client's website's backend. Let us consider a simple example:
+
+Imagine somebody wanting to run an A/B test on all the product pages of an eCommerce website. He wants to modify the "Buy Now" button on all such pages and make it appear bigger and bolder, so that it captures the end-user's attention better. He navigates to some product page, selects the button and tries to edit it. Assume that that button has markup that looks like below:
+
+```html
+<a href="javascript:addToCart(16);" class="add_to_cart">Add to Cart<a>
+```
+
+The Editor component of Visual Website Optimizer provides an "Edit" operation, that opens up a rich text editor for the user to make changes to any element with ease. Assuming, he makes the text of the button bolder and changes the color to a bright red, here's what the resulting markup would look like:
+
+```html
+<a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;">Add to Cart<a>
+```
+
+Internally, an Edit operation is identified by the element the operation is applied on, and the new markupprovided by the user, which in this case is the above code. It means that if a Buy Now button is found on any page, it will be replaced with the above code. The jQuery code for such an operation would look something like this:
+
+```js
+// A unique selector path to identify the element
+var selector = '#product_description > P:first-child + P > A:first-child';
+$(selector).replaceWith('<a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;">Add to Cart<a>');
+```
+
+
+Notice how this would not only add the styles to that element, but also change its `href` to always execute `addToCart(16);` regardless of the product page the user is on. Essentially, the dynamic content rendered by the client's backend has now been replaced with static content.
+
+h3. This is where DOM Comparator comes in
+
+With DOM Comparator in place, the initial markup of the Edit operation above will be compared with the final one, and a differencewould be returned. The difference would contain the minimal changes necessary to be made to the target element, thereby impacting dynamic content as less as possible.
+
+For the above example, here's what the list of resulting operations would look like:
+
+```json
+[{"name":"css","selectorPath":"#product_description > P:first-child + P > A:first-child","content":{"font-weight":"bold","color":"red"}}]
+```
+
+The jQuery code would look like this:
+
+```js
+// A unique selector path to identify the element
+var selector = '#product_description > P:first-child + P > A:first-child';
+$(selector).css({'font-weight': 'bold', 'color': 'red'});
+```
+
+### Supported Operations
+
+Below is the list of operations supported by DOM Comparator's output:
+
+* **Insert Node:** Identifies the insertion of a new node in the final markup.
+* **Delete Node:** Identifies the deletion of a node in the initial markup.
+* **Rearrange:** Identifies rearrangement of an element within a parent container to a different position within the same or a different parent container.
+* **Change Text:** Identifies a simple text change.
+* **CSS:** Identifies addition of new styles to an element.
+* **Remove CSS:** Identifies removal of existing styles from an element.
+* **Attr:** Identifies addition of new attributes to an element.
+* **Remove Attr:** Identifies removal of existing attributes from an element.

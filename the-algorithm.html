@@ -1,30 +1,15 @@
 <script src="script.js"></script><script>navigateHome()</script>
-<h2>The Algorithm</h2>
-<div class="main-content">
-    <p>
-        DOM Comparator is divided into 7 files, 6 of which are classes. The remaining file contains generic utilities used by
-        the library. Each of the classes are namespaced in <code>VWO</code>.
-    </p>
-    <h3>The Structure</h3>
-    <p>
-        The 6 classes that compose DOM Comparator are listed below:
-        <ul>
-            <li><strong>DOMComparator:</strong> The core of the library. It takes two strings or <code>DOMNode</code>s as input and detects
-                what operations would need to be performed to go from the initial string to the final.</li>
-            <li><strong>DOMMatchFinder:</strong> It matches two DOM trees and tells how closely each of the nodes in the initial
-                string matched with each of the nodes in the final string. Strong matches are identified as identical elements.
-                If a node in the initial string does not match any node in the final string, it is considered deleted. Likewise,
-                if a node in the final string does not match any node in the initial string, it is considered inserted.</li>
-            <li><strong>DOMNodeComparator:</strong> Given two <code>DOMNode</code>s, it compares them and concludes how closely
-                they are related. The comparison score is a number between 0 and 1. 1 indicates a perfect match, and 0 indicates
-                no match. Generally, a match score greater than 0.5 is considered to be good.</li>
-            <li><strong>DOMNode:</strong> It is a simple wrapper over a traditional DOM node. It provides handy functions to get certain
-                properties (like outerHTML, nodeName, index, children) and performing certain actions (addChild, swapChildren,
-                removeChild) easier.</li>
-            <li><strong>StringComparator:</strong> It takes two strings as input and gives an output telling which lines were deleted,
-                changed or added. Pretty much like a git diff.</li>
-        </ul>
-    </p>
-    <p>
 
-</div>
+## The Algorithm
+
+DOM Comparator is divided into 7 files, 6 of which are classes. The remaining file contains generic utilities used by the library. Each of the classes are namespaced in `VWO`.
+
+### The Structure
+
+The 6 classes that compose DOM Comparator are listed below:
+
+* **DOMComparator:** The core of the library. It takes two strings or `DOMNode`s as input and detects what operations would need to be performed to go from the initial string to the final.
+* **DOMMatchFinder:** It matches two DOM trees and tells how closely each of the nodes in the initialstring matched with each of the nodes in the final string. Strong matches are identified as identical elements. If a node in the initial string does not match any node in the final string, it is considered deleted. Likewise, if a node in the final string does not match any node in the initial string, it is considered inserted.
+* **DOMNodeComparator:** Given two `DOMNode`s, it compares them and concludes how closely they are related. The comparison score is a number between 0 and 1. 1 indicates a perfect match, and 0 indicates no match. Generally, a match score greater than 0.5 is considered to be good.
+* **DOMNode:** It is a simple wrapper over a traditional DOM node. It provides handy functions to get certainproperties (like outerHTML, nodeName, index, children) and performing certain actions (addChild, swapChildren, removeChild) easier.
+* **StringComparator:** It takes two strings as input and gives an output telling which lines were deleted, changed or added. Pretty much like a git diff.
