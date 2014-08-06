@@ -59,7 +59,7 @@ $(selector).replaceWith('<a href="javascript:addToCart(16);" class="add_to_cart"
 
 Notice how this would not only add the styles to that element, but also change its `href` to always execute `addToCart(16);` regardless of the product page the user is on. Essentially, the dynamic content rendered by the client's backend has now been replaced with static content.
 
-h3. This is where DOM Comparator comes in
+### This is where DOM Comparator comes in
 
 With DOM Comparator in place, the initial markup of the Edit operation above will be compared with the final one, and a differencewould be returned. The difference would contain the minimal changes necessary to be made to the target element, thereby impacting dynamic content as less as possible.
 
