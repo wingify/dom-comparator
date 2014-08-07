@@ -2,4 +2,59 @@
 
 ## Setting Up
 
-Coming soon...
+### Installation
+
+* To install all the dependencies run `npm install`.
+* Then run `bower install` for `jasmine`, `jquery` and `underscore` library dependencies.
+* Install grunt globally, which is a Javascript Task Runner `npm install -g grunt-cli`.
+
+### Running Tests
+
+* For testing, we use Jasmine.
+* Tests are written in the `test/unit` folder. Each file in the `src` directory have different test cases files associataed with them in the `test/unit` directory. The majority of the test cases that test the library as a black box are in `dom-comparator.spec.js`.
+* To run tests, run `grunt; testem server;` (from the root directory of the repository)
+* To see the final outputs open http://localhost:7357/ in the browser, open the JavaScript console and look for the `final_results` array.
+
+### Cases which don't work
+* If there are multiple occurrences of a node in the DOM. For example:
+
+> `nodeA`:
+```html
+<div style="display: block;">
+	<ul class="navigation vwo_1405423029796" style="cursor: auto; display: block;">
+	</ul>
+	<div class="clr">ORIGINAL TEXT</div>
+</div>
+```
+
+> `nodeB`:
+```html
+<div class="clr">ORIGINAL TEXT</div>
+<div style="display: block;">
+	<ul class="navigation vwo_1405423029796" style="cursor: auto; display: INLINE;">
+	</ul>
+	<div class="clr">ORIGINAL TEXT</div>
+</div>
+```
+
+> Here, since there are 2 occurrences of `<div class="clr">ORIGINAL TEXT</div>` in `nodeB`, the exact match of it cannot be found in `nodeA`, due to which the resulted output is not as expected.
+
+* When the wrapping of the original node is changed. For example:
+
+> `nodeA`:
+```html
+<div style="display: block;">
+	<div class="clr">ORIGINAL TEXT</div>
+</div>
+```
+
+> `nodeB`:
+```html
+<div>
+	<div style="display: block;">
+		<div class="clr">ORIGINAL TEXT</div>
+	</div>
+</div>
+```
+
+> Here, since the wrapping of `nodeB` is changed (wrapped by `<div> ... </div>`), the whole content in `nodeB` would be considered as inserted (because matching heirarchy is top to bottom).
