@@ -13,3 +13,183 @@ The 6 classes that compose DOM Comparator are listed below:
 * **DOMNodeComparator:** Given two `DOMNode`s, it compares them and concludes how closely they are related. The comparison score is a number between 0 and 1. 1 indicates a perfect match, and 0 indicates no match. Generally, a match score greater than 0.5 is considered to be good.
 * **DOMNode:** It is a simple wrapper over a traditional DOM node. It provides handy functions to get certainproperties (like outerHTML, nodeName, index, children) and performing certain actions (addChild, swapChildren, removeChild) easier.
 * **StringComparator:** It takes two strings as input and gives an output telling which lines were deleted, changed or added. Pretty much like a git diff.
+
+### On the Outside
+
+As described in the [basic usage](basic-usage.html) section, the core functionality lies in the `compare` method of `VWO.DOMComparator`. It takes two strings or DOM nodes as input, and outputs a list of operations that need to be applied to `stringA` to convert it into `stringB`. The [supported operations](supported-operations.html) page goes over the list of operations the output format supports.
+
+### The Inner Workings
+
+There's a lot that happens inside the `compare` function. Essentially it is a two step process:
+
+* **Comparison and Matching:** A large part of the process is comparing the two strings and identifying which elements in the two strings match with each other. Those elements are considered to be unchanged.
+* **Operation Identification:** For the elements that did actually change, the second part of the process identifies what exact operation would need to be performed to make that change.
+
+### Comparison and Matching
+
+Before doing any comparison however, all whitespace and comment nodes are stripped from the initial and the final markup. Whitespace can be important in some cases though, and it should not be stripped in those cases. However, the current version of DOM Comparator requires stripping them in advance. [An issue to address this](#) has been filed.
+
+The matching process begins in the `analyzeMatches` method of `VWO.DOMComparator`. The function essentially delegates to the `compare` method of `VWO.DOMMatchFinder`, which gives back the matches. Under the hood, `VWO.DOMMatchFinder` uses `VWO.StringComparator` and `VWO.DOMNodeStringPointer` to find the matches.
+
+The first step in match finding is splitting the DOM strings, initially by the `\n` (newline) character and later by the regular expression `/[^a-z0-9_ \r\n]+/gi`. This way, each valid substring of the string is assigned a number and matches are stored by these numbers. For instance: `<div class="hello"></div>` breaks into `["div class", "hello", "div"]`, and numbers are assigned corresponding to their indexes in the haystack.
+
+The algorithm identifies three kinds of matches:
+
+* **Exact matches:** It goes to each child in `nodeA` recursively (top-to-bottom recursion) and finds the longest node in `nodeA` that matches with the same node in `nodeB`. These kind of matches help maintaining exact references of nodes, which are useful for identifying rearranges.
+* **Non-matches (or ignore matches):** Nodes which are present in `nodeA` and not in `nodeB` and vice-versa are marked by recursively traversing (bottom-to-top recursion) and marking and storing them. These matches are useful for finding nodes inserted or deleted.
+* **Partial matches:** Using `VWO.StringComparator`, nodes which were not previously matched are matched with a simple <code>O(n<sup>2</sup>)</code> loop. In the loop, the most recent substring in `nodeB` gets matched with the corresponding substring in `nodeA`.
+
+`VWO.StringComparator` is initialized with strings of `nodeA` and `nodeB`, and the delimiter for comparison, identified by the key `splitOn` is passed as `\n`. Essentially `VWO.StringComparator` is asked to split both the strings by the newline character and compare them. It outputs the result containing four keys: `stringsAddedInB`, `stringsDeletedFromA`, `stringsUnchanged` and `diffUnion`. This process behaves pretty much like a git diff.
+
+* `stringsAddedInB` and `stringsDeletedFromA` are pretty self-explanatory. They are arrays of strings that contain lines added in B or removed from A.
+* `stringsUnchanged` is an array containing the lines that remain unchanged between the two strings.
+* Finally `diffUnion` is an array of strings that contain the union of `stringsAddedInB` and `stringsDeletedFromA` for easier iteration.
+
+After this delegation to `VWO.StringComparator`, the flow is resumed to the `compare` function of `VWO.DOMMatchFinder`. Here, the ranges of nodes (string indices) are stored in `unchangedRanges` array. These unchanged ranges are passed to `VWO.DOMNodeStringPointer` which converts them to node matches, which are identified by their `masterIndex`. (Read more on `masterIndex` below).
+
+The flow is resumed from the `compare` function of `VWO.DOMMatchFinder` back to the `analyzeMatches` method of `VWO.DOMComparator`. Here, the matches returned by `VWO.DOMMatchFinder` are all iterated over and passed to `VWO.DOMNodeComparator`. This class takes two `VWO.DOMNode`s as input and tells how closely they matched with each other. If there is a partial match, it also indicates what exactly changed in the two nodes. The properties of the comparator's instance describe various match scores and actual differences. For every score, `1` indicates a perfect match and `0` indicates not a match. Generally a score above `0.66` is considered a good match. Below is the list of scores that `VWO.DOMNodeComparator` returns:
+
+* `indexScore`: Determines if the master-indices of the two nodes match.
+* `nodeTypeScore`: Determines if the node types of the two nodes match.
+* `innerTextScore`: Determines if the inner texts of the two nodes match.
+* `innerHTMLScore`: Determines if the innerHTML of the two nodes match.
+* `nodeNameScore`: Determines if the node names of the two nodes match.
+* `parentScore`: Determines a score based on the number of ancestors that match (between `0` and `1`). A score greater than `0.5` indicates a good score. The importance of each distant ancestor is half the importance of the closest child of that distant ancestor.
+* `nextSiblingScore`: Determines a score based on the number of next siblings that match (between `0` and `1`). If `nodeA` has a next sibling while `nodeB` does not, and vice-versa, `0` is returned. If both of them do not have next siblings, `1` is returned. Otherwise, each next sibling is walked over for both the nodes and a match score is identified. The importance of each distant next sibling is half the importance of the closest previous sibling of that distant next sibling.
+* `previousSiblingScore`: Works in the same way as `previousSiblingScore`, except it looks for previous siblings instead of next.
+* `siblingsScore`: Equals `(nextSiblingScore + previousSiblingScore) / 2`.
+* `adjacentElementsScore`: Equals `(nextSiblingScore + previousSiblingScore + parentScore) / 3`.
+* `childrenScore`: A score determining how many children of the initial node match with the children of the final. Returns the number of children that match divided by total children.
+* `attributeScore`: A score determining how many attributes match. Returns the number of matched attributes divided by total attributes.
+* `styleScore`: A score determining how many styles match. Returns the number of matched styles divided by total styles.
+* `finalScore`: An aggregate score based on the products of arbitrary weights and various other scores. A greater score indicates a better match. The algorithm to compute the `finalScore` is pretty arbitrary at the moment, but it works for most of the cases for now.
+
+Between the two nodes, the below functions calculate what exactly changed between them:
+
+* `addedAttributes`: A hashmap of attributes added in the final node.
+* `changedAttributes`: A hashmap of attributes changed.
+* `removedAttributes`: A hashmap of attributes removed from the intial node.
+* `addedStyles`: A hashmap of CSS styles added in the final node.
+* `changedStyles`: A hashmap of CSS styles changed.
+* `removedStyles`: A hashmap of CSS styles removed from the intial node.
+* `newInnerText`: If the matched nodes are text nodes and the innerText does not match, returns the new innerText.
+* `difference`:  A hashmap of changes that happened from the initial node to the final node. The hashmap contains all the keys above with their respective values.
+
+### Operation Identification
+
+Using the above scores and differences between the matched nodes, the actual operations are identified. This happens after the flow is resumed back to the `compare` function of `VWO.DOMComparator`.
+
+The first two operations identified are `deleteNode` and `rearrange`. For all nodes in the initial tree that do not have a match in the final tree, a remove is detected. If the position (indexes) of the two matched nodes differs, it is detected as a rearrange. After that, other operations are detected in this order: `insertNode`, `changeText`, `attr` and `css`.
+
+The list of operations are returned by the function and just before returning them, `verifyComparison` is called to make sure everything happened correctly. Essentially, it checks that after the identification and application of operations, if `nodeA` and `nodeB` have become equal to each other.
+
+Consider the below example:
+
+<table style="width: 100%"><tr><td>
+`nodeA`:
+
+<pre><code class="html">&lt;ul>
+    &lt;li>1&lt;/li>
+    &lt;li class="a">2&lt;/li>
+    &lt;li>3&lt;/li>
+&lt;/ul></code></pre>
+
+</td>
+<td>
+`nodeB`:
+
+<pre><code class="html">&lt;ul>
+    &lt;li>In&lt;/li>&lt;li>1&lt;/li>
+    &lt;li>3&lt;/li>
+    &lt;li class="av">2&lt;/li>
+&lt;/ul></code></pre>
+
+</td></tr></table>
+
+These inputs are taken and are converted to strings:
+
+```js
+nodeA = '<ul><li>1</li><li class="a">2</li><li>3</li></ul>';
+nodeB = '<ul><li>In</li><li>1</li><li>3</li><li class="av">2</li></ul>';
+```
+
+After that, the nodes are wrapped. This is done to make sure changes in node lists are identified as good as changes in nodes themselves. A unique tag name `him` is chosen so that it doesn't conflict with HTML node names.
+
+```js
+nodeA = '<him id="DOMComparisonResult"><ul><li>1</li><liclass="a">2</li><li>3</li></ul></him>'
+nodeB = '<himid="DOMComparisonResult"><ul><li>In</li><li>1</li><li>3</li><liclass="av">2</li></ul></him>';
+```
+
+In `VWO.StringComparator`, `valA` and `valB` are the two variables that contains indexes of important tokens in each of the strings. For instance, for the key tokens above in `nodeA`, `9` is the index of token `DOMComparisonResult`, `31` is the index of token `ul`, and so on. `valB` contains indexes of the key tokens in `nodeB`.
+
+```js
+valA = [0, 1, 9, 31, 35, 38, 41, 45, 55, 58, 61, 65, 68, 71, 76, 81];
+valB = [0, 1, 9, 31, 35, 38, 42, 46, 49, 52, 56, 59, 62, 66, 76, 80, 83, 88, 93];
+```
+
+`ignoreA` contains indexes of tokens in `valA` that exist in A and not in B, whilst `ignoreB` contains tokens in `valB` that exist in B and not in A.
+
+```js
+ignoreA = [];
+ignoreB = [4, 5, 6];
+```
+
+There were no tokens present in A and not in B. However tokens at indexes `4`, `5` and `6` in `valB` (string indexes `35`, `38` and `42`, tokens `li`, `In` and `li`, indicating an inserted node).
+
+`matchesInA` and `matchesInB` are hashmaps indicating indexes of tokens in `valA` that match with tokens in `valB` and vice versa.
+
+```js
+matchesInA = {4: 7, 5: 8, 6: 9,  11: 10, 12: 11, 13: 12};
+matchesInB = {7: 4, 8: 5, 9: 6, 10: 11, 11: 12, 12: 13};
+```
+
+The values in `matchesInA` imply that two nodes `<li>1</li>` and `<li>3</li>` matched. `matchesInB` indicates the reverse.
+
+After passing via string comparator, all the matches are merged and the final hashmap formed is:
+
+```js
+matchesInA = {0: 0, 1: 1, 2: 2, 3: 3, 4: 7, 5: 8, 6: 9, 7: 13, 9: 15, 10: 16, 11: 10, 12: 11, 13: 12, 14: 17, 15: 18, 16: 19};
+matchesInB = {0: 0, 1: 1, 2: 2, 3: 3, 7: 4, 8: 5, 9: 6, 10: 11, 11: 12, 12: 13, 13: 7, 15: 9, 16: 10, 17: 14, 18: 15, 19: 16};
+```
+
+The `diffUnion` of the string comparison result contains the union of the matches. For example, below are a few instances:
+
+<table style="width: 100%"><tr><td>
+<pre><code class="js">{
+    indexInA: 1
+    indexInB: 1
+    string: "him id"
+}</code></pre>
+</td>
+<td>
+<pre><code class="js">{
+    indexInA: 7
+    indexInB: 13
+    string: "li class"
+}</code></pre>
+</td><td>
+<pre><code class="js">{
+    indexInA: -1 // not found
+    indexInB: 14
+    string: "av"
+}</code></pre>
+</td></tr></table>
+
+These are used to find `unchangedRanges`, which contanis the ranges of indexes of `nodeA` which are matching with `nodeB`.
+
+After the above calculation, `nodeMatches` are computed, which is a hashmap where keys are master indices in `nodeA` and values are master indices in `nodeB`. These matches are:
+
+```js
+{
+    '0': '0'
+    '0:0': '0:0'
+    '0:0:0': '0:0:1'
+    '0:0:0:0': '0:0:1:0'
+    '0:0:1': '0:0:3'
+    '0:0:1:0': '0:0:3:0'
+    '0:0:2': '0:0:2'
+    '0:0:2:0': '0:0:2:0'
+}
+```
+
+These matches are then used to calculate all the operations like `insertNode`, `deleteNode`, `rearrange` etc.
