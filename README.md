@@ -1,84 +1,98 @@
 # DOM Comparator
 
-## Synopsis
-DOM-comparator is a JavaScript library that observes changes to the DOM(Document Object Model) which are just lightweight JavaScript objects. 
-It tells how the document is different now from how it was, in a very fast manner. 
-So given two nodes as input say nodeA(original) and nodeB(Modified), this API shows the minimal number of steps required to transform nodeA 
-to nodeB. The steps are given in nice Jquery format(human readable). 
+DOM Comparator is a library that, simply put, compares two strings of DOM nodes (which are called `stringA` and `stringB`), and returns an output containing the minimal number of steps that must be taken (like attribute changes, style changes, text changes and DOM manimpulation) to convert `stringA` into `stringB`.
 
-Supported Operations :
-1. insertNode
-2. deleteNode
-3. rearrange 
-4. textChange
-5. css 
-6. removeCss 
-7. attr
-8. removeAtrr
+The output returned by DOM Comparator is an array of `VWO.Operation` objects, which can also be expressed as jQuery code. Here's a simple example:
 
+```js
+var stringA = '<ul><li class="active">list item 1</li><li>list item 2</li></ul>';
+var stringB = '<ul><li>list item 1</li><li>list item 2</li></ul>';
 
-## Motivation
-* Naive approach for DOM-Comparison is to replace new node directly with the old one, but this makes the dynamic content in old dom to become static. 
-* To find the rearranges of the nodes within the DOM, so as to keep the references of nodes intact. 
-* Considering DOM as a tree, transforming a tree to another is a complex problem and takes O(n^4) computations. This library implements algorithm which have complexity of O(n^2) in worst case, with some assumptions: 
-    1. The elements in a DOM are not too similar and can be assigned as unique keys. 
-    2. DOM size is not too big (<=1000 elements).
-In practice, these assumptions are very negligible for almost all practical use cases.
+// Compare the two strings
+var result = VWO.DOMComparator.create({
+	stringA: stringA,
+	stringB: stringB
+});
 
-## Installation
-* To install all the dependencies run "npm install" 
-* Then run "bower install" for 'jasmine', 'jquery' and 'underscore' library dependencies. 
-* Install grunt which is a Javascript Task Runner 
-      "npm install -g grunt-cli"
-    
-## To run Tests
+// Expect an array of VWO.Operation objects to be returned.
+expect(result).toEqual(jasmine.any(Array));
+expect(result[0]).toEqual(jasmine.any(VWO.Operation));
 
-* For testing Jasmine is used which is behavior-driven development framework for testing JavaScript code. 
-* Tests are written in test/unit folder. Each file in DOM/src have different test cases files and final cases can be seen in dom-comparator.spec.js file . 
-* For running tests, run "grunt ; testem server" (from home folder... (DOM/)) 
-* To see the final outputs open "http://localhost:7357/" in browser, open console and see final_results array. 
+// Expect the first operation to be a 'removeAttr' operation.
+expect(result[0].name).toEqual('removeAttr');
 
+// The operation is on an element identified by the following selector path
+expect(result[0].selectorPath).toEqual('UL:first-child > LI:first-child');
 
-## Cases which don't work 
-* If there are multiple occurrences of a node in the DOM.
+// With below content
+expect(result[0].content).toEqual({class: 'active'});
+```
 
-Example:
+## Setting Up
 
-    nodeA : 
-    <div style="display: block;">
-    <ul class="navigation vwo_1405423029796" style="cursor: auto; display: block;">
-    </ul>
-    <div class="clr">ORIGINAL TEXT</div>
-    </div>
+### Installation
 
-    nodeB: 
-    <div class="clr">ORIGINAL TEXT</div>
-    <div style="display: block;">
-    <ul class="navigation vwo_1405423029796" style="cursor: auto; display: INLINE;">
-    </ul>
-    <div class="clr">ORIGINAL TEXT</div>
-    </div>
+* To install all the dependencies run `npm install`.
+* Then run `bower install` for `jasmine`, `jquery` and `underscore` library dependencies.
+* Install grunt globally, which is a Javascript Task Runner `npm install -g grunt-cli`.
 
-    Here, since there are 2 occurrences of "<div class="clr">ORIGINAL TEXT</div>", in nodeB, exact match of it could not be found in nodeA and hence the resulted output is not as expected.
+### Running Tests
 
+* For testing, we use Jasmine.
+* Tests are written in the `test/unit` folder. Each file in the `src` directory have different test cases files associataed with them in the `test/unit` directory. The majority of the test cases that test the library as a black box are in `dom-comparator.spec.js`.
+* To run tests, run `grunt; testem server;` (from the root directory of the repository)
+* To see the final outputs open http://localhost:7357/ in the browser, open the JavaScript console and look for the `final_results` array.
 
-    * Wrapping of the original node is changed
-    Example: 
-    nodeA: 
-    <div style="display: block;">
-    <div class="clr">ORIGINAL TEXT</div>
-    </div>
+### Cases which don't work
+* If there are multiple occurrences of a node in the DOM. For example:
 
-    nodeB: 
-    <div>
-    <div style="display: block;">
-    <div class="clr">ORIGINAL TEXT</div>
-    </div>
-    </div>
+> `nodeA`:
+```html
+<div style="display: block;">
+	<ul class="navigation vwo_1405423029796" style="cursor: auto; display: block;">
+	</ul>
+	<div class="clr">ORIGINAL TEXT</div>
+</div>
+```
 
-Here, since wrapping of nodeB is changed(wrapped by `<div> ... </div>`), whole content in nodeB would be considered as inserted(Because matching heirchy is top to bottom).
+> `nodeB`:
+```html
+<div class="clr">ORIGINAL TEXT</div>
+<div style="display: block;">
+	<ul class="navigation vwo_1405423029796" style="cursor: auto; display: INLINE;">
+	</ul>
+	<div class="clr">ORIGINAL TEXT</div>
+</div>
+```
 
+> Here, since there are 2 occurrences of `<div class="clr">ORIGINAL TEXT</div>` in `nodeB`, the exact match of it cannot be found in `nodeA`, due to which the resulted output is not as expected.
 
+* When the wrapping of the original node is changed. For example:
+
+> `nodeA`:
+```html
+<div style="display: block;">
+	<div class="clr">ORIGINAL TEXT</div>
+</div>
+```
+
+> `nodeB`:
+```html
+<div>
+	<div style="display: block;">
+		<div class="clr">ORIGINAL TEXT</div>
+	</div>
+</div>
+```
+
+> Here, since the wrapping of `nodeB` is changed (wrapped by `<div> ... </div>`), the whole content in `nodeB` would be considered as inserted (because matching heirarchy is top to bottom).
+
+## Documentation
+
+The general usage documentation can be found on http://engineering.wingify.com/dom-comparator/
 
 ## License
 
+The MIT License
+
+Copyright (c) 2014 Wingify Software Pvt. Ltd.
