@@ -66,7 +66,7 @@ function includeContent() {
     var activeAnchor = document.querySelector('nav a.active');
     include(activeAnchor.getAttribute('href'), document.querySelector('.content > *'), function () {
         get('disqus.html', function (disqus) {
-            $('.content .main-content').append(disqus);
+            $('.content').append(disqus);
         });
     });
     document.title = activeAnchor.textContent + ' - DOM Comparator';
