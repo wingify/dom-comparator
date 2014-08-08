@@ -25,6 +25,8 @@ function include(file, node, cb) {
 
         var content = document.createElement('div');
         content.innerHTML = marked(contents);
+        var editLink = 'https://github.com/wingify/dom-comparator/edit/gh-pages/' + file;
+        $('h2', content).append('<a href="' + editLink + '"><em>Edit this page on GitHub</em></a>')
         node.parentNode.replaceChild(content, node);
         parseAnchors(content);
         $('html, body').animate({scrollTop: 0});
@@ -34,7 +36,8 @@ function include(file, node, cb) {
             blocks[i].className = blocks[i].className.replace('lang-', '')
             hljs.highlightBlock(blocks[i]);
         }
-        cb();
+
+        cb(content);
     });
 }
 
@@ -44,14 +47,15 @@ function parseAnchors(node) {
     for (var i = 0; i < anchors.length; i++) {
         anchor = anchors[i];
         if (window.location.href.indexOf(anchor.getAttribute('href')) >= 0 && node === document) {
-            document.querySelector('nav a.active').className = '';
+            var active = document.querySelector('nav .docs a.active')
+            if (active) active.className = '';
             anchor.className = 'active';
         }
         anchor.onclick = function () {
-            var active = document.querySelector('nav a.active');
+            var active = document.querySelector('nav .docs a.active');
             var href = this.getAttribute('href');
             if (active) { active.className = ''; }
-            var a = document.querySelector('nav a[href="' + href + '"]');
+            var a = document.querySelector('nav .docs a[href="' + href + '"]');
             if (a) {
                 a.className = this.className = 'active';
             }
@@ -61,12 +65,17 @@ function parseAnchors(node) {
     }
 }
 
-function includeContent() {
-    var activeAnchor = document.querySelector('nav a.active');
+function includeContent(cb) {
+    var activeAnchor = document.querySelector('nav .docs a.active');
     var href = activeAnchor.getAttribute('href');
     window.history.pushState(href, href, href);
     ga && ga('send', 'pageview');
-    include(activeAnchor.getAttribute('href'), document.querySelector('.content > *'), function () {
+    include(activeAnchor.getAttribute('href'), document.querySelector('.content > *'), function (content) {
+        $(activeAnchor).next().remove();
+        $(activeAnchor).after('<ul class="nav nav-stacked"></ul>');
+        $('h3', content).each(function () {
+            $(activeAnchor).next().append('<li><a href="#' + this.id + '">' + this.textContent + '</a></li>')
+        });
         get('disqus.html', function (disqus) {
             $('.content .disqus_container').remove();
             $('.content div').append('<div class="disqus_container">' + disqus + '</div>')
