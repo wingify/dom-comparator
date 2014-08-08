@@ -39,13 +39,13 @@ One of the major problems faced when applying such changes that they did not reg
 Imagine somebody wanting to run an A/B test on all the product pages of an eCommerce website. He wants to modify the "Buy Now" button on all such pages and make it appear bigger and bolder, so that it captures the end-user's attention better. He navigates to some product page, selects the button and tries to edit it. Assume that that button has markup that looks like below:
 
 ```html
-<a href="javascript:addToCart(16);" class="add_to_cart">Add to Cart<a>
+<a href="javascript:addToCart(16);" class="add_to_cart">Add to Cart</a>
 ```
 
 The Editor component of Visual Website Optimizer provides an "Edit" operation, that opens up a rich text editor for the user to make changes to any element with ease. Assuming, he makes the text of the button bolder and changes the color to a bright red, here's what the resulting markup would look like:
 
 ```html
-<a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;">Add to Cart<a>
+<a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;">Add to Cart</a>
 ```
 
 Internally, an Edit operation is identified by the element the operation is applied on, and the new markupprovided by the user, which in this case is the above code. It means that if a Buy Now button is found on any page, it will be replaced with the above code. The jQuery code for such an operation would look something like this:
@@ -53,7 +53,7 @@ Internally, an Edit operation is identified by the element the operation is appl
 ```js
 // A unique selector path to identify the element
 var selector = '#product_description > P:first-child + P > A:first-child';
-$(selector).replaceWith('<a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;">Add to Cart<a>');
+$(selector).replaceWith('<a href="javascript:addToCart(16);" class="add_to_cart" style="font-weight:bold;color:red;">Add to Cart</a>');
 ```
 
 
