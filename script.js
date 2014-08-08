@@ -55,7 +55,6 @@ function parseAnchors(node) {
             if (a) {
                 a.className = this.className = 'active';
             }
-            window.history.pushState(href, href, href);
             includeContent();
             return false;
         };
@@ -64,6 +63,8 @@ function parseAnchors(node) {
 
 function includeContent() {
     var activeAnchor = document.querySelector('nav a.active');
+    var href = activeAnchor.getAttribute('href');
+    window.history.pushState(href, href, href);
     include(activeAnchor.getAttribute('href'), document.querySelector('.content > *'), function () {
         get('disqus.html', function (disqus) {
             $('.content .disqus_container').remove();
