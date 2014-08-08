@@ -43,7 +43,7 @@ function include(file, node, cb) {
 
 function parseAnchors(node) {
     node = node || document;
-    var anchors = node.querySelectorAll('a'), anchor;
+    var anchors = node.querySelectorAll(node === document ? '.docs a' : 'a'), anchor;
     for (var i = 0; i < anchors.length; i++) {
         anchor = anchors[i];
         if (window.location.href.indexOf(anchor.getAttribute('href')) >= 0 && node === document) {
