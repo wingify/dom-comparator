@@ -1,3 +1,6 @@
+var siteName = 'DOM Comparator - Wingify Engineering Labs';
+var gitHubRepoName = 'wingify/dom-comparator';
+
 function get(file, cb) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -25,7 +28,7 @@ function include(file, node, cb) {
 
         var content = document.createElement('div');
         content.innerHTML = marked(contents);
-        var editLink = 'https://github.com/wingify/dom-comparator/edit/gh-pages/' + file;
+        var editLink = 'https://github.com/' + gitHubRepoName + '/edit/gh-pages/' + file;
         $('h2', content).append('<a href="' + editLink + '"><em>Edit this page on GitHub</em></a>')
         node.parentNode.replaceChild(content, node);
         parseAnchors(content);
@@ -37,7 +40,7 @@ function include(file, node, cb) {
             hljs.highlightBlock(blocks[i]);
         }
 
-        cb(content);
+        cb && cb(content);
     });
 }
 
@@ -65,12 +68,9 @@ function parseAnchors(node) {
     }
 }
 
-function includeContent(cb) {
-    var activeAnchor = document.querySelector('nav .docs a.active');
-    var href = activeAnchor.getAttribute('href');
-    window.history.pushState(href, href, href);
-    ga && ga('send', 'pageview');
-    include(activeAnchor.getAttribute('href'), document.querySelector('.content > *'), function (content) {
+function includeContentByHref(href, cb) {
+    include(href, document.querySelector('.content > *'), function (content) {
+        var activeAnchor = document.querySelector('nav .docs a.active');
         $(activeAnchor).next().remove();
         $(activeAnchor).after('<ul class="nav nav-stacked"></ul>');
         $('h3', content).each(function () {
@@ -80,13 +80,37 @@ function includeContent(cb) {
             $('.content .disqus_container').remove();
             $('.content div').append('<div class="disqus_container">' + disqus + '</div>')
         });
+        cb && cb();
     });
-    document.title = activeAnchor.textContent + ' - DOM Comparator';
 }
 
+window.onpopstate = function (event) {
+    window.ga && ga('send', 'pageview');
+    includeContentByHref(event.state.href);
+};
+
+function includeContent(cb) {
+    var activeAnchor = document.querySelector('nav .docs a.active');
+    var href = activeAnchor.getAttribute('href');
+
+    if (!navigated) {
+        history.pushState({href:href}, activeAnchor.textContent + ' - ' + siteName, href);
+    } else {
+        history.replaceState({href:href}, activeAnchor.textContent + ' - ' + siteName, href);
+    }
+
+    window.ga && ga('send', 'pageview');
+    includeContentByHref(href, cb);
+    document.title = activeAnchor.textContent + ' - ' + siteName;
+}
+
+var navigated = false;
 function navigateHome() {
+    var navigated = true;
     get('index.html', function (file) {
+        document.open();
         document.write(file);
+        document.close();
     });
     document.write('<style>*{display:none}</style>');
 }
