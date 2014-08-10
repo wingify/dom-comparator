@@ -42,6 +42,10 @@ expect(result[0].content).toEqual({class: 'active'});
 * [Production version](https://github.com/wingify/dom-comparator/blob/master/dist/dom-comparator.min.js) (minified)
 * [Source map](https://github.com/wingify/dom-comparator/blob/master/dist/dom-comparator.min.js.map)
 
+### Live Demo
+
+A live demo can be found here: http://engineering.wingify.com/dom-comparator/live-demo.html
+
 ### Running Tests
 
 * For testing, we use Jasmine.
