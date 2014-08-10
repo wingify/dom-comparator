@@ -2,6 +2,14 @@
 module.exports = function (grunt) {
   'use strict';
 
+  var licenseBanner = '/*!' + '\n' +
+    'The MIT License (MIT)' + '\n' +
+    'http://opensource.org/licenses/MIT' + '\n\n' +
+    'Copyright (c) 2014 Wingify Software Pvt. Ltd.' + '\n' +
+    'http://wingify.com' + '\n' +
+    '*/\n\n' +
+    'var VWO = window.VWO || {}; \n';
+
   var fs = require('fs');
   var execSync = require('exec-sync');
 
@@ -16,10 +24,14 @@ module.exports = function (grunt) {
     },
     concat: {
       options: {
-        separator: '\n'
+        separator: '\n',
+        process: function (src) {
+          return licenseBanner + '(function(){\n' +
+            src + '\n})();';
+        }
       },
       domComparator: {
-        dest: 'test/dom-comparator.js',
+        dest: 'dist/dom-comparator.js',
         src: ['src/*.js']
       },
       unit: {
@@ -40,7 +52,21 @@ module.exports = function (grunt) {
         spawn: false, // don't spawn another process
         livereload: true // runs livereload server on 35729
       }
-    }
+    },
+    uglify: {
+      options: {
+        mangle: false,
+        wrap: 'closure',
+        banner: licenseBanner,
+        sourceMap: true,
+        sourceMapIncludeSources: true
+      },
+      domComparator: {
+        files: {
+          'dist/dom-comparator.min.js': 'src/*.js'
+        }
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
@@ -48,6 +74,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   grunt.registerTask('testem', function () {
     var testemConfig = {
@@ -64,5 +91,5 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', ['concat', 'testem']);
+  grunt.registerTask('default', ['concat', 'uglify']);
 };

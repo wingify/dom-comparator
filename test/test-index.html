@@ -14,7 +14,7 @@ textarea {
 <script src="../bower_components/underscore/underscore.js"></script>
 <script src="../bower_components/jasmine/lib/jasmine-core/jasmine.js"></script>
 <script src="../bower_components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
-<script src="dom-comparator.js"></script>
+<script src="../dist/dom-comparator.js"></script>
 <script src="unit-tests.js"></script>
 <script>
 if (location.href.indexOf("local") >= 0) {
@@ -48,7 +48,7 @@ $(document).ready(function() {
   $(".compare").click(function() {
     VWO.DOMNodePool.clear();
 
-  /*  
+  /*
     window.dom1 = VWO.DOMNodePool.create({
       el: $($('.txt1').val()).get(null)
     });
@@ -57,8 +57,8 @@ $(document).ready(function() {
     });
    */
 
-    window.el1 = $($('.txt1').val()).get(null) ; 
-    window.el2 = $($('.txt2').val()).get(null) ; 
+    window.el1 = $($('.txt1').val()).get(null) ;
+    window.el2 = $($('.txt2').val()).get(null) ;
 
     localStorage.setItem('txt1Val', $('.txt1').val());
     localStorage.setItem('txt2Val', $('.txt2').val());
@@ -70,7 +70,7 @@ $(document).ready(function() {
 
     var ret = domComparator.compare();
     //alert(JSON.stringify(ret));
-    document.getElementById('output').value = JSON.stringify(ret) ; 
+    document.getElementById('output').value = JSON.stringify(ret) ;
 
     var res = domComparator.verifyComparison()
     alert(res) ;

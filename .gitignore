@@ -15,7 +15,6 @@ vwoapp/*
 .idea/*
 docs/*
 test/unit-tests.js
-test/dom-comparator.js
 testem.json
 node_modules
 bower_components
