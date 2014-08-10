@@ -45,29 +45,33 @@
 <body>
 <div class="container-narrow container-overall">
   <header class="header">
-    <ul class="nav nav-main nav-pills pull-right" style="margin-top: 24px">
-      <li><a href="https://github.com/wingify" title="Github">GitHub</a></li>
-      <li><a href="/posts/">Posts</a></li>
-      <li><a href="/labs/" class="active">Labs</a></li>
-      <li><a href="/about/">About</a></li>
-      <li><a href="/atom.xml">Feed</a></li>
-    </ul>
+    <div class=" flexbox  flexbox--fixed  flexbox--centered" style="width:100%; height:auto">
+    <a href="/" class="flexbox__item" style="width:80px; text-align: left">
+      <img class="flexbox__item" src="http://wingify.com/images/labs/engg_blog.png" style="width: 60px; height: 60px; margin-right: 20px">
+    </a>
+    <a href="/" class="flexbox__item site-title">
+      <h1 style="color: #2c3e50;margin: 0">Wingify&nbsp;Engineering</h1>
+    </a>
 
-    <h1>
-      <a href="/">
-        <img src="http://wingify.com/images/labs/engg_blog.png" style="width: 60px; height: 60px; margin-top: -6px; margin-right: 20px" class="pull-left">
-        <span style="vertical-align:middle; color: #2c3e50">Wingify Engineering</span>
-      </a>
-    </h1>
+    <div class="flexbox__item nav-container">
+    <ul class="nav nav-pills nav-main flexbox flexbox--centered">
+      <li class="flexbox__item"><a href="https://github.com/wingify" title="Github">GitHub</a></li>
+      <li class="flexbox__item"><a href="/posts/" class="{% if page.url == '/posts/' %}active{% endif %}">Posts</a></li>
+      <li class="flexbox__item"><a href="/labs/" class="{% if page.url == '/labs/' %}active{% endif %}">Labs</a></li>
+      <li class="flexbox__item"><a href="/about/" class="{% if page.url == '/about/' %}active{% endif %}">About</a></li>
+      <li class="flexbox__item"><a href="/atom.xml">Feed</a></li>
+    </ul>
+    </div>
+    </div>
   </header>
   <div class="container-narrow">
-    <div class='main-container' style="padding:0;">
+    <div class='main-container clearfix' style="padding:0;">
         <div class="page-header" style="position: relative">
             <h1><a href='#'>DOM Comparator</a></h1>
             <span>A library to analyze and compare two DOM trees.</span>
             <a href="https://github.com/wingify/dom-comparator"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
         </div>
-        <div class="flexbox  flexbox--fixed">
+        <div class="flexbox  docs-container  flexbox--fixed">
             <div class="flexbox__item  text--right" style="width: 300px;background: #fbfbfb;">
                 <nav>
                 <ul class="nav  nav-stacked  docs">
