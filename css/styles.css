@@ -426,7 +426,7 @@ blockquote {
     text-align: left!important;
 }
 
-@media (max-width: 830px) {
+@media (max-width: 600px), handheld, (max-device-width: 480px)  {
 
     .header {
         height: 170px;
@@ -452,7 +452,7 @@ blockquote {
 
 }
 
-@media (max-width: 600px) {
+@media (max-width: 600px), handheld, (max-device-width: 480px) {
     .docs-container, .content {
         float: left;
         display: block;
