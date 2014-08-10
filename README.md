@@ -36,6 +36,12 @@ expect(result[0].content).toEqual({class: 'active'});
 * Then run `bower install` for `jasmine`, `jquery` and `underscore` library dependencies.
 * Install grunt globally, which is a Javascript Task Runner `npm install -g grunt-cli`.
 
+### Downloads
+
+* [Development version](https://github.com/wingify/dom-comparator/blob/master/dist/dom-comparator.js) (unminified with comments)
+* [Production version](https://github.com/wingify/dom-comparator/blob/master/dist/dom-comparator.min.js) (minified)
+* [Source map](https://github.com/wingify/dom-comparator/blob/master/dist/dom-comparator.min.js.map)
+
 ### Running Tests
 
 * For testing, we use Jasmine.
