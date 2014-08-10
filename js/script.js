@@ -85,8 +85,15 @@ function includeContentByHref(href, cb) {
 }
 
 window.onpopstate = function (event) {
+    var active = document.querySelector('nav .docs a.active');
+    var href = event.state.href;
+    if (active) { active.className = ''; }
+    var a = document.querySelector('nav .docs a[href="' + href + '"]');
+    if (a) {
+        a.className = 'active';
+    }
     window.ga && ga('send', 'pageview');
-    includeContentByHref(event.state.href);
+    includeContentByHref(href);
 };
 
 function includeContent(cb) {
