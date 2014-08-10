@@ -23,7 +23,7 @@ body {
     font-family: Lato!important;
 }
 
-pre, code, code * {
+pre, code, code *, textarea {
     font-family: 'Source Code Pro'!important;
     cursor: text;
     font-weight: 300!important;
