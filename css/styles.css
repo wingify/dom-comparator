@@ -29,6 +29,10 @@ pre, code, code *, textarea {
     font-weight: 300!important;
 }
 
+textarea {
+    font-size: 14px!important;
+}
+
 .header {
     background: white;
     border-left: 1px solid #ccc;
