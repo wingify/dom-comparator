@@ -97,6 +97,11 @@ expect(result[0].content).toEqual({class: 'active'});
 
 The general usage documentation can be found on http://engineering.wingify.com/dom-comparator/
 
+## Authors
+
+* Himanshu Kapoor ([@fleon](http://github.com/fleon))
+* Himanshu Kela ([@himanshukela](http://github.com/himanshukela))
+
 ## License
 
 The MIT License
