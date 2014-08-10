@@ -104,6 +104,6 @@ The general usage documentation can be found on http://engineering.wingify.com/d
 
 ## License
 
-The MIT License
+[The MIT License](http://opensource.org/licenses/MIT)
 
 Copyright (c) 2014 Wingify Software Pvt. Ltd.
